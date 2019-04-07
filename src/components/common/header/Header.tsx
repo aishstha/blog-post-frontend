@@ -23,7 +23,6 @@ interface IMenuProps {
 class Header extends React.Component<IAppProps, IAppState> {
   constructor(props: Readonly<IAppProps>) {
     super(props);
-    console.log(props);
     this.state = {
       localIsMenuOpen: props.isMenuOpen
     };
@@ -92,12 +91,12 @@ class Header extends React.Component<IAppProps, IAppState> {
   }
 }
 
-const Menu: React.SFC<IMenuProps> = props => {
-  const menuClass = props.status ? "Dropdown-menu show" : "Dropdown-menu";
+const Menu: React.SFC<IMenuProps> = ({ status }) => {
+  const menuClass = status ? "Dropdown-menu show" : "Dropdown-menu";
 
   return (
     <CSSTransition
-      in={props.status}
+      in={status}
       timeout={300}
       classNames="popup"
       unmountOnExit={true}
@@ -121,19 +120,12 @@ const Menu: React.SFC<IMenuProps> = props => {
 };
 
 const mapStateToProps = ({ menuReducer }: any) => {
-  console.log(">>>>", menuReducer);
   return { isMenuOpen: menuReducer.isMenuOpen };
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
   toggleMenu: (showMenu: any) => dispatch(Actions.toggleMenu(showMenu)) //TODO: Changeany
 });
-
-// function mapStateToProps(state) {
-//   return {
-//     showMenu: state.showMenu
-//   };
-// }
 
 export default connect(
   mapStateToProps,

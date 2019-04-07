@@ -17,7 +17,6 @@ interface IAppState {
 class App extends React.Component<IAppProps, IAppState> {
   constructor(props: Readonly<IAppProps>) {
     super(props);
-    console.log(props)
     this.state = {
       localLevel: props.level
     };

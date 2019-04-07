@@ -2,7 +2,7 @@ import * as React from "react";
 import "../../App.css";
 
 import { connect } from "react-redux";
-import * as postService from "../../services/post";
+import * as profileService from "../../services/profile";
 import { IPostDetails } from "src/interface";
 
 import { Actions } from "../../actions/posts";
@@ -38,7 +38,7 @@ class Overview extends React.Component<IOverviewProps, IOverviewState> {
 
   fetchAllPosts = async () => {
     try {
-      const postResponse = await postService.fetchAllPosts();
+      const postResponse = await profileService.fetchAllPosts();
       this.props.savePosts(postResponse.data);
     } catch (error) {
       throw error; // TODO: Error handeling
@@ -50,8 +50,8 @@ class Overview extends React.Component<IOverviewProps, IOverviewState> {
       const data = {
         name: "SSSSSSSSSSSSSAish"
       };
-      await postService.updateUser(data, id);
-      const postResponse = await postService.fetchAllPosts();
+      await profileService.updateUser(data, id);
+      const postResponse = await profileService.fetchAllPosts();
 
       this.props.savePosts(postResponse.data);
     } catch (error) {

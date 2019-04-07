@@ -1,7 +1,7 @@
 const config = {
   api: {
     endpoints: {
-      users: "/users"
+      profile: "/profile"
     }
   },
   baseURI: process.env.REACT_APP_API_BASE_URI,
