@@ -6,8 +6,10 @@ export const LOGIN_PROGRESS = "/login/token";
 // Dashboard routes
 export const DASHBOARD = "/";
 export const USERS = "/users";
+export const POSTS = "/posts";
+
 export const PROJECTS = "/projects";
-export const DUMMY = "/dummy";
+export const SAMPLE = "/sample";
 
 // User routes
 export const USER_INFO = "/users/:id";

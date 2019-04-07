@@ -6,13 +6,13 @@ Action creators are actions wrapped in a function
 */
 
 const levelUp = (level: number) => ({
-    type: actionTypes.LEVEL_UP,
-    payload: level
+  type: actionTypes.LEVEL_UP,
+  payload: level
 });
 
 const powerUp = (name: string, level: number) => ({
-    type: actionTypes.POWER_UP,
-    payload: {name, level}
+  type: actionTypes.POWER_UP,
+  payload: { name, level }
 });
 
 // type property defines  how the state should change , nothing more than a string
@@ -23,8 +23,14 @@ const addArticle = (payload: any) => ({
   payload
 });
 
+const toggleMenu = (isMenuOpen: boolean) => ({
+  type: actionTypes.TOGGLE_MENU,
+  payload: isMenuOpen
+});
+
 export const Actions = {
   levelUp,
   powerUp,
-  addArticle
+  addArticle,
+  toggleMenu
 };

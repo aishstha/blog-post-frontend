@@ -10,11 +10,8 @@
   "rules": {
     "object-literal-sort-keys": false,
     "comment-format": false,
-    "member-access": [
-      true,
-      "no-public"
-    ],
-    "no-console":false,
+    "member-access": [true, "no-public"],
+    "no-console": false,
     "ordered-imports": [
       true,
       {
@@ -22,6 +19,9 @@
         "named-imports-order": "any"
       }
     ],
-    "no-debugger": false
-  }
+    "no-debugger": false,
+    "array-type": [false, "generic"],
+    "jsx-no-lambda": false
+  },
+  "jsRules": { "object-literal-sort-keys": false }
 }
