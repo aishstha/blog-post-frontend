@@ -8,6 +8,7 @@ export const DASHBOARD = "/";
 export const USERS = "/users";
 export const POSTS = "/posts";
 export const PROFILE = "/profile";
+export const EDIT_PROFILE = "/editProfile";
 
 export const PROJECTS = "/projects";
 export const SAMPLE = "/sample";

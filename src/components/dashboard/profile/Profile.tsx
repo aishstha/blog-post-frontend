@@ -1,6 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
+import * as routes from "../../../constants/routes";
 import * as profileService from "../../../services/profile";
 import { IProfileDetails } from "src/interface";
 
@@ -71,66 +73,62 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
   }
 }
 
-const ProfileView = (profileInfo: any) => {
+const ProfileView = (profileInfo: any, handleEdit: any) => {
   return (
     <div className="container">
-      <form>
-        <div className="form-section">
-          <div className="close  hidden-sm">
-            <i className="material-icons">close</i>
-          </div>
-
-          <h2>Account details</h2>
-          <div className="form-group">
-            <label className="form-group__label form-group__label--block">
-              Full Name
-            </label>
-            <input
-              name="fullName"
-              type="text"
-              className={`form-group__control`}
-              value={profileInfo.name}
-              disabled={true}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-group__label form-group__label--block">
-              Phone Number
-            </label>
-            <input
-              name="phoneNumber"
-              type="text"
-              className={`form-group__control`}
-              value={profileInfo.phoneNumber}
-              disabled={true}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-group__label form-group__label--block">
-              Email
-            </label>
-            <input
-              name="email"
-              type="text"
-              className={`form-group__control`}
-              value={profileInfo.email}
-              disabled={true}
-            />
-          </div>
-          <div className="form-group">
-            <label className="form-group__label form-group__label--block">
-              Address
-            </label>
-            <input
-              name="phoneNumber"
-              type="text"
-              className={`form-group__control`}
-              value={profileInfo.address}
-              disabled={true}
-            />
-          </div>
+      <div className="form-section">
+        <div className="form-group">
+          <label className="form-group__label form-group__label--block">
+            Full Name
+          </label>
+          <input
+            name="fullName"
+            type="text"
+            className={`form-group__control`}
+            value={profileInfo.name}
+            disabled={true}
+          />
         </div>
-      </form>
+        <div className="form-group">
+          <label className="form-group__label form-group__label--block">
+            Phone Number
+          </label>
+          <input
+            name="phoneNumber"
+            type="text"
+            className={`form-group__control`}
+            value={profileInfo.phoneNumber}
+            disabled={true}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-group__label form-group__label--block">
+            Email
+          </label>
+          <input
+            name="email"
+            type="text"
+            className={`form-group__control`}
+            value={profileInfo.email}
+            disabled={true}
+          />
+        </div>
+        <div className="form-group">
+          <label className="form-group__label form-group__label--block">
+            Address
+          </label>
+          <input
+            name="phoneNumber"
+            type="text"
+            className={`form-group__control`}
+            value={profileInfo.address}
+            disabled={true}
+          />
+        </div>
+      </div>
+      <Link to={routes.EDIT_PROFILE} className="btn btn--blue btn--lg">
+        Edit Profile
+      </Link>{" "}
     </div>
   );
 };
