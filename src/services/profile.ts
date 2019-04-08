@@ -19,3 +19,14 @@ export async function updateUser(data: any, id: string) {
 
   return http.put(url, data);
 }
+
+/**
+ *  Get user info by id.
+ * 
+ * @param id String
+ */
+export async function getUserById(id: string) {
+  const url = `${api.endpoints.profile + "/" + id}`;
+
+  return await http.get(url);
+}

@@ -9,6 +9,7 @@ import PrivateRoute from "./common/routes/PrivateRoute";
 
 import Dashboard from "./dashboard";
 import Sample from "./ReduxSample/Sample";
+import DesignKitDashboard from "./designKit/DesignKitDashboard";
 
 // Top level application router.
 const Router = () => (
@@ -16,6 +17,7 @@ const Router = () => (
     <Switch>
       {/* <Route exact path={routes.LOGIN} component={Login} /> */}
       <Route exact={true} path={routes.SAMPLE} component={Sample} />
+      <Route exact={true} path={"/designKit"} component={DesignKitDashboard} />
 
       <PrivateRoute path={routes.DASHBOARD} component={Dashboard} />
     </Switch>

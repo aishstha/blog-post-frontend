@@ -7,6 +7,7 @@ export const LOGIN_PROGRESS = "/login/token";
 export const DASHBOARD = "/";
 export const USERS = "/users";
 export const POSTS = "/posts";
+export const PROFILE = "/profile";
 
 export const PROJECTS = "/projects";
 export const SAMPLE = "/sample";

@@ -3664,7 +3664,7 @@ body {
   border-top: 3px solid #e5e5e5;
   text-transform: uppercase;
 }
-.tabs__list__title:hover {
+/* .tabs__list__title:hover {
   border-top: 3px solid #094aa7;
   background-color: #f3f3f3;
   color: rgba(0, 0, 0, 0.62);
@@ -3673,7 +3673,7 @@ body {
   border-top: 3px solid #094aa7;
   background-color: #f3f3f3;
   color: rgba(0, 0, 0, 0.62);
-}
+} */
 .tabs__list__title .Batch {
   margin-left: 30px;
 }

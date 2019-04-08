@@ -1,15 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 
-// import Footer from '../common/footer';
-import Header from '../common/header';
-
-import Overview from './Overview';
+// import Overview from "./Overview";
+import Container from "./Container";
 
 const Dashboard = () => (
   <div className="Score-card">
-    <Header />
-    <Overview />
-    {/* <Footer /> */}
+    {/* <Overview /> */}
+    <Container />
   </div>
 );
 
