@@ -7,9 +7,11 @@
     "formik": "^1.5.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-google-login": "^5.0.4",
     "react-router-dom": "^5.0.0",
     "react-scripts-ts": "^4.0.8",
-    "react-transition-group": "^2.9.0"
+    "react-transition-group": "^2.9.0",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -25,6 +27,7 @@
     "@types/react-redux": "^7.0.6",
     "@types/react-router-dom": "^4.3.1",
     "@types/react-transition-group": "^2.8.0",
+    "@types/yup": "^0.26.12",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",

@@ -1,5 +1,5 @@
 import actionTypes from "../constants";
-import { IProfileDetails } from 'src/interface';
+import { IProfileDetails } from '../interface';
 
 /* 
 Actions are objects with information of what happened and what needs to change

@@ -7,3 +7,7 @@ export interface IProfileDetails {
   name: string;
   _id: string;
 }
+
+export interface IClientId {
+  data: string;
+}
