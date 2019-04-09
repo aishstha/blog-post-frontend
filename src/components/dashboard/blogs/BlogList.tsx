@@ -68,10 +68,11 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
                       </a>
                     </li>
                   </ul>
-                  {localpostDetails.length > 0 &&
-                    localpostDetails.map((post, index) => {
-                      return <PostList postInfo={post} key={index} />;
-                    })}
+                  {localpostDetails.length > 0
+                    ? localpostDetails.map((post, index) => {
+                        return <PostList postInfo={post} key={index} />;
+                      })
+                    : "no data found"}
                 </div>
               </div>
             </div>
@@ -84,6 +85,7 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
 
 const PostList: React.SFC<IPostList> = props => {
   const { postInfo, key } = props;
+  console.log(">>>>>>>>>>>>>>>>>>.", postInfo);
   return (
     <div className="tabs__content" key={key}>
       <div className="tabs__content__pane active" id="advertisement">
@@ -92,7 +94,7 @@ const PostList: React.SFC<IPostList> = props => {
             <h2>
               {postInfo.title}
               <span className="Batch Batch--yellow Batch--icon">
-                {postInfo.users.name}
+                {postInfo.users ? postInfo.users.name : "User not found"}
               </span>
             </h2>
             <span className="publisher">Description:</span>

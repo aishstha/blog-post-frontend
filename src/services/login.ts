@@ -9,8 +9,10 @@ const { api } = config;
  *
  * @return {Object}
  */
-export async function saveClientId(data: IClientId) {
+export async function getTokens(data: IClientId) {
   const url = api.endpoints.login;
 
-  return await http.post(url, data);
+  const response = await http.post(url, data);
+  console.log(">response???", response);
+  return response;
 }

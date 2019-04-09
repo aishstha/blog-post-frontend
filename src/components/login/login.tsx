@@ -5,7 +5,7 @@ import { GoogleLogin } from "react-google-login";
 import config from "../../config";
 import { IClientId } from "../../interface";
 
-// import * as tokenService from "../../services/token";
+import * as tokenService from "../../services/token";
 import * as loginService from "../../services/login";
 const { googleClientId } = config;
 
@@ -22,16 +22,17 @@ class Login extends React.Component<{}, ILoginState> {
   }
 
   successResponse = (response: any) => {
-    const clientId = response.id_client;
-    this.saveUserDetails(clientId);
+    const { tokenId: token } = response;
+    const tokenData = { token };
+    this.saveUserDetails(tokenData);
   };
 
   saveUserDetails = async (data: IClientId) => {
     try {
-      const response = await loginService.saveClientId(data);
-      const token = response.headers.get("x-auth-token");
-      // TODO: Set access token in localstorage
-      if (token) {
+      const response = await loginService.getTokens(data);
+      if (response) {
+        tokenService.setLoginDetails(response.data.data);
+
         this.setState({ isAuthenticated: true });
       }
     } catch (error) {
@@ -42,6 +43,7 @@ class Login extends React.Component<{}, ILoginState> {
   failResponse = (response: any) => {
     console.log("failResponse", response); // TODO: Eror handler
   };
+
   render() {
     const { isAuthenticated } = this.state;
     return (

@@ -1,8 +1,8 @@
-import * as storage from 'utils/storage';
+import * as storage from "../utils/storage";
 
-import CONSTANTS from 'constants/appConstant';
+import { ACCESS_TOKEN, LOGIN_DATA }  from "./../constants/appConstant";
 
-const { ACCESS_TOKEN, PROFILE_PICTURE } = CONSTANTS;
+//const { ACCESS_TOKEN, LOGIN_DATA } = CONSTANTS;
 
 /**
  * Set access token
@@ -30,21 +30,30 @@ export function clear() {
 }
 
 /**
- * Add profile picture into local storage
+ * Set login data
+ * @param {string} data
  */
 
-export function setProfilePicture(pictureUrl) {
-  storage.set(PROFILE_PICTURE, pictureUrl);
+export function setLoginDetails(data) {
+  storage.set(LOGIN_DATA, data);
 }
 
-/**
- * Get profile picture from local storage
- */
+// /**
+//  * Add profile picture into local storage
+//  */
 
-export function getProfilePicture() {
-  if (!storage.get(PROFILE_PICTURE)) {
-    return 'https://picsum.photos/40/40/?random';
-  }
+// export function setProfilePicture(pictureUrl) {
+//   storage.set(PROFILE_PICTURE, pictureUrl);
+// }
 
-  return storage.get(PROFILE_PICTURE);
-}
+// /**
+//  * Get profile picture from local storage
+//  */
+
+// export function getProfilePicture() {
+//   if (!storage.get(PROFILE_PICTURE)) {
+//     return 'https://picsum.photos/40/40/?random';
+//   }
+
+//   return storage.get(PROFILE_PICTURE);
+// }

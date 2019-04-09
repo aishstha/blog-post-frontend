@@ -2,6 +2,9 @@ export interface IPostDetails {
   title: string;
   description: string;
   users: IUser;
+  _id: string;
+  name:string;
+  
 }
 
 interface IUser {
@@ -18,5 +21,5 @@ export interface IProfileDetails {
 }
 
 export interface IClientId {
-  data: string;
+  token: string;
 }

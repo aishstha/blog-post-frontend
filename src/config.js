@@ -1,8 +1,8 @@
 const config = {
   api: {
     endpoints: {
-      profile: "/profile",
-      login: "/login", //TODO Change this
+      profile: "/users",
+      login: "/auth/login", //TODO Change this
       posts: "/posts"
     }
   },
