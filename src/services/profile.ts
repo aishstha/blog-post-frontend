@@ -1,7 +1,7 @@
 import config from "../config";
 import http from "../utils/http";
-import store from "src/store";
-import actionTypes from "src/constants";
+import store from "../store";
+import actionTypes from "../constants";
 
 const { api } = config;
 

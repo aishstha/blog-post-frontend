@@ -3755,7 +3755,8 @@ body {
 }
 .Popup__inner__header {
   width: 100%;
-  padding: 24px;
+  padding-bottom: 24px;
+  margin-bottom: 18px;
   font-size: 18px;
   font-weight: 600;
   line-height: 24px;

@@ -68,9 +68,10 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
                       </a>
                     </li>
                   </ul>
-                  {localpostDetails.map((post, index) => {
-                    return <PostList postInfo={post} key={index} />;
-                  })}
+                  {localpostDetails.length > 0 &&
+                    localpostDetails.map((post, index) => {
+                      return <PostList postInfo={post} key={index} />;
+                    })}
                 </div>
               </div>
             </div>
@@ -89,7 +90,7 @@ const PostList: React.SFC<IPostList> = props => {
         <div className="Block-white Block-product">
           <div className="Block-product__content">
             <h2>
-              Title Here {postInfo.title}
+              {postInfo.title}
               <span className="Batch Batch--yellow Batch--icon">
                 {postInfo.users.name}
               </span>
