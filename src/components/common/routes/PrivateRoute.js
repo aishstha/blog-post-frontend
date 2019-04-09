@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import * as routes from "constants/routes";
+import * as routes from "../../../constants/routes";
 
 // import { withAuthState } from "components/hoc/auth";
 
