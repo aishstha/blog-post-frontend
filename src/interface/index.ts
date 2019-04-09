@@ -1,6 +1,12 @@
 export interface IPostDetails {
-  name: string;
+  title: string;
+  description: string;
+  users: IUser;
+}
+
+interface IUser {
   _id: string;
+  name: string;
 }
 
 export interface IProfileDetails {

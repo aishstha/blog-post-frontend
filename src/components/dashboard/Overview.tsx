@@ -1,100 +1,100 @@
-import * as React from "react";
-import "../../App.css";
+// import * as React from "react";
+// import "../../App.css";
 
-import { connect } from "react-redux";
-import * as profileService from "../../services/profile";
-import { IPostDetails } from "src/interface";
+// import { connect } from "react-redux";
+// import * as profileService from "../../services/profile";
+// import { IPostDetails } from "src/interface";
 
-import { Actions } from "../../actions/posts";
+// import { Actions } from "../../actions/posts";
 
-interface IOverviewProps {
-  postDetails: Array<IPostDetails>;
-  savePosts: (postDetails: IPostDetails) => void;
-}
+// interface IOverviewProps {
+//   postDetails: Array<IPostDetails>;
+//   savePosts: (postDetails: IPostDetails) => void;
+// }
 
-interface IOverviewState {
-  localPostDetails: Array<IPostDetails>;
-}
+// interface IOverviewState {
+//   localPostDetails: Array<IPostDetails>;
+// }
 
-class Overview extends React.Component<IOverviewProps, IOverviewState> {
-  constructor(props: Readonly<IOverviewProps>) {
-    super(props);
-    this.state = {
-      localPostDetails: props.postDetails
-    };
-  }
+// class Overview extends React.Component<IOverviewProps, IOverviewState> {
+//   constructor(props: Readonly<IOverviewProps>) {
+//     super(props);
+//     this.state = {
+//       localPostDetails: props.postDetails
+//     };
+//   }
 
-  componentDidMount() {
-    this.fetchAllPosts();
-  }
+//   componentDidMount() {
+//     this.fetchAllPosts();
+//   }
 
-  componentDidUpdate(prevProps: IOverviewProps) {
-    if (prevProps !== this.props) {
-      this.setState({
-        localPostDetails: this.props.postDetails
-      });
-    }
-  }
+//   componentDidUpdate(prevProps: IOverviewProps) {
+//     if (prevProps !== this.props) {
+//       this.setState({
+//         localPostDetails: this.props.postDetails
+//       });
+//     }
+//   }
 
-  fetchAllPosts = async () => {
-    try {
-      const postResponse = await profileService.fetchAllPosts();
-      this.props.savePosts(postResponse.data);
-    } catch (error) {
-      throw error; // TODO: Error handeling
-    }
-  };
+//   fetchAllPosts = async () => {
+//     try {
+//       const postResponse = await profileService.fetchAllPosts();
+//       this.props.savePosts(postResponse.data);
+//     } catch (error) {
+//       throw error; // TODO: Error handeling
+//     }
+//   };
 
-  handleEdit = async (id: string) => {
-    try {
-      const data = {
-        name: "SSSSSSSSSSSSSAish"
-      };
-      await profileService.updateUser(data, id);
-      const postResponse = await profileService.fetchAllPosts();
+//   handleEdit = async (id: string) => {
+//     try {
+//       const data = {
+//         name: "SSSSSSSSSSSSSAish"
+//       };
+//       await profileService.updateUser(data, id);
+//       const postResponse = await profileService.fetchAllPosts();
 
-      this.props.savePosts(postResponse.data);
-    } catch (error) {
-      throw error; // TODO: Error handeling
-    }
-  };
+//       this.props.savePosts(postResponse.data);
+//     } catch (error) {
+//       throw error; // TODO: Error handeling
+//     }
+//   };
 
-  render() {
-    const { localPostDetails } = this.state;
+//   render() {
+//     const { localPostDetails } = this.state;
 
-    return (
-      <div className="page">
-        <div className="container">
-          <ul>
-            {localPostDetails.length > 0
-              ? localPostDetails.map((post, index) => {
-                  return (
-                    <div key={index}>
-                      <div onClick={() => this.handleEdit(post._id)}>
-                        {" "}
-                        {post.name ? post.name : ""}
-                      </div>
-                      id: {post._id}
-                    </div>
-                  );
-                })
-              : ""}
-          </ul>
-        </div>
-      </div>
-    );
-  }
-}
+//     return (
+//       <div className="page">
+//         <div className="container">
+//           <ul>
+//             {localPostDetails.length > 0
+//               ? localPostDetails.map((post, index) => {
+//                   return (
+//                     <div key={index}>
+//                       <div onClick={() => this.handleEdit(post._id)}>
+//                         {" "}
+//                         {post.name ? post.name : ""}
+//                       </div>
+//                       id: {post._id}
+//                     </div>
+//                   );
+//                 })
+//               : ""}
+//           </ul>
+//         </div>
+//       </div>
+//     );
+//   }
+// }
 
-const mapStateToProps = ({ postReducer }: any) => {
-  return { postDetails: postReducer.postDetails };
-};
+// const mapStateToProps = ({ postReducer }: any) => {
+//   return { postDetails: postReducer.postDetails };
+// };
 
-const mapDispatchToProps = (dispatch: any) => ({
-  savePosts: (postDetails: IPostDetails) =>
-    dispatch(Actions.storePosts(postDetails))
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Overview);
+// const mapDispatchToProps = (dispatch: any) => ({
+//   savePosts: (postDetails: IPostDetails) =>
+//     dispatch(Actions.storePosts(postDetails))
+// });
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(Overview);

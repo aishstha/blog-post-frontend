@@ -2,7 +2,8 @@ const config = {
   api: {
     endpoints: {
       profile: "/profile",
-      login:"/login" //TODO Change this
+      login: "/login", //TODO Change this
+      posts: "/posts"
     }
   },
   baseURI: process.env.REACT_APP_API_BASE_URI,
