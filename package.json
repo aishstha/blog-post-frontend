@@ -10,6 +10,7 @@
     "react-google-login": "^5.0.4",
     "react-router-dom": "^5.0.0",
     "react-scripts-ts": "^4.0.8",
+    "react-toastify": "^5.0.0-rc.6",
     "react-transition-group": "^2.9.0",
     "yup": "^0.27.0"
   },

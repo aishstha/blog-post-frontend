@@ -6,6 +6,9 @@ export interface IPostDetails {
 export interface IProfileDetails {
   name: string;
   _id: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
 }
 
 export interface IClientId {

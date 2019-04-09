@@ -6,7 +6,7 @@ interface IActionProps {
 }
 
 const initialState = {
-  profileDetails: []
+  profileDetails: ""
 };
 
 export default (state = initialState, action: IActionProps) => {
