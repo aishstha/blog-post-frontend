@@ -1,9 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-import * as postService from "../../../services/posts";
-import { IPostDetails } from "../../../interface";
 import { Actions } from "../../../actions/posts";
+import { IPostDetails } from "../../../interface";
+
+import * as postService from "../../../services/posts";
+
 interface IBlogListProps {
   postDetails: Array<IPostDetails>;
   savePost: (postDetails: Array<IPostDetails>) => void;

@@ -1,5 +1,5 @@
 import * as React from "react";
-// import { CSSTransition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 import { coke } from "../../assests/images";
 
@@ -11,6 +11,7 @@ const Container: React.SFC<{}> = () => {
         <CreateNew />
         <ProfileView />
         <ProfileEdit />
+        <CreateBlog />
       </div>
     </div>
   );
@@ -106,6 +107,66 @@ const ProfileView = () => {
           </div>
         </div>
       </form>
+    </div>
+  );
+};
+
+const CreateBlog: React.SFC<{}> = () => {
+  // let popUpClass = this.state.isPopUpOpen ? 'Popup' : 'Popup Popup--hidden';
+  const popUpClass = "Popup";
+  return (
+    <div className="container">
+      <div className="block hidden-md">
+        <div className="block__content">
+          <div className="block__title">{/* <h2>Advertisement</h2> */}</div>
+          <div className="Block-white">
+            <p>
+              <a href="#" className="btn btn--blue btn--icon">
+                <i className="material-icons">add</i> Create New Blog
+              </a>
+            </p>
+          </div>
+
+          <CSSTransition
+            in={true}
+            timeout={300}
+            classNames="popup"
+            unmountOnExit={false}
+          >
+            <div className={popUpClass}>
+              <div className="Popup__inner Popup__inner--small">
+                <div className="Popup__inner__header">
+                  Advertisement Details
+                  {/* <a className="close" onClick={this.togglePopUp}>
+                    <i className="material-icons">close</i>
+                  </a> */}
+                </div>
+                <div className="Popup__inner__content Popup__inner__content--space">
+                  <div className="form-group form-group--block">
+                    <label className="form-group__label">Title:</label>
+                    <span className="form-group__text"> Testee</span>
+                  </div>
+                  <div className="form-group form-group--2col">
+                    <label className="form-group__label">Publisher:</label>
+                    <span className="form-group__text">TEst</span>
+                  </div>
+                  <div className="form-group form-group--2col">
+                    <label className="form-group__label">Budget:</label>
+                    <span className="form-group__text">$1000</span>
+                  </div>
+                  <div className="image-group">
+                    <p>image</p>
+                  </div>
+                </div>
+                <div className="Popup__inner__footer">
+                  <div className="btn btn--blue ml-24">aprove</div>
+                  <div className="btn btn--red--outline">reject</div>
+                </div>
+              </div>
+            </div>
+          </CSSTransition>
+        </div>
+      </div>
     </div>
   );
 };
