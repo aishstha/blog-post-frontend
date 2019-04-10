@@ -1,6 +1,6 @@
 import * as storage from "../utils/storage";
 
-import { ACCESS_TOKEN, LOGIN_DATA }  from "./../constants/appConstant";
+import { ACCESS_TOKEN, LOGIN_DATA } from "./../constants/appConstant";
 
 //const { ACCESS_TOKEN, LOGIN_DATA } = CONSTANTS;
 
@@ -34,8 +34,12 @@ export function clear() {
  * @param {string} data
  */
 
-export function setLoginDetails(data) {
-  storage.set(LOGIN_DATA, data);
+export async function setLoginDetails(data) {
+  try {
+    await storage.set(LOGIN_DATA, data);
+  } catch (error) {
+    throw error;
+  }
 }
 
 // /**
