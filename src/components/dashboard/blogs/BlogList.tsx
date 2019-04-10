@@ -94,6 +94,7 @@ const PostList: React.SFC<IPostList> = props => {
             <span className="publisher">Description:</span>
             <span className="budget">{postInfo.description}</span>
           </div>
+          {console.log("postInfo._id", postInfo._id)}
           <Link
             to={interpolate(routes.BLOGS_INFO, {
               id: postInfo._id
@@ -120,4 +121,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(BlogList);
-

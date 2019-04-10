@@ -39,5 +39,11 @@ export async function createNewPost(data: any) {
 export async function fetchPostById(id: string) {
   const url = `${api.endpoints.posts + "/" + id}`;
 
-  return await http.get(url);
+  const response = await http.get(url);
+  store.dispatch({
+    type: actionTypes.STORE_CURRENT_POSTS,
+    payload: response.data
+  });
+
+  return response.data;
 }
