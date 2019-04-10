@@ -7,7 +7,7 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
 import { Actions } from "../../../actions/posts";
 import { IPostDetails } from "../../../interface";
-import { createNewBlogSchema } from "../../../validation/validationSchema";
+// import { createNewBlogSchemaCHANGETHIS } from "../../../validation/validationSchema";
 import * as tokenService from "../../../services/token";
 
 import * as postService from "../../../services/posts";
@@ -22,6 +22,7 @@ import * as postService from "../../../services/posts";
 //   saveProfile: (profileDetails:  Array<IPostDetails>) => void;
 // }
 
+// TOD: Returingin only one objects instead of all object so showng no post found
 interface ICreateNewBlogFormProps {
   userId: string;
   isPopUpOpen: boolean;
@@ -140,7 +141,7 @@ const CreateNewBlogForm: React.SFC<ICreateNewBlogFormProps> = ({
                 title: "",
                 description: ""
               }}
-              validationSchema={createNewBlogSchema}
+              // validationSchema={createNewBlogSchemaCHANGETHIS}
               onSubmit={async (
                 values: ICreateNewBlogValues,
                 { setSubmitting }: FormikActions<ICreateNewBlogValues>

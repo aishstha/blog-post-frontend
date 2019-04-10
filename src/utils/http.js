@@ -1,26 +1,26 @@
-import axios from 'axios';
+import axios from "axios";
 
-import config from '../config';
-// import { getAccessToken } from '../services/token';
+import configs from "../config";
+import { getAccessToken } from "../services/token";
 
 let http = axios.create({
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json"
   },
-  baseURL: config.baseURI
+  baseURL: configs.baseURI
 });
 
-// /**
-//  * HTTP request interceptor.
-//  */
-// http.interceptors.request.use(config => {
-//   const accessToken = getAccessToken();
+/**
+ * HTTP request interceptor.
+ */
+http.interceptors.request.use(config => {
+  const accessToken = getAccessToken();
 
-//   if (accessToken) {
-//     config.headers.Authorization = `Bearer ${accessToken}`;
-//   }
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
 
-//   return config;
-// });
+  return config;
+});
 
 export default http;

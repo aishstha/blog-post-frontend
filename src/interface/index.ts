@@ -1,7 +1,7 @@
 export interface IPostDetails {
   title: string;
   description: string;
-  user: IUser;
+  users: IUser;
   _id: string;
   name: string;
 }

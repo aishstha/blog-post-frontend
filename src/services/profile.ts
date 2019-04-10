@@ -17,7 +17,7 @@ export async function fetchAllPosts() {
 }
 
 export async function updateUser(data: any, id: string) {
-  const url = `${api.endpoints.profile + "/" + id}`;
+  const url = api.endpoints.profile;
   const response = await http.put(url, data);
   store.dispatch({
     type: actionTypes.STORE_PROFILE_INFORMATION,

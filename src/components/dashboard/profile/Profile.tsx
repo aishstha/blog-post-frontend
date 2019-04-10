@@ -12,6 +12,7 @@ import { getUserProfileValidationSchema } from "../../../validation/validationSc
 import { messageStatus } from "../../../constants/messageStatus";
 import { defaultMessage } from "../../../constants/applicationMessage";
 
+import * as tokenService from "../../../services/token";
 import * as profileService from "../../../services/profile";
 
 interface IOverviewProps {
@@ -59,8 +60,9 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
 
   fetchProfileInformation = async () => {
     try {
-      const id = "5caa172dbaa74c1b611a96d3";
-      const profileResponse = await profileService.getUserById(id);
+      const userId = tokenService.getUserId();
+
+      const profileResponse = await profileService.getUserById(userId);
       this.props.saveProfile(profileResponse.data);
     } catch (error) {
       throw error; // TODO: Error handeling
@@ -87,7 +89,7 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
 
   render() {
     const { localprofileDetails, isLoading } = this.state;
-
+    console.log("localprofileDetails", localprofileDetails);
     if (isLoading) {
       return <Spinner />;
     }
@@ -216,6 +218,7 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
 );
 
 const mapStateToProps = ({ profileReducer }: any) => {
+  console.log("profileReducer", profileReducer);
   return { profileDetails: profileReducer.profileDetails };
 };
 

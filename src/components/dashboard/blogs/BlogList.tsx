@@ -86,7 +86,7 @@ const PostList: React.SFC<IPostList> = props => {
             <h2>
               {postInfo.title}
               <span className="Batch Batch--yellow Batch--icon">
-                {postInfo.user ? postInfo.user.name : "User not found"}
+                {postInfo.users ? postInfo.users.name : "User not found"}
               </span>
             </h2>
             <span className="publisher">Description:</span>

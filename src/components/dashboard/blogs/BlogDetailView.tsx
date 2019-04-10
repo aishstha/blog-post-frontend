@@ -12,11 +12,6 @@ import * as commentService from "../../../services/comment";
 
 import { createNewBlogSchema } from "../../../validation/validationSchema";
 
-// interface IBlogListProps {
-//   currentPostDetails: IPostDetails;
-//   saveCurrentPost: (postDetails: IPostDetails) => void;
-// }
-
 interface IBlogListState {
   localpostDetails: any;
   isLoading: boolean;
@@ -31,7 +26,7 @@ interface IPostList {
 interface IBlogPostEditFormProps {
   postInfo: IPostDetails;
   toggleEditMode: () => void;
-  handleSubmit: (value: ICreateNewBlogValues, id: string) => void;
+  handleSubmit: (value: ICreateNewBlogValues, id: string, isValid: any) => void;
   postId: string;
 }
 
@@ -62,7 +57,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   }
 
   componentDidMount() {
-    this.fetchAllBlogPosts();
+    this.fetchPostById();
   }
 
   componentDidUpdate(prevProps: IBlogListProps) {
@@ -73,7 +68,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     }
   }
 
-  fetchAllBlogPosts = async () => {
+  fetchPostById = async () => {
     try {
       await postService.fetchPostById(this.props.match.params.id); //dispatched in service
     } catch (error) {
@@ -85,7 +80,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     this.setState({ isEditMode: !this.state.isEditMode });
   };
 
-  handleSubmit = async (values: any, id: string) => {
+  handleSubmit = async (values: any, id: string, isValid: any) => {
     this.setState({
       isLoading: true
     });
@@ -108,6 +103,22 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     });
     try {
       await commentService.createNewComment(values, id);
+      this.fetchPostById();
+    } catch (error) {
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
+  onDeleteIconClicked = async (commentId: string) => {
+    this.setState({
+      isLoading: true
+    });
+    try {
+      console.log("commentI1233333333333d", commentId);
+      await commentService.deleteCommentById(commentId);
+      this.fetchPostById();
     } catch (error) {
       this.setState({
         isLoading: false
@@ -117,7 +128,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
 
   render() {
     const { localpostDetails, isEditMode } = this.state;
-    console.log("localpostDetails", localpostDetails);
+    // console.log("localpostDetails", localpostDetails);
     return (
       <div>
         <div className="page">
@@ -143,14 +154,12 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                     ""
                   )}
                 </div>
-
+                {/* COMMENT SECTION OPEN */}
                 <div className="block">
                   <div className="block__content" />
                   <div className="tabs">
                     <div className="tabs__content">
                       <div className="tabs__content__pane active">
-                        {/* {localpostDetails.comments &&
-                        localpostDetails.comments.length > 0 ? ( */}
                         <div className="Block-white Block-product">
                           <Formik
                             initialValues={{
@@ -162,11 +171,10 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                 setSubmitting
                               }: FormikActions<ICreateNewCommentValues>
                             ) => {
-                              console.log("values", values);
                               this.handleAddNewComment(
                                 values,
                                 localpostDetails.id
-                              ); // TODO: Get id from global state
+                              );
                             }}
                             render={props => (
                               <div className="form-section">
@@ -201,15 +209,38 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                             )}
                           />
                         </div>
-                        {/* ) : (
-                          <div className="Block-white Block-product">
-                            <p>Add new comment</p>
-                          </div>
-                        )} */}
+                        {localpostDetails.comments &&
+                          localpostDetails.comments.length > 0 &&
+                          localpostDetails.comments.map(
+                            (comment: any, index: number) => {
+                              return (
+                                <div
+                                  className="Block-white Block-product"
+                                  key={index}
+                                >
+                                  {comment.description}{" "}
+                                  <span className="Batch Batch--yellow Batch--icon">
+                                    {comment.users
+                                      ? comment.users.name
+                                      : "User not found"}
+                                  </span>
+                                  <span
+                                    className="delete-image"
+                                    onClick={() =>
+                                      this.onDeleteIconClicked(comment._id)
+                                    }
+                                  >
+                                    <i className="material-icons">delete</i>
+                                  </span>
+                                </div>
+                              );
+                            }
+                          )}
                       </div>
                     </div>
                   </div>
                 </div>
+                {/* COMMENT SECTION CLOSE */}
               </div>
             </div>
           </div>
@@ -240,7 +271,7 @@ const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
                 values: ICreateNewBlogValues,
                 { setSubmitting }: FormikActions<ICreateNewBlogValues>
               ) => {
-                handleSubmit(values, postId);
+                handleSubmit(values, postId, "aa");
               }}
               render={props => (
                 <Form>
@@ -309,7 +340,7 @@ const PostList: React.SFC<IPostList> = props => {
             <h2>
               {postInfo.title}
               <span className="Batch Batch--yellow Batch--icon">
-                {postInfo.user ? postInfo.user.name : "User not found"}
+                {postInfo.users ? postInfo.users.name : "User not found"}
               </span>
             </h2>
             <span className="publisher">Description:</span>

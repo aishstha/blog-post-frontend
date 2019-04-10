@@ -1,6 +1,10 @@
 import * as storage from "../utils/storage";
 
-import { ACCESS_TOKEN, LOGIN_DATA } from "../constants/appConstant";
+import {
+  ACCESS_TOKEN,
+  LOGIN_DATA,
+  REFRESH_TOKEN
+} from "../constants/appConstant";
 
 //const { ACCESS_TOKEN, LOGIN_DATA } = CONSTANTS;
 
@@ -11,6 +15,15 @@ import { ACCESS_TOKEN, LOGIN_DATA } from "../constants/appConstant";
 
 export function setAccessToken(token: string) {
   storage.set(ACCESS_TOKEN, token);
+}
+
+/**
+ * Set access token
+ * @param {string} token
+ */
+
+export function setRefreshToken(token: string) {
+  storage.set(REFRESH_TOKEN, token);
 }
 
 /**
@@ -36,7 +49,12 @@ export function clear() {
 
 export async function setLoginDetails(data: any) {
   try {
+    const accessToken = data.accessToken;
+    const refreshToken = data.refreshToken;
     await storage.set(LOGIN_DATA, data);
+    await setAccessToken(accessToken);
+    await setRefreshToken(refreshToken);
+
     return "done";
   } catch (error) {
     throw error;
@@ -56,7 +74,7 @@ export function getLoginDetails() {
  */
 
 export function getUserId() {
-  const loginDetails : any = storage.get(LOGIN_DATA);
+  const loginDetails: any = storage.get(LOGIN_DATA);
   if (loginDetails) {
     return loginDetails.id;
   } else {

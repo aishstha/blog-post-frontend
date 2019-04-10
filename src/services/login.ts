@@ -13,6 +13,6 @@ export async function getTokens(data: IClientId) {
   const url = api.endpoints.login;
 
   const response = await http.post(url, data);
-  console.log(">response???", response);
+
   return response;
 }
