@@ -10,22 +10,27 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 import * as postService from "../../../services/posts";
 import * as commentService from "../../../services/comment";
 
-import { createNewBlogSchema } from "../../../validation/validationSchema";
+import {
+  createNewBlogSchema,
+  createNewCommenSchema
+} from "../../../validation/validationSchema";
 
 interface IBlogListState {
   localpostDetails: any;
   isLoading: boolean;
-  isEditMode: boolean;
+  isPostEditMode: boolean;
+  isCommentEditMode: boolean;
+  selectedComment: string;
 }
 
 interface IPostList {
   postInfo: IPostDetails;
-  toggleEditMode: () => void;
+  togglePostEditMode: () => void;
 }
 
 interface IBlogPostEditFormProps {
   postInfo: IPostDetails;
-  toggleEditMode: () => void;
+  togglePostEditMode: () => void;
   handleSubmit: (value: ICreateNewBlogValues, id: string, isValid: any) => void;
   postId: string;
 }
@@ -44,6 +49,17 @@ interface IBlogListProps extends RouteComponentProps<{ id: string }> {
   saveCurrentPost: (postDetails: IPostDetails) => void;
 }
 
+interface ICommentViewProps {
+  comment: any; //TODO CHANGE
+}
+
+interface ICommentEditProps {
+  comment: any; //TODO CHANGE
+  handleCommentEdit: (id: string, values: any) => void;
+  toggleCommentEditMode: (id: string) => void;
+  resetComment: () => void;
+}
+
 class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   constructor(props: Readonly<IBlogListProps>) {
     super(props);
@@ -51,8 +67,10 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
       localpostDetails: props.currentPostDetails
         ? props.currentPostDetails
         : "",
+      selectedComment: "",
       isLoading: false,
-      isEditMode: false
+      isPostEditMode: false,
+      isCommentEditMode: false
     };
   }
 
@@ -76,8 +94,22 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     }
   };
 
-  toggleEditMode = () => {
-    this.setState({ isEditMode: !this.state.isEditMode });
+  togglePostEditMode = () => {
+    this.setState({ isPostEditMode: !this.state.isPostEditMode });
+  };
+
+  toggleCommentEditMode = (id: string) => {
+    this.setState({
+      isCommentEditMode: !this.state.isCommentEditMode,
+      selectedComment: id
+    });
+  };
+
+  resetComment = () => {
+    this.setState({
+      isCommentEditMode: false,
+      selectedComment: ""
+    });
   };
 
   handleSubmit = async (values: any, id: string, isValid: any) => {
@@ -88,7 +120,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
       await postService.updatePostById(values, id);
       this.setState({
         isLoading: false,
-        isEditMode: false
+        isPostEditMode: false
       });
     } catch (error) {
       this.setState({
@@ -111,7 +143,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     }
   };
 
-  onDeleteIconClicked = async (commentId: string) => {
+  onCommentDelete = async (commentId: string) => {
     this.setState({
       isLoading: true
     });
@@ -126,9 +158,20 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     }
   };
 
+  handleCommentEdit = async (commentId: string, data: any) => {
+    try {
+      await commentService.editComment(commentId, data);
+      this.fetchPostById();
+      this.setState({ isCommentEditMode: false, selectedComment: "" });
+    } catch (error) {
+      this.setState({
+        isCommentEditMode: false
+      });
+    }
+  };
+
   render() {
-    const { localpostDetails, isEditMode } = this.state;
-    // console.log("localpostDetails", localpostDetails);
+    const { localpostDetails, isPostEditMode } = this.state;
     return (
       <div>
         <div className="page">
@@ -137,17 +180,17 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
               <div className="block__content">
                 <div className="tabs">
                   {localpostDetails ? (
-                    isEditMode ? (
+                    isPostEditMode ? (
                       <PostEdit
                         postId={this.props.match.params.id}
                         postInfo={localpostDetails}
-                        toggleEditMode={this.toggleEditMode}
+                        togglePostEditMode={this.togglePostEditMode}
                         handleSubmit={this.handleSubmit}
                       />
                     ) : (
                       <PostList
                         postInfo={localpostDetails || ""}
-                        toggleEditMode={this.toggleEditMode}
+                        togglePostEditMode={this.togglePostEditMode}
                       />
                     )
                   ) : (
@@ -218,19 +261,35 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                   className="Block-white Block-product"
                                   key={index}
                                 >
-                                  {comment.description}{" "}
-                                  <span className="Batch Batch--yellow Batch--icon">
-                                    {comment.users
-                                      ? comment.users.name
-                                      : "User not found"}
+                                  {this.state.selectedComment ===
+                                  comment._id ? (
+                                    <EditComment
+                                      comment={comment}
+                                      handleCommentEdit={this.handleCommentEdit}
+                                      toggleCommentEditMode={
+                                        this.toggleCommentEditMode
+                                      }
+                                      resetComment={this.resetComment}
+                                    />
+                                  ) : (
+                                    <CommentList comment={comment} />
+                                  )}
+
+                                  <span
+                                    className="delete-image"
+                                    onClick={() =>
+                                      this.onCommentDelete(comment._id)
+                                    }
+                                  >
+                                    <i className="material-icons">delete</i>
                                   </span>
                                   <span
                                     className="delete-image"
                                     onClick={() =>
-                                      this.onDeleteIconClicked(comment._id)
+                                      this.toggleCommentEditMode(comment._id)
                                     }
                                   >
-                                    <i className="material-icons">delete</i>
+                                    <i className="material-icons">edit</i>
                                   </span>
                                 </div>
                               );
@@ -250,9 +309,83 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   }
 }
 
+const EditComment: React.SFC<ICommentEditProps> = ({
+  comment,
+  handleCommentEdit,
+  toggleCommentEditMode,
+  resetComment
+}) => {
+  console.log(toggleCommentEditMode);
+  return (
+    <React.Fragment>
+      {/* {comment.description}{" "}
+      <span className="Batch Batch--yellow Batch--icon">
+        {comment.users ? comment.users.name : "User not found"}
+      </span> */}
+
+      <Formik
+        initialValues={{
+          description: comment.description
+        }}
+        validationSchema={createNewCommenSchema}
+        onSubmit={async (
+          values: ICreateNewBlogValues,
+          { setSubmitting }: FormikActions<ICreateNewBlogValues>
+        ) => {
+          console.log("comment>>>>>>>>>>>>>>>>>>>>>", comment);
+          handleCommentEdit(comment._id, values);
+        }}
+        render={props => (
+          <Form>
+            <div className="form-group">
+              <TextFieldWrapper
+                inputTypeClassName="form-group__control"
+                name="description"
+                type="text"
+                id="description"
+                value={props.values.description || ""}
+                label="Description"
+                placeholder="Description"
+                handleChange={props.handleChange}
+                handleBlur={props.handleBlur}
+              />
+              {props.errors.description && (
+                <div className="form-group__error">
+                  {props.errors.description}
+                </div>
+              )}
+            </div>
+            <button type="submit" className="btn btn--blue btn--lg">
+              UPDATE
+            </button>
+            <button
+              className="btn btn--blue btn--lg"
+              onClick={resetComment}
+              // onClick={toggleCommentEditMode(comment._id)} TODO
+            >
+              CANCEL
+            </button>
+          </Form>
+        )}
+      />
+    </React.Fragment>
+  );
+};
+
+const CommentList: React.SFC<ICommentViewProps> = ({ comment }) => {
+  return (
+    <React.Fragment>
+      {comment.description}{" "}
+      <span className="Batch Batch--yellow Batch--icon">
+        {comment.users ? comment.users.name : "User not found"}
+      </span>
+    </React.Fragment>
+  );
+};
+
 const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
   postInfo,
-  toggleEditMode,
+  togglePostEditMode,
   handleSubmit,
   postId
 }) => {
@@ -316,7 +449,7 @@ const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
                   </button>
                   <button
                     className="btn btn--blue btn--lg"
-                    onClick={toggleEditMode}
+                    onClick={togglePostEditMode}
                   >
                     CANCLE
                   </button>
@@ -331,7 +464,7 @@ const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
 };
 
 const PostList: React.SFC<IPostList> = props => {
-  const { postInfo, toggleEditMode } = props;
+  const { postInfo, togglePostEditMode } = props;
   return (
     <div className="tabs__content">
       <div className="tabs__content__pane active" id="advertisement">
@@ -347,7 +480,7 @@ const PostList: React.SFC<IPostList> = props => {
             <span className="budget">{postInfo.description}</span>
           </div>
           <div className="Block-product__btn">
-            <div className="btn btn--blue" onClick={toggleEditMode}>
+            <div className="btn btn--blue" onClick={togglePostEditMode}>
               EDIT
             </div>
           </div>

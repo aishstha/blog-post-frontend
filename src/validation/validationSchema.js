@@ -34,8 +34,10 @@ export function createNewBlogSchema() {
 
 export function createNewCommenSchema() {
   return Yup.object().shape({
-    newComment: Yup.string()
+    description: Yup.string()
       .trim()
       .required("Please enter description of your post.")
   });
 }
+
+

@@ -20,3 +20,9 @@ export async function deleteCommentById(commentId: string) {
   const response = await http.delete(url);
   return response;
 }
+
+export async function editComment(commentId: string, data: any) {
+  const url = `${api.endpoints.comments + "/" + commentId}`;
+  const response = await http.put(url, data);
+  return response;
+}
