@@ -45,7 +45,6 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
   };
 
   render() {
-    // const { localpostDetails } = this.state;
     const { postDetails } = this.props;
     return (
       <div>
@@ -79,7 +78,6 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
 
 const PostList: React.SFC<IPostList> = props => {
   const { postInfo, key } = props;
-
   return (
     <div className="tabs__content" key={key}>
       <div className="tabs__content__pane active" id="advertisement">
@@ -88,13 +86,12 @@ const PostList: React.SFC<IPostList> = props => {
             <h2>
               {postInfo.title}
               <span className="Batch Batch--yellow Batch--icon">
-                {postInfo.users ? postInfo.users.name : "User not found"}
+                {postInfo.user ? postInfo.user.name : "User not found"}
               </span>
             </h2>
             <span className="publisher">Description:</span>
             <span className="budget">{postInfo.description}</span>
           </div>
-          {console.log("postInfo._id", postInfo._id)}
           <Link
             to={interpolate(routes.BLOGS_INFO, {
               id: postInfo._id

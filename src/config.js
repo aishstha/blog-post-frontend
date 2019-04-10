@@ -3,7 +3,8 @@ const config = {
     endpoints: {
       profile: "/users",
       login: "/auth/login", //TODO Change this
-      posts: "/posts"
+      posts: "/posts",
+      comments: "/comments"
     }
   },
   baseURI: process.env.REACT_APP_API_BASE_URI,

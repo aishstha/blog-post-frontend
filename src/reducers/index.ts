@@ -6,6 +6,7 @@ import menuReducer from "./menu";
 import postReducer from "./posts";
 import profileReducer from "./profile";
 import loginReducer from "./login";
+import commentReducer from "./comment";
 
 const rootReducer = combineReducers({
   levelReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   menuReducer,
   postReducer,
   profileReducer,
-  loginReducer
+  loginReducer,
+  commentReducer
 });
 
 export default rootReducer;

@@ -23,10 +23,7 @@ export function getUserProfileValidationSchema() {
 
 export function createNewBlogSchema() {
   return Yup.object().shape({
-    title: Yup.string()
-      .trim()
-      .required("Please enter title of your post."),
-    description: Yup.string()
+    newComment: Yup.string()
       .trim()
       .required("Please enter description of your post.")
   });

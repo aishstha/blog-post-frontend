@@ -1,10 +1,9 @@
 export interface IPostDetails {
   title: string;
   description: string;
-  users: IUser;
+  user: IUser;
   _id: string;
-  name:string;
-  
+  name: string;
 }
 
 interface IUser {
@@ -22,4 +21,8 @@ export interface IProfileDetails {
 
 export interface IClientId {
   token: string;
+}
+
+export interface INewComment{
+  description:string;
 }

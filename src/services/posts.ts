@@ -47,3 +47,13 @@ export async function fetchPostById(id: string) {
 
   return response.data;
 }
+
+export async function updatePostById(data: any, id: string) {
+  const url = `${api.endpoints.posts + "/" + id}`;
+  const response = await http.put(url, data);
+  store.dispatch({
+    type: actionTypes.STORE_CURRENT_POSTS,
+    payload: response.data
+  });
+  return response;
+}
