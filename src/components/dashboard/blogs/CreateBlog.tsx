@@ -8,6 +8,7 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 import { Actions } from "../../../actions/posts";
 import { IPostDetails } from "../../../interface";
 import { createNewBlogSchema } from "../../../validation/validationSchema";
+import * as tokenService from "../../../services/token";
 
 import * as postService from "../../../services/posts";
 
@@ -22,6 +23,7 @@ import * as postService from "../../../services/posts";
 // }
 
 interface ICreateNewBlogFormProps {
+  userId: string;
   isPopUpOpen: boolean;
   popUpClass: string;
   togglePopUp: () => void;
@@ -80,6 +82,8 @@ class CreateBlog extends React.Component<{}, ICreateBlogState> {
 
   render() {
     const popUpClass = this.state.isPopUpOpen ? "Popup" : "Popup Popup--hidden";
+    const userId = tokenService.getUserId();
+
     return (
       <div className="container">
         <div className="block hidden-md">
@@ -99,6 +103,7 @@ class CreateBlog extends React.Component<{}, ICreateBlogState> {
               unmountOnExit={false}
             >
               <CreateNewBlogForm
+                userId={userId}
                 isPopUpOpen={this.state.isPopUpOpen}
                 popUpClass={popUpClass}
                 togglePopUp={this.togglePopUp}
@@ -113,7 +118,7 @@ class CreateBlog extends React.Component<{}, ICreateBlogState> {
 }
 
 const CreateNewBlogForm: React.SFC<ICreateNewBlogFormProps> = ({
-  isPopUpOpen,
+  userId,
   popUpClass,
   togglePopUp,
   handleSubmit
@@ -140,7 +145,7 @@ const CreateNewBlogForm: React.SFC<ICreateNewBlogFormProps> = ({
                 values: ICreateNewBlogValues,
                 { setSubmitting }: FormikActions<ICreateNewBlogValues>
               ) => {
-                handleSubmit(values, "5caa172dbaa74c1b611a96d3"); // TODO: Get id from global state
+                handleSubmit(values, userId); // TODO: Get id from global state
               }}
               render={props => (
                 <div className="form-section">

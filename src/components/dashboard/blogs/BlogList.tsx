@@ -5,6 +5,9 @@ import { Actions } from "../../../actions/posts";
 import { IPostDetails } from "../../../interface";
 
 import * as postService from "../../../services/posts";
+import { Link } from "react-router-dom";
+import * as routes from "../../../constants/routes";
+import { interpolate } from "../../../utils/string";
 
 interface IBlogListProps {
   postDetails: Array<IPostDetails>;
@@ -12,7 +15,6 @@ interface IBlogListProps {
 }
 
 interface IBlogListState {
-  localpostDetails: Array<IPostDetails>;
   isLoading: boolean;
 }
 
@@ -25,21 +27,12 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
   constructor(props: Readonly<IBlogListProps>) {
     super(props);
     this.state = {
-      localpostDetails: props.postDetails,
       isLoading: false
     };
   }
 
   componentDidMount() {
     this.fetchAllBlogPosts();
-  }
-
-  componentDidUpdate(prevProps: IBlogListProps) {
-    if (prevProps !== this.props) {
-      this.setState({
-        localpostDetails: this.props.postDetails
-      });
-    }
   }
 
   fetchAllBlogPosts = async () => {
@@ -52,7 +45,8 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
   };
 
   render() {
-    const { localpostDetails } = this.state;
+    // const { localpostDetails } = this.state;
+    const { postDetails } = this.props;
     return (
       <div>
         <div className="page">
@@ -68,8 +62,8 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
                       </a>
                     </li>
                   </ul>
-                  {localpostDetails.length > 0
-                    ? localpostDetails.map((post, index) => {
+                  {postDetails && postDetails.length > 0
+                    ? postDetails.map((post, index) => {
                         return <PostList postInfo={post} key={index} />;
                       })
                     : "no data found"}
@@ -85,7 +79,7 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
 
 const PostList: React.SFC<IPostList> = props => {
   const { postInfo, key } = props;
-  console.log(">>>>>>>>>>>>>>>>>>.", postInfo);
+
   return (
     <div className="tabs__content" key={key}>
       <div className="tabs__content__pane active" id="advertisement">
@@ -100,9 +94,14 @@ const PostList: React.SFC<IPostList> = props => {
             <span className="publisher">Description:</span>
             <span className="budget">{postInfo.description}</span>
           </div>
-          <div className="Block-product__btn">
-            <div className="btn btn--blue">DETAILS</div>
-          </div>
+          <Link
+            to={interpolate(routes.BLOGS_INFO, {
+              id: postInfo._id
+            })}
+            className="Block-product__btn btn btn--blue"
+          >
+            DETAILS
+          </Link>{" "}
         </div>
       </div>
     </div>
@@ -121,3 +120,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(BlogList);
+

@@ -21,7 +21,7 @@ export async function fetchAllPosts() {
  *
  * @return {Object}
  */
-export async function createNewPost(data) {
+export async function createNewPost(data: any) {
   const url = api.endpoints.posts;
 
   const response = await http.post(url, data);
@@ -29,4 +29,15 @@ export async function createNewPost(data) {
     type: actionTypes.STORE_POSTS,
     payload: response.data
   });
+}
+
+/**
+ * Fetch post by id.
+ *
+ * @return {Object}
+ */
+export async function fetchPostById(id: string) {
+  const url = `${api.endpoints.posts + "/" + id}`;
+
+  return await http.get(url);
 }

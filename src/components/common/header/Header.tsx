@@ -7,6 +7,7 @@ import { CSSTransition } from "react-transition-group";
 
 import { connect } from "react-redux";
 import { Actions } from "../../../actions";
+import * as tokenService from "../../../services/token";
 
 import * as routes from "../../../constants/routes";
 
@@ -21,6 +22,7 @@ interface IAppState {
 
 interface IMenuProps {
   status: boolean;
+  handleLogout: () => void;
 }
 
 class Header extends React.Component<IAppProps, IAppState> {
@@ -43,13 +45,17 @@ class Header extends React.Component<IAppProps, IAppState> {
     this.props.toggleMenu(this.state.localIsMenuOpen);
   };
 
+  handleLogout = () => {
+    tokenService.clear();
+    location.replace(routes.LOGIN);
+  };
+
   render() {
     return (
       <div className="Header">
         <div className="container">
           <div className="Header__row">
             <div className="Sp-menu">
-              {/* <a onClick={this.toggleHeader}> */}
               <a>
                 <i className="material-icons">menu</i>
               </a>
@@ -68,7 +74,10 @@ class Header extends React.Component<IAppProps, IAppState> {
                       <i className="material-icons">arrow_drop_down</i>
                     </span>
                   </div>
-                  <Menu status={this.state.localIsMenuOpen} />
+                  <Menu
+                    status={this.state.localIsMenuOpen}
+                    handleLogout={this.handleLogout}
+                  />
                 </li>
               </ul>
             </div>
@@ -79,9 +88,8 @@ class Header extends React.Component<IAppProps, IAppState> {
   }
 }
 
-const Menu: React.SFC<IMenuProps> = ({ status }) => {
+const Menu: React.SFC<IMenuProps> = ({ status, handleLogout }) => {
   const menuClass = status ? "Dropdown-menu show" : "Dropdown-menu";
-
   return (
     <CSSTransition
       in={status}
@@ -94,7 +102,9 @@ const Menu: React.SFC<IMenuProps> = ({ status }) => {
           <Link to={routes.PROFILE} className="Dropdown-menu__item">
             View Profile
           </Link>
-          <li className="Dropdown-menu__item">Log Out</li>
+          <div className="Dropdown-menu__item" onClick={handleLogout}>
+            Log Out
+          </div>
         </ul>
       </div>
     </CSSTransition>
@@ -113,3 +123,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Header);
+

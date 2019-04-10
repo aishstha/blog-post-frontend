@@ -1,23 +1,27 @@
 import actionTypes from "../constants";
+import * as tokenService from "../services/token";
 
 interface IActionProps {
-  type: string;
+  type: any;
   payload: any;
 }
+const userId = tokenService.getUserId();
 
 const initialState = {
-  postDetails: [],
-  currentPostDetails:{}
+  isAuthenticated: userId ? true : false
 };
 
 export default (state = initialState, action: IActionProps) => {
   const oldState = { ...state };
   switch (action.type) {
-    case actionTypes.STORE_POSTS:
-      return { postDetails: action.payload.data };
-    case actionTypes.STORE_CURRENT_POSTS:
-      return { currentPostDetails: action.payload.data };
+    case actionTypes.CHECK_LOGIN:
+      return {
+        isAuthenticated: action.payload
+      };
+
     default:
       return oldState;
   }
 };
+
+

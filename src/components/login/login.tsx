@@ -1,21 +1,26 @@
 import * as React from "react";
-import {  withRouter } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import { RouteComponentProps } from "react-router-dom";
 
 import config from "../../config";
 import { IClientId } from "../../interface";
 import { Redirect } from "react-router-dom";
-// import history from '../../utils/history';
+import { connect } from "react-redux";
+import { Actions } from "../../actions";
 
+import * as routes from "../../constants/routes";
 import * as tokenService from "../../services/token";
 import * as loginService from "../../services/login";
-import * as routes from "../../constants/routes";
 
 const { googleClientId } = config;
 
 interface ILoginState {
   isAuthenticated: boolean;
+}
+
+interface ILoginProps {
+  isAuthenticated: boolean;
+  checkUserAuthentication: (isAuthenticated: boolean) => void;
 }
 
 interface ILoginProps extends RouteComponentProps<{ path: string }> {}
@@ -24,8 +29,16 @@ class Login extends React.Component<ILoginProps, ILoginState> {
   constructor(props: Readonly<ILoginProps>) {
     super(props);
     this.state = {
-      isAuthenticated: false
+      isAuthenticated: props.isAuthenticated
     };
+  }
+
+  componentDidUpdate(prevProps: ILoginProps) {
+    if (prevProps !== this.props) {
+      this.setState({
+        isAuthenticated: this.props.isAuthenticated
+      });
+    }
   }
 
   successResponse = (response: any) => {
@@ -38,14 +51,10 @@ class Login extends React.Component<ILoginProps, ILoginState> {
     try {
       const response = await loginService.getTokens(data);
       if (response) {
-        console.log("response", response.data);
-        this.setState({ isAuthenticated: true });
-        console.log("isAuthenticated from if case", this.state.isAuthenticated);
-        tokenService.setLoginDetails(response.data.data);
-        this.props.history.push(routes.PROFILE);
-
-        // location.replace(routes.PROFILE);
-        // history.push(routes.PROFILE);
+        const result = tokenService.setLoginDetails(response.data.data);
+        if (result) {
+          this.props.checkUserAuthentication(true);
+        }
       }
     } catch (error) {
       throw error;
@@ -53,28 +62,16 @@ class Login extends React.Component<ILoginProps, ILoginState> {
   };
 
   failResponse = (response: any) => {
-    console.log("failResponse", response); // TODO: Eror handler
+    console.log("failResponse", response);
   };
 
   render() {
     const { isAuthenticated } = this.state;
-    // if (this.state.isAuthenticated) {
-    //   // location.replace(routes.PROFILE);
-    //   this.props.history.push(routes.PROFILE);
-    //   // return <Redirect to={routes.DASHBOARD} />;
-    // }
-
-    // if (this.state.isAuthenticated) {
-    //   return <Redirect to={routes.PROFILE} />;
-    // }
-    console.log("history.", this.props);
-    console.log("isAuthenticated from render", this.state.isAuthenticated);
 
     return (
       <div>
         {isAuthenticated ? (
-          // <Route {...this.props} />
-          <Redirect to={routes.PROFILE} />
+          <Redirect to={routes.DASHBOARD} />
         ) : (
           <div className="Login container-fluid d-flex align-items-center justify-content-center">
             <link
@@ -87,13 +84,12 @@ class Login extends React.Component<ILoginProps, ILoginState> {
                 <div className="Social_auth">
                   <GoogleLogin
                     clientId={googleClientId || ""}
-                    // buttonText="Login/Sign in with Google"
                     onSuccess={this.successResponse}
                     onFailure={this.failResponse}
                     cookiePolicy={"single_host_origin"}
                   >
                     <span className="Google__btn__icon" />
-                    Sign in with Google
+                    Sign up/Login in with Google
                   </GoogleLogin>
                 </div>
               </div>
@@ -104,4 +100,17 @@ class Login extends React.Component<ILoginProps, ILoginState> {
     );
   }
 }
-export default withRouter(Login);
+
+const mapStateToProps = ({ loginReducer }: any) => {
+  return { isAuthenticated: loginReducer.isAuthenticated };
+};
+
+const mapDispatchToProps = (dispatch: any) => ({
+  checkUserAuthentication: (isAuthenticated: any) =>
+    dispatch(Actions.checkUserAuthentication(isAuthenticated))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
