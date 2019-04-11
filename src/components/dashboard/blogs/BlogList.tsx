@@ -53,19 +53,25 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
             <div className="block">
               <div className="block__content">
                 <div className="tabs">
-                  <ul className="tabs__list">
-                    <li className="tabs__list__title tabs__list__title">
-                      <a href="#advertisement" role="tab" data-toggle="tab">
-                        Recent Blogs{" "}
-                        <span className="Batch Batch--blue Batch--no">20</span>
-                      </a>
-                    </li>
-                  </ul>
+                  {postDetails && postDetails.length > 0 ? (
+                    <ul className="tabs__list">
+                      <li className="tabs__list__title tabs__list__title">
+                        <a href="#advertisement" role="tab" data-toggle="tab">
+                          All Blogs{" "}
+                          <span className="Batch Batch--blue Batch--no">
+                            {postDetails.length}
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  ) : (
+                    ""
+                  )}
                   {postDetails && postDetails.length > 0
                     ? postDetails.map((post, index) => {
                         return <PostList postInfo={post} key={index} />;
                       })
-                    : "no data found"}
+                    : "No blogs found"}
                 </div>
               </div>
             </div>

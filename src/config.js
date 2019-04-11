@@ -2,10 +2,11 @@ const config = {
   api: {
     endpoints: {
       profile: "/users",
-      login: "/auth/login", //TODO Change this
+      login: "/auth/login", 
       posts: "/posts",
       comments: "/comments",
-      subComments:'/sub-comments'
+      subComments:'/sub-comments',
+      refreshToken:'/auth/refresh-token'
     }
   },
   baseURI: process.env.REACT_APP_API_BASE_URI,

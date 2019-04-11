@@ -15,6 +15,12 @@ export async function createNewComment(data: any, id: string) {
   return response;
 }
 
+export async function deletePostById(postId: string) {
+  const url = `${api.endpoints.posts + "/" + postId}`;
+  const response = await http.delete(url);
+  return response;
+}
+
 export async function deleteCommentById(commentId: string) {
   const url = `${api.endpoints.comments + "/" + commentId}`;
   const response = await http.delete(url);

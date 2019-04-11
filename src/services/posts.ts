@@ -57,3 +57,15 @@ export async function updatePostById(data: any, id: string) {
   });
   return response;
 }
+
+/**
+ * Fetch all posts.
+ *
+ * @return {Object}
+ */
+export async function fetchByQueryParams(searchKey: string) {
+  const url = `${api.endpoints.posts + "?searchKey=" + searchKey}`;
+
+  console.log("urlllllll",url);
+  return await http.get(url);
+}

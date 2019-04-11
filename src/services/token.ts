@@ -14,6 +14,7 @@ import {
  */
 
 export function setAccessToken(token: string) {
+  console.log("token",token)
   storage.set(ACCESS_TOKEN, token);
 }
 

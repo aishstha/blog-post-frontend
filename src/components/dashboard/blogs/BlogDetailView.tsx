@@ -18,6 +18,7 @@ import {
 } from "../../../validation/validationSchema";
 import AddSubComment from "./subComment/AddSubComment";
 import EditSubcomment from "./subComment/EditSubcomment";
+import * as routes from "../../../constants/routes";
 
 interface IBlogListState {
   localpostDetails: any;
@@ -158,6 +159,17 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     }
   };
 
+  onPostDelete = async (postId: string) => {
+    try {
+      await commentService.deletePostById(postId);
+      location.replace(routes.DASHBOARD);
+    } catch (error) {
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
   onCommentDelete = async (commentId: string) => {
     this.setState({
       isLoading: true
@@ -216,10 +228,25 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                         handleSubmit={this.handleSubmit}
                       />
                     ) : (
-                      <PostList
-                        postInfo={localpostDetails || ""}
-                        togglePostEditMode={this.togglePostEditMode}
-                      />
+                      <React.Fragment>
+                        <PostList
+                          postInfo={localpostDetails || ""}
+                          togglePostEditMode={this.togglePostEditMode}
+                        />
+                        <React.Fragment>
+                          {console.log("localpostDetails", localpostDetails)}
+                          <span
+                            className="delete-image"
+                            onClick={() =>
+                              this.onPostDelete(
+                                localpostDetails.id || localpostDetails._id
+                              )
+                            }
+                          >
+                            <i className="material-icons">delete</i>
+                          </span>
+                        </React.Fragment>
+                      </React.Fragment>
                     )
                   ) : (
                     ""
@@ -312,7 +339,6 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                           localpostDetails.users._id
                                         ) && (
                                           <React.Fragment>
-                                            {console.log(comment)}
                                             <span
                                               className="delete-image"
                                               onClick={() =>
@@ -496,7 +522,6 @@ const EditComment: React.SFC<ICommentEditProps> = ({
   toggleCommentEditMode,
   resetComment
 }) => {
-  console.log(toggleCommentEditMode);
   return (
     <React.Fragment>
       {/* {comment.description}{" "}
