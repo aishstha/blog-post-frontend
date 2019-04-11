@@ -5,5 +5,15 @@ export function getLoggedInUserId() {
   if (userId) {
     return userId;
   }
+  return "";
+}
+
+export function verifyUser(userId: string, postOwnerUserId: string) {
+  if(postOwnerUserId === getLoggedInUserId()){
+    return true
+  }
+  if (getLoggedInUserId() === userId) {
+    return true;
+  }
   return false;
 }

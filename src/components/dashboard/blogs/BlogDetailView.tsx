@@ -10,7 +10,7 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 import * as postService from "../../../services/posts";
 import * as commentService from "../../../services/comment";
 import SubCommentList from "./subComment/SubcommentList";
-import { getLoggedInUserId } from "../../../utils/verifyUser";
+import { getLoggedInUserId, verifyUser } from "../../../utils/verifyUser";
 
 import {
   createNewBlogSchema,
@@ -94,7 +94,10 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
 
   fetchPostById = async () => {
     try {
-      await postService.fetchPostById(this.props.match.params.id); //dispatched in service
+      const response = await postService.fetchPostById(
+        this.props.match.params.id
+      ); //dispatched in service
+      console.log("response", response);
     } catch (error) {
       throw error;
     }
@@ -290,33 +293,36 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                   ) : (
                                     <React.Fragment>
                                       <CommentList comment={comment} />
-                                      {console.log(getLoggedInUserId())}
-                                      {getLoggedInUserId() && (
-                                        <React.Fragment>
-                                          <span
-                                            className="delete-image"
-                                            onClick={() =>
-                                              this.onCommentDelete(comment._id)
-                                            }
-                                          >
-                                            <i className="material-icons">
-                                              delete
-                                            </i>
-                                          </span>
-                                          <span
-                                            className="delete-image"
-                                            onClick={() =>
-                                              this.toggleCommentEditMode(
-                                                comment._id
-                                              )
-                                            }
-                                          >
-                                            <i className="material-icons">
-                                              edit
-                                            </i>
-                                          </span>{" "}
-                                        </React.Fragment>
-                                      )}
+                                      {getLoggedInUserId() &&
+                                        verifyUser(comment.users._id, localpostDetails.users._id) && (
+                                          <React.Fragment>
+                                            {console.log(comment)}
+                                            <span
+                                              className="delete-image"
+                                              onClick={() =>
+                                                this.onCommentDelete(
+                                                  comment._id
+                                                )
+                                              }
+                                            >
+                                              <i className="material-icons">
+                                                delete
+                                              </i>
+                                            </span>
+                                            <span
+                                              className="delete-image"
+                                              onClick={() =>
+                                                this.toggleCommentEditMode(
+                                                  comment._id
+                                                )
+                                              }
+                                            >
+                                              <i className="material-icons">
+                                                edit
+                                              </i>
+                                            </span>{" "}
+                                          </React.Fragment>
+                                        )}
                                       {/* Subcomment Open */}
                                       {getLoggedInUserId() && (
                                         <AddSubComment
@@ -365,30 +371,34 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                                               }
                                                             />
                                                           )}
-                                                          {getLoggedInUserId() && (
-                                                            <React.Fragment>
-                                                              <span
-                                                                className="delete-image"
-                                                                // onClick={() => this.onCommentDelete(comment._id,subcommetnId)}
-                                                              >
-                                                                <i className="material-icons">
-                                                                  delete
-                                                                </i>
-                                                              </span>
-                                                              <span
-                                                                className="delete-image"
-                                                                onClick={() =>
-                                                                  this.setSubCommentEditMode(
-                                                                    subComment._id
-                                                                  )
-                                                                }
-                                                              >
-                                                                <i className="material-icons">
-                                                                  edit
-                                                                </i>
-                                                              </span>
-                                                            </React.Fragment>
-                                                          )}
+                                                          {getLoggedInUserId() &&
+                                                            verifyUser(
+                                                              subComment.users
+                                                                ._id, localpostDetails.users._id
+                                                            ) && (
+                                                              <React.Fragment>
+                                                                <span
+                                                                  className="delete-image"
+                                                                  // onClick={() => this.onCommentDelete(comment._id,subcommetnId)}
+                                                                >
+                                                                  <i className="material-icons">
+                                                                    delete
+                                                                  </i>
+                                                                </span>
+                                                                <span
+                                                                  className="delete-image"
+                                                                  onClick={() =>
+                                                                    this.setSubCommentEditMode(
+                                                                      subComment._id
+                                                                    )
+                                                                  }
+                                                                >
+                                                                  <i className="material-icons">
+                                                                    edit
+                                                                  </i>
+                                                                </span>
+                                                              </React.Fragment>
+                                                            )}
                                                         </div>
                                                       </div>
                                                     </div>
