@@ -4,7 +4,8 @@ const config = {
       profile: "/users",
       login: "/auth/login", //TODO Change this
       posts: "/posts",
-      comments: "/comments"
+      comments: "/comments",
+      subComments:'/sub-comments'
     }
   },
   baseURI: process.env.REACT_APP_API_BASE_URI,

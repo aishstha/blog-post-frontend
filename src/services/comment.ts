@@ -26,3 +26,13 @@ export async function editComment(commentId: string, data: any) {
   const response = await http.put(url, data);
   return response;
 }
+
+export async function createSubComment(data: any, commentId: string) {
+  const url = `${api.endpoints.comments +
+    "/" +
+    commentId +
+    api.endpoints.subComments}`;
+  const response = await http.put(url, data);
+
+  return response;
+}

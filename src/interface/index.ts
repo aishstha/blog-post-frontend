@@ -23,6 +23,16 @@ export interface IClientId {
   token: string;
 }
 
-export interface INewComment{
-  description:string;
+export interface INewComment {
+  description: string;
+}
+
+export interface ICommentDetails {
+  description: string;
+  users: IUser;
+  _id: string;
+}
+
+export interface ICreateNewCommentValues {
+  description: string;
 }

@@ -3,17 +3,19 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 
 import { Actions } from "../../../actions/posts";
-import { IPostDetails } from "../../../interface";
+import { IPostDetails, ICreateNewCommentValues } from "../../../interface";
 import { Formik, Form, FormikActions } from "formik";
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
 import * as postService from "../../../services/posts";
 import * as commentService from "../../../services/comment";
+import SubCommentList from "./subComment/SubcommentList";
 
 import {
   createNewBlogSchema,
   createNewCommenSchema
 } from "../../../validation/validationSchema";
+import AddSubComment from "./subComment/AddSubComment";
 
 interface IBlogListState {
   localpostDetails: any;
@@ -40,9 +42,9 @@ interface ICreateNewBlogValues {
   description: string;
 }
 
-interface ICreateNewCommentValues {
-  description: string;
-}
+// interface ICreateNewCommentValues {
+//   description: string;
+// }
 
 interface IBlogListProps extends RouteComponentProps<{ id: string }> {
   currentPostDetails: IPostDetails;
@@ -272,25 +274,53 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                       resetComment={this.resetComment}
                                     />
                                   ) : (
-                                    <CommentList comment={comment} />
+                                    <React.Fragment>
+                                      <CommentList comment={comment} />{" "}
+                                      <span
+                                        className="delete-image"
+                                        onClick={() =>
+                                          this.onCommentDelete(comment._id)
+                                        }
+                                      >
+                                        <i className="material-icons">delete</i>
+                                      </span>
+                                      <span
+                                        className="delete-image"
+                                        onClick={() =>
+                                          this.toggleCommentEditMode(
+                                            comment._id
+                                          )
+                                        }
+                                      >
+                                        <i className="material-icons">edit</i>
+                                      </span>
+                                      {/* Subcomment Open */}
+                                      <AddSubComment
+                                        fetchPostById={this.fetchPostById}
+                                        postId={this.props.match.params.id}
+                                        commentId={comment._id}
+                                      />
+                                      {/* Subcomment Close */}
+                                      {comment.sub_comments &&
+                                      comment.sub_comments.length > 0
+                                        ? comment.sub_comments.map(
+                                            (
+                                              subComment: any,
+                                              index2: number
+                                            ) => {
+                                              return (
+                                                <React.Fragment key={index2}>
+                                                  <SubCommentList
+                                                    comment={subComment}
+                                                  />
+                                                </React.Fragment>
+                                              );
+                                            }
+                                          )
+                                        : "No subcomments found"}
+                                      {/* // <EditSubComment /> */}
+                                    </React.Fragment>
                                   )}
-
-                                  <span
-                                    className="delete-image"
-                                    onClick={() =>
-                                      this.onCommentDelete(comment._id)
-                                    }
-                                  >
-                                    <i className="material-icons">delete</i>
-                                  </span>
-                                  <span
-                                    className="delete-image"
-                                    onClick={() =>
-                                      this.toggleCommentEditMode(comment._id)
-                                    }
-                                  >
-                                    <i className="material-icons">edit</i>
-                                  </span>
                                 </div>
                               );
                             }
@@ -308,6 +338,44 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     );
   }
 }
+
+// const EditSubComment: React.SFC<{}> = () => {
+//   return (
+//     <React.Fragment>
+//       <div className="tabs">
+//         <div className="tabs__content">
+//           <div className="tabs__content__pane active">
+//             <div className="Block-white Block-product">
+//               Sub scomment title
+//               <span className="Batch Batch--yellow Batch--icon">
+//                 name users{" "}
+//               </span>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </React.Fragment>
+//   );
+// };
+
+// const SubCommentList: React.SFC<{}> = () => {
+//   return (
+//     <React.Fragment>
+//       <div className="tabs">
+//         <div className="tabs__content">
+//           <div className="tabs__content__pane active">
+//             <div className="Block-white Block-product">
+//               Sub scomment title
+//               <span className="Batch Batch--yellow Batch--icon">
+//                 name users{" "}
+//               </span>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </React.Fragment>
+//   );
+// };
 
 const EditComment: React.SFC<ICommentEditProps> = ({
   comment,
@@ -332,7 +400,6 @@ const EditComment: React.SFC<ICommentEditProps> = ({
           values: ICreateNewBlogValues,
           { setSubmitting }: FormikActions<ICreateNewBlogValues>
         ) => {
-          console.log("comment>>>>>>>>>>>>>>>>>>>>>", comment);
           handleCommentEdit(comment._id, values);
         }}
         render={props => (
@@ -375,10 +442,12 @@ const EditComment: React.SFC<ICommentEditProps> = ({
 const CommentList: React.SFC<ICommentViewProps> = ({ comment }) => {
   return (
     <React.Fragment>
-      {comment.description}{" "}
-      <span className="Batch Batch--yellow Batch--icon">
-        {comment.users ? comment.users.name : "User not found"}
-      </span>
+      <div className="tabs__content__pane active">
+        {comment.description}{" "}
+        <span className="Batch Batch--yellow Batch--icon">
+          {comment.users ? comment.users.name : "User not found"}
+        </span>
+      </div>
     </React.Fragment>
   );
 };
