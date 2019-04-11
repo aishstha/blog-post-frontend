@@ -4,6 +4,7 @@ export interface IPostDetails {
   users: IUser;
   _id: string;
   name: string;
+  id:string;
 }
 
 interface IUser {

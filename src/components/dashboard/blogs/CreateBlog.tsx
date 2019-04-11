@@ -91,20 +91,22 @@ class CreateBlog extends React.Component<IBlogListProps, ICreateBlogState> {
                 <i className="material-icons">add</i> Create New Blog
               </div>
             </div>
-            <CSSTransition
-              in={this.state.isPopUpOpen}
-              timeout={300}
-              classNames="popup"
-              unmountOnExit={false}
-            >
-              <CreateNewBlogForm
-                userId={userId}
-                isPopUpOpen={this.state.isPopUpOpen}
-                popUpClass={popUpClass}
-                togglePopUp={this.togglePopUp}
-                handleSubmit={this.handleSubmit}
-              />
-            </CSSTransition>
+            {this.state.isPopUpOpen && (
+              <CSSTransition
+                in={this.state.isPopUpOpen}
+                timeout={300}
+                classNames="popup"
+                unmountOnExit={false}
+              >
+                <CreateNewBlogForm
+                  userId={userId}
+                  isPopUpOpen={this.state.isPopUpOpen}
+                  popUpClass={popUpClass}
+                  togglePopUp={this.togglePopUp}
+                  handleSubmit={this.handleSubmit}
+                />
+              </CSSTransition>
+            )}
           </div>
         </div>
       </div>
@@ -194,6 +196,7 @@ const CreateNewBlogForm: React.SFC<ICreateNewBlogFormProps> = ({
     </div>
   );
 };
+
 const mapStateToProps = ({ postReducer }: any) => {
   return { postDetails: postReducer.postDetails };
 };

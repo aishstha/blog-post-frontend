@@ -102,7 +102,7 @@ const PostList: React.SFC<IPostList> = props => {
             to={interpolate(routes.BLOGS_INFO, {
               id: postInfo._id
             })}
-            className="Block-product__btn btn btn--blue"
+            className="btn btn--blue"
           >
             DETAILS
           </Link>{" "}

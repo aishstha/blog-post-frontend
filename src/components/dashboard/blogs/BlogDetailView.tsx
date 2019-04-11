@@ -1,9 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
 
 import { Actions } from "../../../actions/posts";
-import { IPostDetails, ICreateNewCommentValues } from "../../../interface";
 import { Formik, Form, FormikActions } from "formik";
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
@@ -20,51 +18,16 @@ import AddSubComment from "./subComment/AddSubComment";
 import EditSubcomment from "./subComment/EditSubcomment";
 import * as routes from "../../../constants/routes";
 
-interface IBlogListState {
-  localpostDetails: any;
-  isLoading: boolean;
-  isPostEditMode: boolean;
-  isCommentEditMode: boolean;
-  selectedComment: string;
-  selectedSubCommentId: string;
-}
-
-interface IPostList {
-  postInfo: IPostDetails;
-  togglePostEditMode: () => void;
-}
-
-interface IBlogPostEditFormProps {
-  postInfo: IPostDetails;
-  togglePostEditMode: () => void;
-  handleSubmit: (value: ICreateNewBlogValues, id: string, isValid: any) => void;
-  postId: string;
-}
-
-interface ICreateNewBlogValues {
-  title: string;
-  description: string;
-}
-
-// interface ICreateNewCommentValues {
-//   description: string;
-// }
-
-interface IBlogListProps extends RouteComponentProps<{ id: string }> {
-  currentPostDetails: IPostDetails;
-  saveCurrentPost: (postDetails: IPostDetails) => void;
-}
-
-interface ICommentViewProps {
-  comment: any; //TODO CHANGE
-}
-
-interface ICommentEditProps {
-  comment: any; //TODO CHANGE
-  handleCommentEdit: (id: string, values: any) => void;
-  toggleCommentEditMode: (id: string) => void;
-  resetComment: () => void;
-}
+import {
+  IBlogListProps,
+  IBlogListState,
+  ICommentEditProps,
+  ICreateNewBlogValues,
+  ICommentViewProps,
+  IBlogPostEditFormProps,
+  IPostList
+} from "../../../interface/commentInterface";
+import { IPostDetails, ICreateNewCommentValues } from "../../../interface";
 
 class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   constructor(props: Readonly<IBlogListProps>) {
@@ -128,12 +91,14 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     });
   };
 
-  handleSubmit = async (values: any, id: string, isValid: any) => {
+  handleEditPost = async (values: any, id: string, isValid: any) => {
     this.setState({
       isLoading: true
     });
     try {
       await postService.updatePostById(values, id);
+      this.fetchPostById();
+
       this.setState({
         isLoading: false,
         isPostEditMode: false
@@ -225,27 +190,16 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                         postId={this.props.match.params.id}
                         postInfo={localpostDetails}
                         togglePostEditMode={this.togglePostEditMode}
-                        handleSubmit={this.handleSubmit}
+                        handleSubmit={this.handleEditPost}
                       />
                     ) : (
                       <React.Fragment>
                         <PostList
                           postInfo={localpostDetails || ""}
                           togglePostEditMode={this.togglePostEditMode}
+                          onPostDelete={this.onPostDelete}
                         />
-                        <React.Fragment>
-                          {console.log("localpostDetails", localpostDetails)}
-                          <span
-                            className="delete-image"
-                            onClick={() =>
-                              this.onPostDelete(
-                                localpostDetails.id || localpostDetails._id
-                              )
-                            }
-                          >
-                            <i className="material-icons">delete</i>
-                          </span>
-                        </React.Fragment>
+                        <React.Fragment />
                       </React.Fragment>
                     )
                   ) : (
@@ -267,9 +221,11 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                               onSubmit={async (
                                 values: ICreateNewCommentValues,
                                 {
-                                  setSubmitting
+                                  setSubmitting,
+                                  resetForm
                                 }: FormikActions<ICreateNewCommentValues>
                               ) => {
+                                resetForm({ description: "" });
                                 this.handleAddNewComment(
                                   values,
                                   localpostDetails.id
@@ -301,7 +257,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                       type="submit"
                                       className="btn btn--blue btn--lg"
                                     >
-                                      Submit
+                                      Comment
                                     </button>
                                   </Form>
                                 </div>
@@ -309,7 +265,11 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                             />
                           </div>
                         )}
-                        <h2>Comment List</h2>
+
+                        {localpostDetails.comments &&
+                          localpostDetails.comments.length > 0 && (
+                            <h2>Comment List</h2>
+                          )}
 
                         {localpostDetails.comments &&
                           localpostDetails.comments.length > 0 &&
@@ -456,7 +416,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                               );
                                             }
                                           )
-                                        : "No subcomments found"}
+                                        : ""}
                                       {/* // <EditSubComment /> */}
                                     </React.Fragment>
                                   )}
@@ -478,44 +438,6 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   }
 }
 
-// const EditSubComment: React.SFC<{}> = () => {
-//   return (
-//     <React.Fragment>
-//       <div className="tabs">
-//         <div className="tabs__content">
-//           <div className="tabs__content__pane active">
-//             <div className="Block-white Block-product">
-//               Sub scomment title
-//               <span className="Batch Batch--yellow Batch--icon">
-//                 name users{" "}
-//               </span>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </React.Fragment>
-//   );
-// };
-
-// const SubCommentList: React.SFC<{}> = () => {
-//   return (
-//     <React.Fragment>
-//       <div className="tabs">
-//         <div className="tabs__content">
-//           <div className="tabs__content__pane active">
-//             <div className="Block-white Block-product">
-//               Sub scomment title
-//               <span className="Batch Batch--yellow Batch--icon">
-//                 name users{" "}
-//               </span>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </React.Fragment>
-//   );
-// };
-
 const EditComment: React.SFC<ICommentEditProps> = ({
   comment,
   handleCommentEdit,
@@ -524,11 +446,6 @@ const EditComment: React.SFC<ICommentEditProps> = ({
 }) => {
   return (
     <React.Fragment>
-      {/* {comment.description}{" "}
-      <span className="Batch Batch--yellow Batch--icon">
-        {comment.users ? comment.users.name : "User not found"}
-      </span> */}
-
       <Formik
         initialValues={{
           description: comment.description
@@ -563,11 +480,7 @@ const EditComment: React.SFC<ICommentEditProps> = ({
             <button type="submit" className="btn btn--blue btn--lg">
               UPDATE
             </button>
-            <button
-              className="btn btn--blue btn--lg"
-              onClick={resetComment}
-              // onClick={toggleCommentEditMode(comment._id)} TODO
-            >
+            <button className="btn btn--blue btn--lg" onClick={resetComment}>
               CANCEL
             </button>
           </Form>
@@ -658,7 +571,7 @@ const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
                     className="btn btn--blue btn--lg"
                     onClick={togglePostEditMode}
                   >
-                    CANCLE
+                    CANCEL
                   </button>
                 </Form>
               )}
@@ -671,7 +584,7 @@ const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
 };
 
 const PostList: React.SFC<IPostList> = props => {
-  const { postInfo, togglePostEditMode } = props;
+  const { postInfo, togglePostEditMode, onPostDelete } = props;
   return (
     <div className="tabs__content">
       <div className="tabs__content__pane active" id="advertisement">
@@ -686,11 +599,19 @@ const PostList: React.SFC<IPostList> = props => {
             <span className="publisher">Description:</span>
             <span className="budget">{postInfo.description}</span>
           </div>
-          <div className="Block-product__btn">
-            <div className="btn btn--blue" onClick={togglePostEditMode}>
-              EDIT
+          {getLoggedInUserId() && (
+            <div className="Block-product__btn">
+              <div className="btn btn--blue" onClick={togglePostEditMode}>
+                EDIT
+              </div>
+              <span
+                className="delete-image"
+                onClick={() => onPostDelete(postInfo.id || postInfo._id)}
+              >
+                <i className="material-icons">delete</i>
+              </span>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -54,8 +54,10 @@ class AddSubComment extends React.Component<
           }}
           onSubmit={async (
             values: ICreateNewCommentValues,
-            { setSubmitting }: FormikActions<ICreateNewCommentValues>
+            { setSubmitting, resetForm }: FormikActions<ICreateNewCommentValues>
           ) => {
+            resetForm({ description: "" });
+
             this.handleAddNewComment(
               values,
               this.state.postId,
@@ -72,7 +74,7 @@ class AddSubComment extends React.Component<
                     type="text"
                     id="description"
                     value={props.values.description || ""}
-                    label="Add sub comment"
+                    label="Reply"
                     placeholder="New comment here"
                     handleChange={props.handleChange}
                     handleBlur={props.handleBlur}
@@ -85,7 +87,7 @@ class AddSubComment extends React.Component<
                 </div>
 
                 <button type="submit" className="btn btn--blue btn--lg">
-                  Submit
+                  Reply
                 </button>
               </Form>
             </div>
