@@ -7,22 +7,13 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
 import { Actions } from "../../../actions/posts";
 import { IPostDetails } from "../../../interface";
-// import { createNewBlogSchemaCHANGETHIS } from "../../../validation/validationSchema";
-import * as tokenService from "../../../services/token";
 
+import * as tokenService from "../../../services/token";
 import * as postService from "../../../services/posts";
 
-// interface ICreateBlogProps {
-//   // postDetails: Array<IPostDetails>;
-//   // savePost: (postDetails: Array<IPostDetails>) => void;
-// }
-
-// interface ICreateBlogProps {
-//   profileDetails:  Array<IPostDetails>;
-//   saveProfile: (profileDetails:  Array<IPostDetails>) => void;
-// }
-
-// TOD: Returingin only one objects instead of all object so showng no post found
+interface IBlogListProps {
+  savePost: (postDetails: Array<IPostDetails>) => void;
+}
 interface ICreateNewBlogFormProps {
   userId: string;
   isPopUpOpen: boolean;
@@ -42,8 +33,8 @@ interface ICreateNewBlogValues {
   description: string;
 }
 
-class CreateBlog extends React.Component<{}, ICreateBlogState> {
-  constructor(props: Readonly<{}>) {
+class CreateBlog extends React.Component<IBlogListProps, ICreateBlogState> {
+  constructor(props: Readonly<IBlogListProps>) {
     super(props);
     this.state = {
       localnewPostDetails: {},
@@ -70,7 +61,9 @@ class CreateBlog extends React.Component<{}, ICreateBlogState> {
     };
     try {
       await postService.createNewPost(data);
-      // TODO: Call fetchAllBlogPosts from bloglist
+
+      const posts = await postService.fetchAllPosts();
+      this.props.savePost(posts.data);
       this.setState({
         isLoading: false
       });
@@ -142,12 +135,11 @@ const CreateNewBlogForm: React.SFC<ICreateNewBlogFormProps> = ({
                 title: "",
                 description: ""
               }}
-              // validationSchema={createNewBlogSchemaCHANGETHIS}
               onSubmit={async (
                 values: ICreateNewBlogValues,
                 { setSubmitting }: FormikActions<ICreateNewBlogValues>
               ) => {
-                handleSubmit(values, userId); // TODO: Get id from global state
+                handleSubmit(values, userId);
               }}
               render={props => (
                 <div className="form-section">

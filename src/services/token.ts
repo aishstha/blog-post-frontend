@@ -3,7 +3,9 @@ import * as storage from "../utils/storage";
 import {
   ACCESS_TOKEN,
   LOGIN_DATA,
-  REFRESH_TOKEN
+  REFRESH_TOKEN,
+  PROFIE_PICTURE,
+  USER_NAME
 } from "../constants/appConstant";
 
 //const { ACCESS_TOKEN, LOGIN_DATA } = CONSTANTS;
@@ -14,7 +16,6 @@ import {
  */
 
 export function setAccessToken(token: string) {
-  console.log("token",token)
   storage.set(ACCESS_TOKEN, token);
 }
 
@@ -28,11 +29,44 @@ export function setRefreshToken(token: string) {
 }
 
 /**
+ * Set access token
+ * @param {string} token
+ */
+
+export function setProfilePicture(image: string) {
+  storage.set(PROFIE_PICTURE, image);
+}
+
+/**
  * @return {string}
  */
 
 export function getAccessToken() {
   return storage.get(ACCESS_TOKEN);
+}
+
+/**
+ * @return {string}
+ */
+
+export function setUserName(userName: string) {
+  return storage.set(USER_NAME, userName);
+}
+
+/**
+ * @return {string}
+ */
+
+export function getUserName() {
+  return storage.get(USER_NAME);
+}
+
+/**
+ * @return {string}
+ */
+
+export function getProfilePicture() {
+  return storage.get(PROFIE_PICTURE);
 }
 
 /**
@@ -50,11 +84,12 @@ export function clear() {
 
 export async function setLoginDetails(data: any) {
   try {
-    const accessToken = data.accessToken;
-    const refreshToken = data.refreshToken;
+    const { accessToken, refreshToken, image, name } = data;
     await storage.set(LOGIN_DATA, data);
     await setAccessToken(accessToken);
     await setRefreshToken(refreshToken);
+    await setProfilePicture(image);
+    await setUserName(name);
 
     return "done";
   } catch (error) {

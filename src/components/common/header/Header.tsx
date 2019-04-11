@@ -52,6 +52,9 @@ class Header extends React.Component<IAppProps, IAppState> {
   };
 
   render() {
+    const userName = tokenService.getUserName();
+    const profilePicture = tokenService.getProfilePicture();
+
     return (
       <div className="Header">
         <div className="container">
@@ -71,8 +74,10 @@ class Header extends React.Component<IAppProps, IAppState> {
                 <ul className="Nav NavRight">
                   <li className="NavRight__user-profile dropdown">
                     <div className="Nav-link" onClick={this.onClickButton}>
-                      <span className="profile-img" />
-                      <span className="profile-name" />{" "}
+                      <span className="profile-img">
+                        <img src={profilePicture} alt="user-image" />
+                      </span>
+                      <span className="profile-name">{userName}</span>
                       <span className="arrow">
                         <i className="material-icons">arrow_drop_down</i>
                       </span>
@@ -87,7 +92,10 @@ class Header extends React.Component<IAppProps, IAppState> {
             ) : (
               <div className="Header__menu right">
                 <ul className="Nav NavRight">
-                  <Link to={routes.LOGIN} className="btn btn--blue--outline--active">
+                  <Link
+                    to={routes.LOGIN}
+                    className="btn btn--blue--outline--active"
+                  >
                     Login/Sign up
                   </Link>
                 </ul>

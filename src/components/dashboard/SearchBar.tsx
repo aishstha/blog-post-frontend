@@ -54,7 +54,7 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
 
   onSearch = async () => {
     // e.preventdefault();
-
+    console.log("im here");
     const posts = await postService.fetchByQueryParams(this.state.searchString);
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>", posts);
   };
@@ -76,7 +76,7 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
                     />
                   </label>
 
-                  <div onClick={e => this.onSearch}>Send</div>
+                  <div onClick={() => this.onSearch()}>Send</div>
                 </form>
               </div>
             </div>
