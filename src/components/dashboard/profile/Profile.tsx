@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Formik, Form, FormikActions } from "formik";
+import { Formik, Form, FormikActions, Field } from "formik";
+// import base64Img from "base64-img";
 
 import Spinner from "../../common/Spinner";
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
@@ -8,12 +9,13 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 import { notify } from "../../../utils/notification";
 import { Actions } from "../../../actions/profile";
 import { IProfileDetails } from "../../../interface";
-import { getUserProfileValidationSchema } from "../../../validation/validationSchema";
+// import { getUserProfileValidationSchema } from "../../../validation/validationSchema";
 import { messageStatus } from "../../../constants/messageStatus";
 import { defaultMessage } from "../../../constants/applicationMessage";
 
 import * as tokenService from "../../../services/token";
 import * as profileService from "../../../services/profile";
+import { coke } from "../../../assests/images";
 
 interface IOverviewProps {
   profileDetails: IProfileDetails;
@@ -30,6 +32,7 @@ interface IValues {
   email: string;
   phoneNumber: string;
   address: string;
+  image: string;
 }
 
 interface IProfileFormProps {
@@ -74,6 +77,10 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
       isLoading: true
     });
     try {
+      console.log("values", values);
+      const imagePath = values.image;
+      // const image = base64Img.base64Sync(imagePath);
+      console.log("image", imagePath);
       await profileService.updateUser(values, id);
       this.setState({
         isLoading: false
@@ -118,9 +125,10 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
           name: profileInfo.name,
           email: profileInfo.email,
           phoneNumber: profileInfo.phoneNumber,
-          address: profileInfo.address
+          address: profileInfo.address,
+          image: ""
         }}
-        validationSchema={getUserProfileValidationSchema}
+        // validationSchema={getUserProfileValidationSchema}
         onSubmit={async (
           values: IValues,
           { setSubmitting }: FormikActions<IValues>
@@ -131,8 +139,40 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
           <div className="container">
             <div className="form-section">
               <Form>
-                <h3>Profile Information</h3>
-
+                <div className="form-group">
+                  <div className="col">
+                    <div className="File">
+                      <div className="File__upload flex-column d-flex justify-content-center align-items-center">
+                        <div className="upload-image">
+                          <img
+                            src={coke}
+                            alt="Advertisement Preview"
+                            className="default-image"
+                          />
+                          <span
+                            className="delete-image"
+                            // onClick={this.onDeleteIconClicked}
+                          >
+                            <i className="material-icons">delete</i>
+                          </span>
+                          {/* <span className="default-text">Drag photos here</span> */}
+                        </div>
+                        <Field
+                          className="form-group__control"
+                          name="image"
+                          type="file"
+                          id="image"
+                          accept="image/*"
+                          value={props.values.image || ""}
+                          label="Image Upload"
+                          placeholder="Image upload"
+                          onChange={props.handleChange}
+                          onBlur={props.handleBlur}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="form-group">
                   <TextFieldWrapper
                     inputTypeClassName="form-group__control"

@@ -17,6 +17,7 @@ export interface IProfileDetails {
   email: string;
   phoneNumber: string;
   address: string;
+  image:string;
 }
 
 export interface IClientId {
