@@ -1,41 +1,43 @@
 import * as React from "react";
 import { connect } from "react-redux";
-
-import { Actions } from "../../../actions/posts";
 import { Formik, Form, FormikActions } from "formik";
+import { RouteComponentProps } from "react-router-dom";
+
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
+import { Actions } from "../../../actions/posts";
+import { getLoggedInUserId } from "../../../utils/verifyUser";
+import { createNewBlogSchema } from "../../../validation/validationSchema";
+
+import * as routes from "../../../constants/routes";
 import * as postService from "../../../services/posts";
 import * as commentService from "../../../services/comment";
-import SubCommentList from "./subComment/SubcommentList";
-import { getLoggedInUserId, verifyUser } from "../../../utils/verifyUser";
 
 import {
-  createNewBlogSchema,
-  createNewCommenSchema
-} from "../../../validation/validationSchema";
-import AddSubComment from "./subComment/AddSubComment";
-import EditSubcomment from "./subComment/EditSubcomment";
-import * as routes from "../../../constants/routes";
-
-import {
-  IBlogListProps,
-  IBlogListState,
-  ICommentEditProps,
   ICreateNewBlogValues,
-  ICommentViewProps,
   IBlogPostEditFormProps,
   IPostList
 } from "../../../interface/commentInterface";
-import { IPostDetails, ICreateNewCommentValues } from "../../../interface";
+import { IPostDetails } from "../../../interface";
+import Comment from "./comment/Comment";
+
+interface IBlogListState {
+  isLoading: boolean;
+  isPostEditMode: boolean;
+  isCommentEditMode: boolean;
+  selectedComment: string;
+  selectedSubCommentId: string;
+}
+
+interface IBlogListProps extends RouteComponentProps<{ id: string }> {
+  currentPostDetails: IPostDetails;
+  saveCurrentPost: (postDetails: IPostDetails) => void;
+}
 
 class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   constructor(props: Readonly<IBlogListProps>) {
     super(props);
     this.state = {
-      localpostDetails: props.currentPostDetails
-        ? props.currentPostDetails
-        : "",
       selectedComment: "",
       isLoading: false,
       isPostEditMode: false,
@@ -48,20 +50,9 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     this.fetchPostById();
   }
 
-  componentDidUpdate(prevProps: IBlogListProps) {
-    if (prevProps !== this.props) {
-      this.setState({
-        localpostDetails: this.props.currentPostDetails
-      });
-    }
-  }
-
   fetchPostById = async () => {
     try {
-      const response = await postService.fetchPostById(
-        this.props.match.params.id
-      ); //dispatched in service
-      console.log("response", response);
+      await postService.fetchPostById(this.props.match.params.id); // Dispatched inside
     } catch (error) {
       throw error;
     }
@@ -69,26 +60,6 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
 
   togglePostEditMode = () => {
     this.setState({ isPostEditMode: !this.state.isPostEditMode });
-  };
-
-  toggleCommentEditMode = (id: string) => {
-    this.setState({
-      isCommentEditMode: !this.state.isCommentEditMode,
-      selectedComment: id
-    });
-  };
-
-  setSubCommentEditMode = (subCommentId: string) => {
-    this.setState({
-      selectedSubCommentId: subCommentId
-    });
-  };
-
-  resetComment = () => {
-    this.setState({
-      isCommentEditMode: false,
-      selectedComment: ""
-    });
   };
 
   handleEditPost = async (values: any, id: string, isValid: any) => {
@@ -110,20 +81,6 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     }
   };
 
-  handleAddNewComment = async (values: any, id: string) => {
-    this.setState({
-      isLoading: true
-    });
-    try {
-      await commentService.createNewComment(values, id);
-      this.fetchPostById();
-    } catch (error) {
-      this.setState({
-        isLoading: false
-      });
-    }
-  };
-
   onPostDelete = async (postId: string) => {
     try {
       await commentService.deletePostById(postId);
@@ -135,301 +92,42 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     }
   };
 
-  onCommentDelete = async (commentId: string) => {
-    this.setState({
-      isLoading: true
-    });
-    try {
-      await commentService.deleteCommentById(commentId);
-      this.fetchPostById();
-    } catch (error) {
-      this.setState({
-        isLoading: false
-      });
-    }
-  };
-
-  onSubCommentDelete = async (commentId: string, subCommentId: string) => {
-    this.setState({
-      isLoading: true
-    });
-    try {
-      await commentService.deleteSubCommentById(commentId, subCommentId);
-      this.fetchPostById();
-    } catch (error) {
-      this.setState({
-        isLoading: false
-      });
-    }
-  };
-
-  handleCommentEdit = async (commentId: string, data: any) => {
-    try {
-      await commentService.editComment(commentId, data);
-      this.fetchPostById();
-      this.setState({ isCommentEditMode: false, selectedComment: "" });
-    } catch (error) {
-      this.setState({
-        isCommentEditMode: false
-      });
-    }
-  };
-
   render() {
-    const { localpostDetails, isPostEditMode } = this.state;
+    const { isPostEditMode } = this.state;
+    const { currentPostDetails } = this.props;
+    
     return (
-      <div>
-        <div className="page">
-          <div className="container">
-            <div className="block">
-              <div className="block__content">
-                <div className="tabs">
-                  {localpostDetails ? (
-                    isPostEditMode ? (
-                      <PostEdit
-                        postId={this.props.match.params.id}
-                        postInfo={localpostDetails}
-                        togglePostEditMode={this.togglePostEditMode}
-                        handleSubmit={this.handleEditPost}
-                      />
-                    ) : (
-                      <React.Fragment>
-                        <PostList
-                          postInfo={localpostDetails || ""}
-                          togglePostEditMode={this.togglePostEditMode}
-                          onPostDelete={this.onPostDelete}
-                        />
-                        <React.Fragment />
-                      </React.Fragment>
-                    )
+      <div className="page">
+        <div className="container">
+          <div className="block">
+            <div className="block__content">
+              <div className="tabs">
+                {currentPostDetails ? (
+                  isPostEditMode ? (
+                    <PostEdit
+                      postId={this.props.match.params.id}
+                      postInfo={currentPostDetails}
+                      togglePostEditMode={this.togglePostEditMode}
+                      handleSubmit={this.handleEditPost}
+                    />
                   ) : (
-                    ""
-                  )}
-                </div>
-                {/* COMMENT SECTION OPEN */}
-                <div className="block">
-                  <div className="block__content" />
-                  <div className="tabs">
-                    <div className="tabs__content">
-                      <div className="tabs__content__pane active">
-                        {getLoggedInUserId() && (
-                          <div className="Block-white Block-product">
-                            <Formik
-                              initialValues={{
-                                description: ""
-                              }}
-                              onSubmit={async (
-                                values: ICreateNewCommentValues,
-                                {
-                                  setSubmitting,
-                                  resetForm
-                                }: FormikActions<ICreateNewCommentValues>
-                              ) => {
-                                resetForm({ description: "" });
-                                this.handleAddNewComment(
-                                  values,
-                                  localpostDetails.id
-                                );
-                              }}
-                              render={props => (
-                                <div className="form-section">
-                                  <Form>
-                                    <div className="form-group">
-                                      <TextFieldWrapper
-                                        inputTypeClassName="form-group__control"
-                                        name="description"
-                                        type="text"
-                                        id="description"
-                                        value={props.values.description || ""}
-                                        label="Add new Comment"
-                                        placeholder="New comment here"
-                                        handleChange={props.handleChange}
-                                        handleBlur={props.handleBlur}
-                                      />
-                                      {props.errors.description && (
-                                        <div className="form-group__error">
-                                          {props.errors.description}
-                                        </div>
-                                      )}
-                                    </div>
-
-                                    <button
-                                      type="submit"
-                                      className="btn btn--blue btn--lg"
-                                    >
-                                      Comment
-                                    </button>
-                                  </Form>
-                                </div>
-                              )}
-                            />
-                          </div>
-                        )}
-
-                        {localpostDetails.comments &&
-                          localpostDetails.comments.length > 0 && (
-                            <h2>Comment List</h2>
-                          )}
-
-                        {localpostDetails.comments &&
-                          localpostDetails.comments.length > 0 &&
-                          localpostDetails.comments.map(
-                            (comment: any, index: number) => {
-                              return (
-                                <div
-                                  className="Block-white Block-product"
-                                  key={index}
-                                >
-                                  {this.state.selectedComment ===
-                                  comment._id ? (
-                                    <EditComment
-                                      comment={comment}
-                                      handleCommentEdit={this.handleCommentEdit}
-                                      toggleCommentEditMode={
-                                        this.toggleCommentEditMode
-                                      }
-                                      resetComment={this.resetComment}
-                                    />
-                                  ) : (
-                                    <React.Fragment>
-                                      <CommentList comment={comment} />
-                                      {getLoggedInUserId() &&
-                                        verifyUser(
-                                          comment.users._id,
-                                          localpostDetails.users._id
-                                        ) && (
-                                          <React.Fragment>
-                                            <span
-                                              className="delete-image"
-                                              onClick={() =>
-                                                this.onCommentDelete(
-                                                  comment._id
-                                                )
-                                              }
-                                            >
-                                              <i className="material-icons">
-                                                delete
-                                              </i>
-                                            </span>
-                                            <span
-                                              className="delete-image"
-                                              onClick={() =>
-                                                this.toggleCommentEditMode(
-                                                  comment._id
-                                                )
-                                              }
-                                            >
-                                              <i className="material-icons">
-                                                edit
-                                              </i>
-                                            </span>{" "}
-                                          </React.Fragment>
-                                        )}
-                                      {/* Subcomment Open */}
-                                      {getLoggedInUserId() && (
-                                        <AddSubComment
-                                          fetchPostById={this.fetchPostById}
-                                          postId={this.props.match.params.id}
-                                          commentId={comment._id}
-                                        />
-                                      )}
-                                      {/* Subcomment Close */}
-                                      {comment.sub_comments &&
-                                      comment.sub_comments.length > 0
-                                        ? comment.sub_comments.map(
-                                            (
-                                              subComment: any,
-                                              index2: number
-                                            ) => {
-                                              return (
-                                                <React.Fragment key={index2}>
-                                                  <div className="tabs">
-                                                    <div className="tabs__content">
-                                                      <div className="tabs__content__pane active">
-                                                        <div className="Block-white Block-product">
-                                                          {this.state
-                                                            .selectedSubCommentId ===
-                                                          subComment._id ? (
-                                                            <EditSubcomment
-                                                              subComment={
-                                                                subComment
-                                                              }
-                                                              setSubCommentEditMode={
-                                                                this
-                                                                  .setSubCommentEditMode
-                                                              }
-                                                              commentId={
-                                                                comment._id
-                                                              }
-                                                              fetchPostById={
-                                                                this
-                                                                  .fetchPostById
-                                                              }
-                                                            />
-                                                          ) : (
-                                                            <SubCommentList
-                                                              comment={
-                                                                subComment
-                                                              }
-                                                            />
-                                                          )}
-                                                          {getLoggedInUserId() &&
-                                                            verifyUser(
-                                                              subComment.users
-                                                                ._id,
-                                                              localpostDetails
-                                                                .users._id
-                                                            ) && (
-                                                              <React.Fragment>
-                                                                <span
-                                                                  className="delete-image"
-                                                                  onClick={() =>
-                                                                    this.onSubCommentDelete(
-                                                                      comment._id,
-                                                                      subComment._id
-                                                                    )
-                                                                  }
-                                                                >
-                                                                  <i className="material-icons">
-                                                                    delete
-                                                                  </i>
-                                                                </span>
-                                                                <span
-                                                                  className="delete-image"
-                                                                  onClick={() =>
-                                                                    this.setSubCommentEditMode(
-                                                                      subComment._id
-                                                                    )
-                                                                  }
-                                                                >
-                                                                  <i className="material-icons">
-                                                                    edit
-                                                                  </i>
-                                                                </span>
-                                                              </React.Fragment>
-                                                            )}
-                                                        </div>
-                                                      </div>
-                                                    </div>
-                                                  </div>
-                                                </React.Fragment>
-                                              );
-                                            }
-                                          )
-                                        : ""}
-                                      {/* // <EditSubComment /> */}
-                                    </React.Fragment>
-                                  )}
-                                </div>
-                              );
-                            }
-                          )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* COMMENT SECTION CLOSE */}
+                    <React.Fragment>
+                      <PostList
+                        postInfo={currentPostDetails || ""}
+                        togglePostEditMode={this.togglePostEditMode}
+                        onPostDelete={this.onPostDelete}
+                      />
+                      <React.Fragment />
+                    </React.Fragment>
+                  )
+                ) : (
+                  ""
+                )}
               </div>
+              <Comment
+                fetchPostById={this.fetchPostById}
+                postId={this.props.match.params.id}
+              />
             </div>
           </div>
         </div>
@@ -437,71 +135,6 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     );
   }
 }
-
-const EditComment: React.SFC<ICommentEditProps> = ({
-  comment,
-  handleCommentEdit,
-  toggleCommentEditMode,
-  resetComment
-}) => {
-  return (
-    <React.Fragment>
-      <Formik
-        initialValues={{
-          description: comment.description
-        }}
-        validationSchema={createNewCommenSchema}
-        onSubmit={async (
-          values: ICreateNewBlogValues,
-          { setSubmitting }: FormikActions<ICreateNewBlogValues>
-        ) => {
-          handleCommentEdit(comment._id, values);
-        }}
-        render={props => (
-          <Form>
-            <div className="form-group">
-              <TextFieldWrapper
-                inputTypeClassName="form-group__control"
-                name="description"
-                type="text"
-                id="description"
-                value={props.values.description || ""}
-                label="Description"
-                placeholder="Description"
-                handleChange={props.handleChange}
-                handleBlur={props.handleBlur}
-              />
-              {props.errors.description && (
-                <div className="form-group__error">
-                  {props.errors.description}
-                </div>
-              )}
-            </div>
-            <button type="submit" className="btn btn--blue btn--lg">
-              UPDATE
-            </button>
-            <button className="btn btn--blue btn--lg" onClick={resetComment}>
-              CANCEL
-            </button>
-          </Form>
-        )}
-      />
-    </React.Fragment>
-  );
-};
-
-const CommentList: React.SFC<ICommentViewProps> = ({ comment }) => {
-  return (
-    <React.Fragment>
-      <div className="tabs__content__pane active">
-        {comment.description}{" "}
-        <span className="Batch Batch--yellow Batch--icon">
-          {comment.users ? comment.users.name : "User not found"}
-        </span>
-      </div>
-    </React.Fragment>
-  );
-};
 
 const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
   postInfo,

@@ -5,6 +5,7 @@ export interface IPostDetails {
   _id: string;
   name: string;
   id:string;
+  comments:Array<ICommentDetails>;
 }
 
 interface IUser {
