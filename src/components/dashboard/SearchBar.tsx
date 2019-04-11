@@ -8,9 +8,12 @@ import { connect } from "react-redux";
 import * as postService from "../../services/posts";
 // import * as routes from "../../constants/routes";
 
+import { Actions } from "../../actions/posts";
+import { IPostDetails } from "../../interface";
+
 interface IBlogListProps {
   postDetails: any;
-  // savePost: (postDetails: Array<IPostDetails>) => void;
+  savePost: (postDetails: Array<IPostDetails>) => void;
 }
 
 interface IBlogListState {
@@ -56,7 +59,24 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
     // e.preventdefault();
     console.log("im here");
     const posts = await postService.fetchByQueryParams(this.state.searchString);
+
+    this.props.savePost(posts.data);
+
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>", posts);
+  };
+
+  handleSearchSubmit = async (e: any) => {
+    e.preventDefault();
+    const searchString = e.target.value;
+    console.log(",,,,,,", e.target.value);
+
+    try {
+      const posts = await postService.fetchByQueryParams(searchString);
+
+      this.props.savePost(posts.data);
+    } catch (error) {
+      throw error;
+    }
   };
 
   render() {
@@ -72,12 +92,14 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
                     <input
                       className="form-group__control"
                       name="searchString"
-                      value={this.state.searchString}
-                      onChange={e => this.handleChange(e)}
+                      // onChange={e => this.handleChange(e)}
+                      onChange={e => {
+                        this.handleSearchSubmit(e);
+                      }}
                     />
                   </label>
 
-                  <div onClick={() => this.onSearch()}>Search</div>
+                  <div onClick={e => this.onSearch()}>Search</div>
                 </form>
               </div>
             </div>
@@ -121,13 +143,12 @@ const mapStateToProps = ({ postReducer }: any) => {
   return { postDetails: postReducer.postDetails };
 };
 
-// const mapDispatchToProps = (dispatch: any) => ({
-//   savePost: (postDetails: Array<IPostDetails>) =>
-//     dispatch(Actions.storePosts(postDetails))
-// });
+const mapDispatchToProps = (dispatch: any) => ({
+  savePost: (postDetails: Array<IPostDetails>) =>
+    dispatch(Actions.storePosts(postDetails))
+});
 
 export default connect(
   mapStateToProps,
-  null
-  // mapDispatchToProps
+  mapDispatchToProps
 )(SearchBar);
