@@ -4,12 +4,13 @@ import * as React from "react";
 // import Container from "./Container";
 import BlogList from "./blogs/BlogList";
 import CreateBlog from "./blogs/CreateBlog";
+import { getLoggedInUserId } from "../../utils/verifyUser";
 
 const Dashboard = () => (
   <div className="Score-card">
     {/* <Overview /> */}
     {/* <Container /> */}
-    <CreateBlog />
+    {getLoggedInUserId() && <CreateBlog />}
     <BlogList />
   </div>
 );

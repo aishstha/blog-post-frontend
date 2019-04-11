@@ -11,12 +11,13 @@ import * as tokenService from "../../../services/token";
  */
 class PrivateRoute extends Component {
   render() {
-    const isLoggedIn = tokenService.getUserId();
-    return isLoggedIn ? (
-      <Route {...this.props} />
-    ) : (
-      <Redirect to={routes.LOGIN} />
-    );
+    // const isLoggedIn = tokenService.getUserId();
+    // return isLoggedIn ? (
+    //   <Route {...this.props} />
+    // ) : (
+    //   <Redirect to={routes.LOGIN} />
+    // );
+    return <Route {...this.props} />;
   }
 }
 

@@ -4,10 +4,11 @@ import DashboardRouter from "./DashboardRouter";
 
 // import Footer from '../common/footer';
 import Header from "../common/header";
+import { getLoggedInUserId } from "../../utils/verifyUser";
 
 const Dashboard = () => (
   <div className="Score-card">
-    <Header />
+    {getLoggedInUserId() && <Header />}
     <DashboardRouter />
     {/* <Footer /> */}
   </div>

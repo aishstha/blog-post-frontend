@@ -10,6 +10,7 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 import * as postService from "../../../services/posts";
 import * as commentService from "../../../services/comment";
 import SubCommentList from "./subComment/SubcommentList";
+import { getLoggedInUserId } from "../../../utils/verifyUser";
 
 import {
   createNewBlogSchema,
@@ -214,55 +215,59 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                   <div className="tabs">
                     <div className="tabs__content">
                       <div className="tabs__content__pane active">
-                        <div className="Block-white Block-product">
-                          <Formik
-                            initialValues={{
-                              description: ""
-                            }}
-                            onSubmit={async (
-                              values: ICreateNewCommentValues,
-                              {
-                                setSubmitting
-                              }: FormikActions<ICreateNewCommentValues>
-                            ) => {
-                              this.handleAddNewComment(
-                                values,
-                                localpostDetails.id
-                              );
-                            }}
-                            render={props => (
-                              <div className="form-section">
-                                <Form>
-                                  <div className="form-group">
-                                    <TextFieldWrapper
-                                      inputTypeClassName="form-group__control"
-                                      name="description"
-                                      type="text"
-                                      id="description"
-                                      value={props.values.description || ""}
-                                      label="Add new Comment"
-                                      placeholder="New comment here"
-                                      handleChange={props.handleChange}
-                                      handleBlur={props.handleBlur}
-                                    />
-                                    {props.errors.description && (
-                                      <div className="form-group__error">
-                                        {props.errors.description}
-                                      </div>
-                                    )}
-                                  </div>
+                        {getLoggedInUserId() && (
+                          <div className="Block-white Block-product">
+                            <Formik
+                              initialValues={{
+                                description: ""
+                              }}
+                              onSubmit={async (
+                                values: ICreateNewCommentValues,
+                                {
+                                  setSubmitting
+                                }: FormikActions<ICreateNewCommentValues>
+                              ) => {
+                                this.handleAddNewComment(
+                                  values,
+                                  localpostDetails.id
+                                );
+                              }}
+                              render={props => (
+                                <div className="form-section">
+                                  <Form>
+                                    <div className="form-group">
+                                      <TextFieldWrapper
+                                        inputTypeClassName="form-group__control"
+                                        name="description"
+                                        type="text"
+                                        id="description"
+                                        value={props.values.description || ""}
+                                        label="Add new Comment"
+                                        placeholder="New comment here"
+                                        handleChange={props.handleChange}
+                                        handleBlur={props.handleBlur}
+                                      />
+                                      {props.errors.description && (
+                                        <div className="form-group__error">
+                                          {props.errors.description}
+                                        </div>
+                                      )}
+                                    </div>
 
-                                  <button
-                                    type="submit"
-                                    className="btn btn--blue btn--lg"
-                                  >
-                                    Submit
-                                  </button>
-                                </Form>
-                              </div>
-                            )}
-                          />
-                        </div>
+                                    <button
+                                      type="submit"
+                                      className="btn btn--blue btn--lg"
+                                    >
+                                      Submit
+                                    </button>
+                                  </Form>
+                                </div>
+                              )}
+                            />
+                          </div>
+                        )}
+                        <h2>Comment List</h2>
+
                         {localpostDetails.comments &&
                           localpostDetails.comments.length > 0 &&
                           localpostDetails.comments.map(
@@ -284,31 +289,42 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                     />
                                   ) : (
                                     <React.Fragment>
-                                      <CommentList comment={comment} />{" "}
-                                      <span
-                                        className="delete-image"
-                                        onClick={() =>
-                                          this.onCommentDelete(comment._id)
-                                        }
-                                      >
-                                        <i className="material-icons">delete</i>
-                                      </span>
-                                      <span
-                                        className="delete-image"
-                                        onClick={() =>
-                                          this.toggleCommentEditMode(
-                                            comment._id
-                                          )
-                                        }
-                                      >
-                                        <i className="material-icons">edit</i>
-                                      </span>
+                                      <CommentList comment={comment} />
+                                      {console.log(getLoggedInUserId())}
+                                      {getLoggedInUserId() && (
+                                        <React.Fragment>
+                                          <span
+                                            className="delete-image"
+                                            onClick={() =>
+                                              this.onCommentDelete(comment._id)
+                                            }
+                                          >
+                                            <i className="material-icons">
+                                              delete
+                                            </i>
+                                          </span>
+                                          <span
+                                            className="delete-image"
+                                            onClick={() =>
+                                              this.toggleCommentEditMode(
+                                                comment._id
+                                              )
+                                            }
+                                          >
+                                            <i className="material-icons">
+                                              edit
+                                            </i>
+                                          </span>{" "}
+                                        </React.Fragment>
+                                      )}
                                       {/* Subcomment Open */}
-                                      <AddSubComment
-                                        fetchPostById={this.fetchPostById}
-                                        postId={this.props.match.params.id}
-                                        commentId={comment._id}
-                                      />
+                                      {getLoggedInUserId() && (
+                                        <AddSubComment
+                                          fetchPostById={this.fetchPostById}
+                                          postId={this.props.match.params.id}
+                                          commentId={comment._id}
+                                        />
+                                      )}
                                       {/* Subcomment Close */}
                                       {comment.sub_comments &&
                                       comment.sub_comments.length > 0
@@ -349,26 +365,30 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                                               }
                                                             />
                                                           )}
-                                                          {/* <span
-                                                            className="delete-image"
-                                                            // onClick={() => this.onCommentDelete(comment._id)}
-                                                          >
-                                                            <i className="material-icons">
-                                                              delete
-                                                            </i>
-                                                          </span> */}
-                                                          <span
-                                                            className="delete-image"
-                                                            onClick={() =>
-                                                              this.setSubCommentEditMode(
-                                                                subComment._id
-                                                              )
-                                                            }
-                                                          >
-                                                            <i className="material-icons">
-                                                              edit
-                                                            </i>
-                                                          </span>
+                                                          {getLoggedInUserId() && (
+                                                            <React.Fragment>
+                                                              <span
+                                                                className="delete-image"
+                                                                // onClick={() => this.onCommentDelete(comment._id,subcommetnId)}
+                                                              >
+                                                                <i className="material-icons">
+                                                                  delete
+                                                                </i>
+                                                              </span>
+                                                              <span
+                                                                className="delete-image"
+                                                                onClick={() =>
+                                                                  this.setSubCommentEditMode(
+                                                                    subComment._id
+                                                                  )
+                                                                }
+                                                              >
+                                                                <i className="material-icons">
+                                                                  edit
+                                                                </i>
+                                                              </span>
+                                                            </React.Fragment>
+                                                          )}
                                                         </div>
                                                       </div>
                                                     </div>

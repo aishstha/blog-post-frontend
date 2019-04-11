@@ -23,5 +23,3 @@ export default (state = initialState, action: IActionProps) => {
       return oldState;
   }
 };
-
-
