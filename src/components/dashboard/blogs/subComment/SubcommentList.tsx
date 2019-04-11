@@ -14,13 +14,15 @@ interface ISubCommentProps {
 
 interface ISubCommentState {
   localSubCommentDetails: ICommentDetails;
+  selectedSubComment: string;
 }
 
 class SubComment extends React.Component<ISubCommentProps, ISubCommentState> {
   constructor(props: Readonly<ISubCommentProps>) {
     super(props);
     this.state = {
-      localSubCommentDetails: props.comment
+      localSubCommentDetails: props.comment,
+      selectedSubComment: ""
     };
   }
 
@@ -32,23 +34,15 @@ class SubComment extends React.Component<ISubCommentProps, ISubCommentState> {
     }
   }
 
-
   render() {
     const { localSubCommentDetails } = this.state;
-    console.log("localSubCommentDetails", localSubCommentDetails);
     return (
       <React.Fragment>
-        <div className="tabs">
-          <div className="tabs__content">
-            <div className="tabs__content__pane active">
-              <div className="Block-white Block-product">
-                {localSubCommentDetails.description}
-                <span className="Batch Batch--yellow Batch--icon">
-                  {localSubCommentDetails.users.name}
-                </span>
-              </div>
-            </div>
-          </div>
+        <div className="Block-white Block-product">
+          {localSubCommentDetails.description}
+          <span className="Batch Batch--yellow Batch--icon">
+            {localSubCommentDetails.users.name}
+          </span>
         </div>
       </React.Fragment>
     );
