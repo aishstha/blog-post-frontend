@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 import { logoWhite } from "../../../assests/images";
 
@@ -6,6 +7,10 @@ import { CSSTransition } from "react-transition-group";
 
 import { connect } from "react-redux";
 import { Actions } from "../../../actions";
+import * as tokenService from "../../../services/token";
+
+import * as routes from "../../../constants/routes";
+import { getLoggedInUserId } from "../../../utils/verifyUser";
 
 interface IAppProps {
   isMenuOpen: boolean;
@@ -18,6 +23,7 @@ interface IAppState {
 
 interface IMenuProps {
   status: boolean;
+  handleLogout: () => void;
 }
 
 class Header extends React.Component<IAppProps, IAppState> {
@@ -40,50 +46,53 @@ class Header extends React.Component<IAppProps, IAppState> {
     this.props.toggleMenu(this.state.localIsMenuOpen);
   };
 
+  handleLogout = () => {
+    tokenService.clear();
+    location.replace(routes.LOGIN);
+  };
+
   render() {
     return (
       <div className="Header">
         <div className="container">
           <div className="Header__row">
             <div className="Sp-menu">
-              {/* <a onClick={this.toggleHeader}> */}
               <a>
                 <i className="material-icons">menu</i>
               </a>
             </div>
 
-            <div
-              className="Header__row__brand"
-              // onClick={() => this.handleLogoClick()}
-            >
+            <div className="Header__row__brand">
               <img src={logoWhite} alt="Logo of uvertz" />
             </div>
-            <div className="Header__menu right">
-              <ul className="Nav NavRight">
-                <li className="NavRight__user-profile dropdown">
-                  <div className="Nav-link" onClick={this.onClickButton}>
-                    {/* <div className="Nav-link"> */}
-                    <span className="profile-img">
-                      {/* {getUserNameInitials(user && user.user.fullName)} */}
-                    </span>
-                    <span className="profile-name">
-                      {/* {uppercaseFirstLetter(user && user.user.fullName)} */}
-                    </span>{" "}
-                    <span className="arrow">
-                      <i className="material-icons">arrow_drop_down</i>
-                    </span>
-                  </div>
-                  <Menu status={this.state.localIsMenuOpen} />
-                  {/* {
-                    <Profile
-                      isPopUpOpen={this.state.isPopUpOpen}
-                      togglePopUp={this.toggleProfilePopup}
-                      // context={context}
+
+            {getLoggedInUserId() ? (
+              <div className="Header__menu right">
+                <ul className="Nav NavRight">
+                  <li className="NavRight__user-profile dropdown">
+                    <div className="Nav-link" onClick={this.onClickButton}>
+                      <span className="profile-img" />
+                      <span className="profile-name" />{" "}
+                      <span className="arrow">
+                        <i className="material-icons">arrow_drop_down</i>
+                      </span>
+                    </div>
+                    <Menu
+                      status={this.state.localIsMenuOpen}
+                      handleLogout={this.handleLogout}
                     />
-                  } */}
-                </li>
-              </ul>
-            </div>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="Header__menu right">
+                <ul className="Nav NavRight">
+                  <Link to={routes.LOGIN} className="btn btn--blue--outline--active">
+                    Login/Sign up
+                  </Link>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -91,9 +100,8 @@ class Header extends React.Component<IAppProps, IAppState> {
   }
 }
 
-const Menu: React.SFC<IMenuProps> = ({ status }) => {
+const Menu: React.SFC<IMenuProps> = ({ status, handleLogout }) => {
   const menuClass = status ? "Dropdown-menu show" : "Dropdown-menu";
-
   return (
     <CSSTransition
       in={status}
@@ -103,16 +111,12 @@ const Menu: React.SFC<IMenuProps> = ({ status }) => {
     >
       <div className={menuClass}>
         <ul>
-          <li className="Dropdown-menu__item">
-            {/* <a className="Nav-link" onClick={() => togglePopUp(context)}> */}
+          <Link to={routes.PROFILE} className="Dropdown-menu__item">
             View Profile
-            {/* </a> */}
-          </li>
-          <li className="Dropdown-menu__item">
-            {/* <a className="Nav-link" onClick={() => handleLogout()}> */}
+          </Link>
+          <div className="Dropdown-menu__item" onClick={handleLogout}>
             Log Out
-            {/* </a> */}
-          </li>
+          </div>
         </ul>
       </div>
     </CSSTransition>

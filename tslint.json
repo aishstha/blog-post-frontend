@@ -21,7 +21,9 @@
     ],
     "no-debugger": false,
     "array-type": [false, "generic"],
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "no-unused-expression": false,
+    "no-unused-variable": false
   },
   "jsRules": { "object-literal-sort-keys": false }
 }

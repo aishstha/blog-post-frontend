@@ -6,7 +6,8 @@ interface IActionProps {
 }
 
 const initialState = {
-  postDetails: []
+  postDetails: [],
+  currentPostDetails:{}
 };
 
 export default (state = initialState, action: IActionProps) => {
@@ -14,8 +15,8 @@ export default (state = initialState, action: IActionProps) => {
   switch (action.type) {
     case actionTypes.STORE_POSTS:
       return { postDetails: action.payload.data };
-    case actionTypes.EDIT_POSTS:
-      return action.payload;
+    case actionTypes.STORE_CURRENT_POSTS:
+      return { currentPostDetails: action.payload.data };
     default:
       return oldState;
   }

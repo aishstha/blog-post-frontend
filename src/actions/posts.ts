@@ -1,18 +1,17 @@
 import actionTypes from "../constants";
-import { IPostDetails } from 'src/interface';
+import { IPostDetails } from "src/interface";
 
-/* 
-Actions are objects with information of what happened and what needs to change
-Action creators are actions wrapped in a function
-*/
-
-
-
-const storePosts = (postDetails: IPostDetails) => ({
+const storePosts = (postDetails: Array<IPostDetails>) => ({
   type: actionTypes.STORE_POSTS,
   payload: postDetails
 });
 
+const storeCurrentPosts = (currentPostDetails: IPostDetails) => ({
+  type: actionTypes.STORE_CURRENT_POSTS,
+  payload: currentPostDetails
+});
+
 export const Actions = {
-  storePosts
+  storePosts,
+  storeCurrentPosts
 };

@@ -1,15 +1,17 @@
-import * as React from 'react';
+import * as React from "react";
 
-// import Footer from '../common/footer';
-import Header from '../common/header';
-
-import Overview from './Overview';
+// import Overview from "./Overview";
+// import Container from "./Container";
+import BlogList from "./blogs/BlogList";
+import CreateBlog from "./blogs/CreateBlog";
+import { getLoggedInUserId } from "../../utils/verifyUser";
 
 const Dashboard = () => (
   <div className="Score-card">
-    <Header />
-    <Overview />
-    {/* <Footer /> */}
+    {/* <Overview /> */}
+    {/* <Container /> */}
+    {getLoggedInUserId() && <CreateBlog />}
+    <BlogList />
   </div>
 );
 

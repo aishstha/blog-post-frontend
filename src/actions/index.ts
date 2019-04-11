@@ -28,9 +28,16 @@ const toggleMenu = (isMenuOpen: boolean) => ({
   payload: isMenuOpen
 });
 
+const checkUserAuthentication = (isAuthenticated: boolean) => ({
+  type: actionTypes.CHECK_LOGIN,
+  payload: isAuthenticated
+});
+
 export const Actions = {
   levelUp,
   powerUp,
   addArticle,
-  toggleMenu
+  toggleMenu,
+  checkUserAuthentication
 };
+
