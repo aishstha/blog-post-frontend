@@ -89,7 +89,7 @@ class Login extends React.Component<ILoginProps, ILoginState> {
                     cookiePolicy={"single_host_origin"}
                   >
                     <span className="Google__btn__icon" />
-                    Sign up/Login in with Google
+                    Login/Sign up with Google
                   </GoogleLogin>
                 </div>
               </div>

@@ -10,6 +10,7 @@ import { Actions } from "../../../actions";
 import * as tokenService from "../../../services/token";
 
 import * as routes from "../../../constants/routes";
+import { getLoggedInUserId } from "../../../utils/verifyUser";
 
 interface IAppProps {
   isMenuOpen: boolean;
@@ -64,23 +65,34 @@ class Header extends React.Component<IAppProps, IAppState> {
             <div className="Header__row__brand">
               <img src={logoWhite} alt="Logo of uvertz" />
             </div>
-            <div className="Header__menu right">
-              <ul className="Nav NavRight">
-                <li className="NavRight__user-profile dropdown">
-                  <div className="Nav-link" onClick={this.onClickButton}>
-                    <span className="profile-img" />
-                    <span className="profile-name" />{" "}
-                    <span className="arrow">
-                      <i className="material-icons">arrow_drop_down</i>
-                    </span>
-                  </div>
-                  <Menu
-                    status={this.state.localIsMenuOpen}
-                    handleLogout={this.handleLogout}
-                  />
-                </li>
-              </ul>
-            </div>
+
+            {getLoggedInUserId() ? (
+              <div className="Header__menu right">
+                <ul className="Nav NavRight">
+                  <li className="NavRight__user-profile dropdown">
+                    <div className="Nav-link" onClick={this.onClickButton}>
+                      <span className="profile-img" />
+                      <span className="profile-name" />{" "}
+                      <span className="arrow">
+                        <i className="material-icons">arrow_drop_down</i>
+                      </span>
+                    </div>
+                    <Menu
+                      status={this.state.localIsMenuOpen}
+                      handleLogout={this.handleLogout}
+                    />
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="Header__menu right">
+                <ul className="Nav NavRight">
+                  <Link to={routes.LOGIN} className="btn btn--blue--outline--active">
+                    Login/Sign up
+                  </Link>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -123,4 +135,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Header);
-
