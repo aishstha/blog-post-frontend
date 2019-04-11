@@ -163,8 +163,21 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
       isLoading: true
     });
     try {
-      console.log("commentI1233333333333d", commentId);
       await commentService.deleteCommentById(commentId);
+      this.fetchPostById();
+    } catch (error) {
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
+  onSubCommentDelete = async (commentId: string, subCommentId: string) => {
+    this.setState({
+      isLoading: true
+    });
+    try {
+      await commentService.deleteSubCommentById(commentId, subCommentId);
       this.fetchPostById();
     } catch (error) {
       this.setState({
@@ -294,7 +307,10 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                     <React.Fragment>
                                       <CommentList comment={comment} />
                                       {getLoggedInUserId() &&
-                                        verifyUser(comment.users._id, localpostDetails.users._id) && (
+                                        verifyUser(
+                                          comment.users._id,
+                                          localpostDetails.users._id
+                                        ) && (
                                           <React.Fragment>
                                             {console.log(comment)}
                                             <span
@@ -374,12 +390,19 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
                                                           {getLoggedInUserId() &&
                                                             verifyUser(
                                                               subComment.users
-                                                                ._id, localpostDetails.users._id
+                                                                ._id,
+                                                              localpostDetails
+                                                                .users._id
                                                             ) && (
                                                               <React.Fragment>
                                                                 <span
                                                                   className="delete-image"
-                                                                  // onClick={() => this.onCommentDelete(comment._id,subcommetnId)}
+                                                                  onClick={() =>
+                                                                    this.onSubCommentDelete(
+                                                                      comment._id,
+                                                                      subComment._id
+                                                                    )
+                                                                  }
                                                                 >
                                                                   <i className="material-icons">
                                                                     delete

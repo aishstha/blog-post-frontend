@@ -70,6 +70,7 @@ class CreateBlog extends React.Component<{}, ICreateBlogState> {
     };
     try {
       await postService.createNewPost(data);
+      // TODO: Call fetchAllBlogPosts from bloglist
       this.setState({
         isLoading: false
       });

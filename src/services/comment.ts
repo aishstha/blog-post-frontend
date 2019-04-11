@@ -51,3 +51,17 @@ export async function editSubComment(
   const response = await http.put(url, data);
   return response;
 }
+
+export async function deleteSubCommentById(
+  commentId: string,
+  subCommentId: string
+) {
+  const url = `${api.endpoints.comments +
+    "/" +
+    commentId +
+    api.endpoints.subComments +
+    "/" +
+    subCommentId}`;
+  const response = await http.delete(url);
+  return response;
+}
