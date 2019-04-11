@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Formik, Form, FormikActions, Field } from "formik";
-// import base64Img from "base64-img";
+import { Formik, Form, FormikActions } from "formik";
 
 import Spinner from "../../common/Spinner";
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
@@ -15,7 +14,7 @@ import { defaultMessage } from "../../../constants/applicationMessage";
 
 import * as tokenService from "../../../services/token";
 import * as profileService from "../../../services/profile";
-import { coke } from "../../../assests/images";
+// import { coke } from "../../../assests/images";
 
 interface IOverviewProps {
   profileDetails: IProfileDetails;
@@ -25,6 +24,7 @@ interface IOverviewProps {
 interface IOverviewState {
   localprofileDetails: IProfileDetails;
   isLoading: boolean;
+  base64Image: string;
 }
 
 interface IValues {
@@ -38,6 +38,8 @@ interface IValues {
 interface IProfileFormProps {
   profileInfo: IProfileDetails;
   handleSubmit: (value: IValues, id: string) => void;
+  handleImage: (e: any) => void;
+  base64image: string;
 }
 
 class Profile extends React.Component<IOverviewProps, IOverviewState> {
@@ -45,7 +47,8 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
     super(props);
     this.state = {
       localprofileDetails: props.profileDetails,
-      isLoading: false
+      isLoading: false,
+      base64Image: ""
     };
   }
 
@@ -68,7 +71,7 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
       const profileResponse = await profileService.getUserById(userId);
       this.props.saveProfile(profileResponse.data);
     } catch (error) {
-      throw error; // TODO: Error handeling
+      throw error;
     }
   };
 
@@ -78,10 +81,16 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
     });
     try {
       console.log("values", values);
-      const imagePath = values.image;
-      // const image = base64Img.base64Sync(imagePath);
-      console.log("image", imagePath);
-      await profileService.updateUser(values, id);
+      console.log("base64Image", this.state.base64Image);
+
+      const profileInfo = {
+        image: this.state.base64Image,
+        name: values.name,
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+        address: values.address
+      };
+      await profileService.updateUser(profileInfo, id);
       this.setState({
         isLoading: false
       });
@@ -94,9 +103,27 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
     }
   };
 
+  getBase64 = (files: File, callback: any) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      callback(reader.result);
+    };
+    reader.readAsDataURL(files);
+  };
+
+  handleImage = (e: any) => {
+    const files = e.target.files[0];
+    this.getBase64(files, (result: any) => {
+      console.log("result", result);
+      this.setState({
+        base64Image: result
+      });
+    });
+  };
+
   render() {
+    console.log(">this.state.base64Image", this.state.base64Image);
     const { localprofileDetails, isLoading } = this.state;
-    console.log("localprofileDetails", localprofileDetails);
     if (isLoading) {
       return <Spinner />;
     }
@@ -107,6 +134,8 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
           <ProfileForm
             profileInfo={localprofileDetails}
             handleSubmit={this.handleSubmit}
+            handleImage={this.handleImage}
+            base64image={this.state.base64Image}
           />
         )}
       </React.Fragment>
@@ -116,7 +145,9 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
 
 const ProfileForm: React.SFC<IProfileFormProps> = ({
   profileInfo,
-  handleSubmit
+  handleSubmit,
+  handleImage,
+  base64image
 }) => (
   <div className="container">
     {profileInfo._id ? (
@@ -126,48 +157,40 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
           email: profileInfo.email,
           phoneNumber: profileInfo.phoneNumber,
           address: profileInfo.address,
-          image: ""
+          image: profileInfo.image
         }}
         // validationSchema={getUserProfileValidationSchema}
         onSubmit={async (
           values: IValues,
           { setSubmitting }: FormikActions<IValues>
         ) => {
+          console.log("values", values);
           handleSubmit(values, profileInfo._id);
         }}
         render={props => (
           <div className="container">
             <div className="form-section">
               <Form>
+                {" "}
                 <div className="form-group">
                   <div className="col">
                     <div className="File">
                       <div className="File__upload flex-column d-flex justify-content-center align-items-center">
                         <div className="upload-image">
                           <img
-                            src={coke}
+                            src={base64image ? base64image : props.values.image}
                             alt="Advertisement Preview"
                             className="default-image"
                           />
-                          <span
-                            className="delete-image"
-                            // onClick={this.onDeleteIconClicked}
-                          >
-                            <i className="material-icons">delete</i>
-                          </span>
-                          {/* <span className="default-text">Drag photos here</span> */}
                         </div>
-                        <Field
-                          className="form-group__control"
-                          name="image"
+
+                        <input
                           type="file"
-                          id="image"
-                          accept="image/*"
-                          value={props.values.image || ""}
-                          label="Image Upload"
-                          placeholder="Image upload"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
+                          id="files"
+                          name="files"
+                          accept="image/png, image/jpeg"
+                          onChange={handleImage}
+                          className="form-group__control"
                         />
                       </div>
                     </div>
@@ -200,6 +223,7 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
                     placeholder="Email"
                     handleChange={props.handleChange}
                     handleBlur={props.handleBlur}
+                    disabled={true}
                   />
                   {props.errors.email && (
                     <div className="form-group__error">
@@ -258,7 +282,6 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
 );
 
 const mapStateToProps = ({ profileReducer }: any) => {
-  console.log("profileReducer", profileReducer);
   return { profileDetails: profileReducer.profileDetails };
 };
 

@@ -68,15 +68,16 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
               <div className="form-section">
                 <form>
                   <label>
-                    Name:
+                    Search Post:
                     <input
+                      className="form-group__control"
                       name="searchString"
                       value={this.state.searchString}
                       onChange={e => this.handleChange(e)}
                     />
                   </label>
 
-                  <div onClick={() => this.onSearch()}>Send</div>
+                  <div onClick={() => this.onSearch()}>Search</div>
                 </form>
               </div>
             </div>

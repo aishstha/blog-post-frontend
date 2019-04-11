@@ -69,3 +69,22 @@ export function cleanKeys(obj: any) {
     };
   }, {});
 }
+
+export function uppercaseFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function getUserNameInitials(str: string) {
+  if (str) {
+    return uppercaseFirstLetter(
+      str
+        .split(" ")
+        .slice(0, 2)
+        .map(function(item: string) {
+          return item[0];
+        })
+        .join("")
+    );
+  }
+  return;
+}

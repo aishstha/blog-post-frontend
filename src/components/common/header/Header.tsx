@@ -11,6 +11,7 @@ import * as tokenService from "../../../services/token";
 
 import * as routes from "../../../constants/routes";
 import { getLoggedInUserId } from "../../../utils/verifyUser";
+import { getUserNameInitials } from "../../../utils/string";
 
 interface IAppProps {
   isMenuOpen: boolean;
@@ -53,8 +54,8 @@ class Header extends React.Component<IAppProps, IAppState> {
 
   render() {
     const userName = tokenService.getUserName();
-    const profilePicture = tokenService.getProfilePicture();
-
+    const profileInfo = tokenService.getProfilePicture();
+    const profilePicture = profileInfo.replace('"', "");
     return (
       <div className="Header">
         <div className="container">
@@ -75,7 +76,14 @@ class Header extends React.Component<IAppProps, IAppState> {
                   <li className="NavRight__user-profile dropdown">
                     <div className="Nav-link" onClick={this.onClickButton}>
                       <span className="profile-img">
-                        <img src={profilePicture} alt="user-image" />
+                        <img
+                          src={
+                            profilePicture
+                              ? profilePicture
+                              : getUserNameInitials(userName)
+                          }
+                          alt="user-image"
+                        />
                       </span>
                       <span className="profile-name">{userName}</span>
                       <span className="arrow">

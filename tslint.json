@@ -23,7 +23,8 @@
     "array-type": [false, "generic"],
     "jsx-no-lambda": false,
     "no-unused-expression": false,
-    "no-unused-variable": false
+    "no-unused-variable": false,
+    "only-arrow-functions": false
   },
   "jsRules": { "object-literal-sort-keys": false }
 }

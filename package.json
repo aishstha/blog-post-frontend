@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "base64-img": "^1.0.4",
     "formik": "^1.5.2",
     "query-string": "^6.4.2",
     "react": "^16.8.6",
