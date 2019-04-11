@@ -227,64 +227,63 @@ class Comment extends React.Component<ICommentProps, ICommentState> {
                                     return (
                                       <React.Fragment key={index2}>
                                         <div className="tabs">
-                                          <div className="tabs__content">
-                                            <div className="tabs__content__pane active">
-                                              <div className="Block-white Block-product">
-                                                {this.state
-                                                  .selectedSubCommentId ===
-                                                subComment._id ? (
-                                                  <EditSubcomment
-                                                    subComment={subComment}
-                                                    setSubCommentEditMode={
-                                                      this.setSubCommentEditMode
+                                          {/* <div className="tabs__content"> */}
+                                          {/* <div className="tabs__content__pane active"> */}
+                                          <div className="Block-white Block-product">
+                                            {this.state.selectedSubCommentId ===
+                                            subComment._id ? (
+                                              <EditSubcomment
+                                                subComment={subComment}
+                                                setSubCommentEditMode={
+                                                  this.setSubCommentEditMode
+                                                }
+                                                commentId={comment._id}
+                                                fetchPostById={
+                                                  this.props.fetchPostById
+                                                }
+                                              />
+                                            ) : (
+                                              <SubCommentList
+                                                comment={subComment}
+                                              />
+                                            )}
+                                            {getLoggedInUserId() &&
+                                              verifyUser(
+                                                subComment.users._id,
+                                                currentPostDetails.users._id
+                                              ) && (
+                                                <React.Fragment>
+                                                  <span
+                                                    className="delete-image"
+                                                    onClick={() =>
+                                                      this.onSubCommentDelete(
+                                                        comment._id,
+                                                        subComment._id
+                                                      )
                                                     }
-                                                    commentId={comment._id}
-                                                    fetchPostById={
-                                                      this.props.fetchPostById
+                                                  >
+                                                    <i className="material-icons">
+                                                      delete
+                                                    </i>
+                                                  </span>
+                                                  <span
+                                                    className="delete-image"
+                                                    onClick={() =>
+                                                      this.setSubCommentEditMode(
+                                                        subComment._id
+                                                      )
                                                     }
-                                                  />
-                                                ) : (
-                                                  <SubCommentList
-                                                    comment={subComment}
-                                                  />
-                                                )}
-                                                {getLoggedInUserId() &&
-                                                  verifyUser(
-                                                    subComment.users._id,
-                                                    currentPostDetails.users._id
-                                                  ) && (
-                                                    <React.Fragment>
-                                                      <span
-                                                        className="delete-image"
-                                                        onClick={() =>
-                                                          this.onSubCommentDelete(
-                                                            comment._id,
-                                                            subComment._id
-                                                          )
-                                                        }
-                                                      >
-                                                        <i className="material-icons">
-                                                          delete
-                                                        </i>
-                                                      </span>
-                                                      <span
-                                                        className="delete-image"
-                                                        onClick={() =>
-                                                          this.setSubCommentEditMode(
-                                                            subComment._id
-                                                          )
-                                                        }
-                                                      >
-                                                        <i className="material-icons">
-                                                          edit
-                                                        </i>
-                                                      </span>
-                                                    </React.Fragment>
-                                                  )}
-                                              </div>
-                                            </div>
+                                                  >
+                                                    <i className="material-icons">
+                                                      edit
+                                                    </i>
+                                                  </span>
+                                                </React.Fragment>
+                                              )}
                                           </div>
                                         </div>
+                                        {/* </div> */}
+                                        {/* </div> */}
                                       </React.Fragment>
                                     );
                                   }
