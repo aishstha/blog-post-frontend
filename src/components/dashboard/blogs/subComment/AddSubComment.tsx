@@ -65,7 +65,7 @@ class AddSubComment extends React.Component<
             );
           }}
           render={props => (
-            <div className="form-section">
+            <div className="form-section mt-20">
               <Form>
                 <div className="form-group">
                   <TextFieldWrapper
@@ -78,6 +78,7 @@ class AddSubComment extends React.Component<
                     placeholder="New comment here"
                     handleChange={props.handleChange}
                     handleBlur={props.handleBlur}
+                    required="required"
                   />
                   {props.errors.description && (
                     <div className="form-group__error">

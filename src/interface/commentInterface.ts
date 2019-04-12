@@ -19,7 +19,7 @@ export interface IPostList {
 export interface IBlogPostEditFormProps {
   postInfo: IPostDetails;
   togglePostEditMode: () => void;
-  handleSubmit: (value: ICreateNewBlogValues, id: string, isValid: any) => void;
+  handleSubmit: (value: ICreateNewBlogValues, id: string) => void;
   postId: string;
 }
 

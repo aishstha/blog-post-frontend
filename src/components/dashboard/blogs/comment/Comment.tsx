@@ -151,6 +151,7 @@ class Comment extends React.Component<ICommentProps, ICommentState> {
                               placeholder="New comment here"
                               handleChange={props.handleChange}
                               handleBlur={props.handleBlur}
+                              required="required"
                             />
                             {props.errors.description && (
                               <div className="form-group__error">
@@ -210,7 +211,7 @@ class Comment extends React.Component<ICommentProps, ICommentState> {
                                   {getLoggedInUserId() &&
                                     verifyEditUser(comment.users._id) && (
                                       <span
-                                        className="delete-image"
+                                        className="edit-image edit"
                                         onClick={() =>
                                           this.toggleCommentEditMode(
                                             comment._id
@@ -283,7 +284,7 @@ class Comment extends React.Component<ICommentProps, ICommentState> {
                                               ) && (
                                                 <React.Fragment>
                                                   <span
-                                                    className="delete-image"
+                                                    className="edit-image edit"
                                                     onClick={() =>
                                                       this.setSubCommentEditMode(
                                                         subComment._id
@@ -376,7 +377,7 @@ const CommentList: React.SFC<ICommentViewProps> = ({ comment }) => {
     <React.Fragment>
       <div className="tabs__content__pane active">
         {comment.description}{" "}
-        <span className="Batch Batch--blue Batch--icon">
+        <span className="Batch Batch--green Batch--icon">
           {comment.users ? comment.users.name : "User not found"}
         </span>
       </div>

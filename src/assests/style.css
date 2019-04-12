@@ -3143,12 +3143,25 @@ select {
   bottom: 0;
 }
 .Nav .Nav-link {
-  font-size: 13px;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.62);
   display: flex;
+  cursor: pointer;
+  padding: 5px 10px !important;
+  font-size: 14px;
   align-items: center;
   padding: 10px;
 }
+
+.Nav .Nav-link:hover {
+  color: #094aa7;
+  display: flex;
+  cursor: pointer;
+  padding: 5px 10px !important;
+  font-size: 14px;
+  align-items: center;
+  padding: 10px;
+}
+
 @media (max-width: 768px) {
   .Nav .Nav-link {
     padding-left: 20px;
@@ -3298,6 +3311,11 @@ select {
   color: #516f90;
 }
 .Batch--blue {
+  border-color: #3d61ff;
+  background-color: #3d61ff;
+  color: #fff;
+}
+.Batch--green {
   border-color: #3a9461;
   background-color: #3a9461;
   color: #fff;
@@ -4046,7 +4064,7 @@ body {
   position: absolute;
   right: 5px;
   top: 5px;
-  background: #fff;
+  background: rgb(184, 44, 44);
   border-radius: 2px;
   cursor: pointer;
   width: 22px;
@@ -4056,10 +4074,21 @@ body {
   align-content: center;
 }
 .Dropzone .delete-image i {
-  color: #1e1e1e;
+  color: red;
+  cursor: pointer;
 }
 .Dropzone .delete-image i:hover {
-  color: #515151;
+  color: red;
+  cursor: pointer;
+}
+
+.del {
+  color: #d67b7b;
+  cursor: pointer;
+}
+
+.edit {
+  cursor: pointer;
 }
 
 .Error {
@@ -4295,12 +4324,9 @@ body {
   header nav {
     display: none;
   }
-  header:after {
-    content: "www.uvertz.com";
-  }
+
   header:before {
     display: block;
-    content: "Thank you for printing our content at www.uvertz.com. Please check back soon for new contents.";
     margin-bottom: 10px;
     border: 1px solid #bbb;
     padding: 6px 8px;

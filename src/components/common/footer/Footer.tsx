@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="Footer">
       <div className="container">
         <div className="d-flex justify-content-end">
-          <div className="Footer__wrap">
+          <div className="Footer__wrap align-items-start">
             <span className="Footer__wrap__link">Blog Post</span>
           </div>
         </div>

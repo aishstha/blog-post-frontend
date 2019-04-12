@@ -62,7 +62,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     this.setState({ isPostEditMode: !this.state.isPostEditMode });
   };
 
-  handleEditPost = async (values: any, id: string, isValid: any) => {
+  handleEditPost = async (values: any, id: string) => {
     this.setState({
       isLoading: true
     });
@@ -157,7 +157,7 @@ const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
                 values: ICreateNewBlogValues,
                 { setSubmitting }: FormikActions<ICreateNewBlogValues>
               ) => {
-                handleSubmit(values, postId, "aa");
+                handleSubmit(values, postId);
               }}
               render={props => (
                 <Form>
@@ -201,7 +201,7 @@ const PostEdit: React.SFC<IBlogPostEditFormProps> = ({
                     UPDATE
                   </button>
                   <button
-                    className="btn btn--blue btn--lg"
+                    className="btn btn--blue btn--lg ml-8"
                     onClick={togglePostEditMode}
                   >
                     CANCEL
@@ -236,11 +236,12 @@ const PostList: React.SFC<IPostList> = props => {
             postInfo.users &&
             verifyUser("", postInfo.users._id) && (
               <div className="Block-product__btn">
-                <div className="btn btn--blue" onClick={togglePostEditMode}>
-                  EDIT
-                </div>
+                <span className="edit-image edit" onClick={togglePostEditMode}>
+                  <i className="material-icons">edit</i>
+                </span>
+
                 <span
-                  className="delete-image"
+                  className="delete-image del"
                   onClick={() => onPostDelete(postInfo.id || postInfo._id)}
                 >
                   <i className="material-icons">delete</i>

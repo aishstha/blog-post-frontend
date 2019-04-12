@@ -65,7 +65,7 @@ class Header extends React.Component<IAppProps, IAppState> {
                 <i className="material-icons">menu</i>
               </a>
             </div>
-            <Link to={routes.DASHBOARD} className="Dropdown-menu__item"> 
+            <Link to={routes.DASHBOARD} className="Dropdown-menu__item">
               <img src={dummyLogo1} alt="Logo of blog post" />
             </Link>
 
@@ -126,14 +126,32 @@ const Menu: React.SFC<IMenuProps> = ({ status, handleLogout }) => {
       classNames="popup"
       unmountOnExit={true}
     >
-      <div className={menuClass}>
+      {/* <div className={menuClass}>
         <ul>
           <Link to={routes.PROFILE} className="Dropdown-menu__item">
-            View Profile
+            <span>View Profile</span>
           </Link>
           <div className="Dropdown-menu__item" onClick={handleLogout}>
             Log Out
           </div>
+        </ul>
+      </div> */}
+
+      <div className={menuClass}>
+        <ul>
+          <li className="Dropdown-menu__item">
+            {/* <a className="Nav-link" onClick={() => togglePopUp(context)}>
+              View Profile
+            </a> */}
+            <Link to={routes.PROFILE} className="Dropdown-menu__item">
+              <span className="Nav-link">View Profile</span>
+            </Link>
+          </li>
+          <li className="Dropdown-menu__item">
+            <a className="Nav-link" onClick={() => handleLogout()}>
+              Log Out
+            </a>
+          </li>
         </ul>
       </div>
     </CSSTransition>

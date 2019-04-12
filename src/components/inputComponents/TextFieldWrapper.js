@@ -12,7 +12,8 @@ const TextFieldWrapper = props => {
     handleChange,
     handleBlur,
     maxLength,
-    id
+    id,
+    required
   } = props;
 
   return (
@@ -29,10 +30,10 @@ const TextFieldWrapper = props => {
         onChange={handleChange}
         onBlur={handleBlur}
         placeholder={placeholder}
+        required={required}
       />
     </React.Fragment>
   );
 };
 
 export default TextFieldWrapper;
-
