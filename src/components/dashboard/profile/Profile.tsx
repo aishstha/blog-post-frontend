@@ -4,10 +4,8 @@ import { Formik, Form, FormikActions } from "formik";
 
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
-import { notify } from "../../../utils/notification";
 import { Actions } from "../../../actions/profile";
 import { IProfileDetails } from "../../../interface";
-import { messageStatus } from "../../../constants/messageStatus";
 
 import * as tokenService from "../../../services/token";
 import * as profileService from "../../../services/profile";
@@ -79,9 +77,7 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
         address: values.address
       };
       await profileService.updateUser(profileInfo, id);
-      tokenService.setProfilePicture(this.state.base64Image); // TODO
-
-      notify(messageStatus.SUCCESS, "Successfully updated");
+      tokenService.setProfilePicture(this.state.base64Image);
     } catch (error) {
       throw error;
     }

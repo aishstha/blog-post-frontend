@@ -1,10 +1,9 @@
 import axios from "axios";
 
 import configs from "../config";
-import { getAccessToken, setAccessToken } from "../services/token";
-import * as authService from "../services/auth";
+import { getAccessToken } from "../services/token";
 
-let http = axios.create({
+const http = axios.create({
   headers: {
     "Content-Type": "application/json"
   },
