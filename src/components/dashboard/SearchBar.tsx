@@ -1,15 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-// import { Actions } from "../../actions/posts";
-// import { IPostDetails } from "../../interface";
-// import { interpolate } from "../../utils/string";
-
-import * as postService from "../../services/posts";
-// import * as routes from "../../constants/routes";
-
 import { Actions } from "../../actions/posts";
 import { IPostDetails } from "../../interface";
+
+import * as postService from "../../services/posts";
 
 interface IBlogListProps {
   postDetails: any;
@@ -78,26 +73,11 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
           <div className="block__content">
             <div className="Block-white">
               <div className="form-section">
-                {/* <form>
-                  <label>
-                    Search Post:
-                    <input
-                      className="form-group__control"
-                      name="searchString"
-                      // onChange={e => this.handleChange(e)}
-                      onChange={e => {
-                        this.handleSearchSubmit(e);
-                      }}
-                    />
-                  </label>
-
-                  <div onClick={e => this.onSearch()}>Search</div>
-                </form> */}
-
                 <div className="form-group">
                   <input
                     className="form-group__control"
                     name="searchString"
+                    placeholder="Search blog"
                     onChange={e => {
                       this.handleSearchSubmit(e);
                     }}
@@ -115,35 +95,6 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
   }
 }
 
-// const PostList: React.SFC<IPostList> = props => {
-//   const { postInfo, key } = props;
-//   return (
-//     <div className="tabs__content" key={key}>
-//       <div className="tabs__content__pane active" id="advertisement">
-//         <div className="Block-white Block-product">
-//           <div className="Block-product__content">
-//             <h2>
-//               {postInfo.title}
-//               <span className="Batch Batch--yellow Batch--icon">
-//                 {postInfo.users ? postInfo.users.name : "User not found"}
-//               </span>
-//             </h2>
-//             <span className="publisher">Description:</span>
-//             <span className="budget">{postInfo.description}</span>
-//           </div>
-//           <Link
-//             to={interpolate(routes.BLOGS_INFO, {
-//               id: postInfo._id
-//             })}
-//             className="Block-product__btn btn btn--blue"
-//           >
-//             DETAILS
-//           </Link>{" "}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 const mapStateToProps = ({ postReducer }: any) => {
   return { postDetails: postReducer.postDetails };
 };
@@ -157,3 +108,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(SearchBar);
+

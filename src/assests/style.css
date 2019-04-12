@@ -3272,13 +3272,13 @@ select {
 .Dropdown-menu__item {
   list-style: none;
 }
-.Dropdown-menu__item .Nav-link {
+.Dropdown-menu__item .Link {
   font-size: 14px;
   padding: 5px 10px !important;
   color: rgba(0, 0, 0, 0.62);
   cursor: pointer;
 }
-.Dropdown-menu__item .Nav-link:hover {
+.Dropdown-menu__item .Link:hover {
   color: #0d6af0;
 }
 .Dropdown-menu__item:last-child {

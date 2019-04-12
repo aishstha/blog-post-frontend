@@ -39,6 +39,7 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
     try {
       const posts = await postService.fetchAllPosts();
       this.props.savePost(posts.data);
+      // TODO use notify
     } catch (error) {
       throw error; // TODO: Error handeling
     }
@@ -68,7 +69,7 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
                     ""
                   )}
                   {postDetails && postDetails.length > 0
-                    ? postDetails.map((post, index) => {
+                    ? postDetails.slice(0).reverse().map((post, index) => {
                         return <PostList postInfo={post} key={index} />;
                       })
                     : "No blogs found"}

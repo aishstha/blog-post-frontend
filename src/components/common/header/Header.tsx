@@ -55,7 +55,7 @@ class Header extends React.Component<IAppProps, IAppState> {
   render() {
     const userName = tokenService.getUserName();
     const profileInfo = tokenService.getProfilePicture();
-    const profilePicture = profileInfo.replace('"', "");
+    const profilePicture = profileInfo ? profileInfo.replace('"', "") : "";
     return (
       <div className="Header">
         <div className="container">
@@ -65,12 +65,12 @@ class Header extends React.Component<IAppProps, IAppState> {
                 <i className="material-icons">menu</i>
               </a>
             </div>
+            <Link to={routes.DASHBOARD} className="Dropdown-menu__item"> 
+              <img src={dummyLogo1} alt="Logo of blog post" />
+            </Link>
 
             <div className="Header__row__brand" />
 
-            <Link to={routes.DASHBOARD} className="Dropdown-menu__item">
-              <img src={dummyLogo1} alt="Logo of blog post" />
-            </Link>
             {getLoggedInUserId() ? (
               <div className="Header__menu right">
                 <ul className="Nav NavRight">
