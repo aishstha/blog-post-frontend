@@ -10,7 +10,11 @@ import {
 } from "../../../../interface/commentInterface";
 
 import { IPostDetails, ICreateNewCommentValues } from "../../../../interface";
-import { getLoggedInUserId, verifyUser } from "../../../../utils/verifyUser";
+import {
+  getLoggedInUserId,
+  verifyUser,
+  verifyEditUser
+} from "../../../../utils/verifyUser";
 
 import { Formik, Form, FormikActions } from "formik";
 import TextFieldWrapper from "../../../inputComponents/TextFieldWrapper";
@@ -203,14 +207,19 @@ class Comment extends React.Component<ICommentProps, ICommentState> {
                                   >
                                     <i className="material-icons">delete</i>
                                   </span>
-                                  <span
-                                    className="delete-image"
-                                    onClick={() =>
-                                      this.toggleCommentEditMode(comment._id)
-                                    }
-                                  >
-                                    <i className="material-icons">edit</i>
-                                  </span>{" "}
+                                  {getLoggedInUserId() &&
+                                    verifyEditUser(comment.users._id) && (
+                                      <span
+                                        className="delete-image"
+                                        onClick={() =>
+                                          this.toggleCommentEditMode(
+                                            comment._id
+                                          )
+                                        }
+                                      >
+                                        <i className="material-icons">edit</i>
+                                      </span>
+                                    )}
                                 </React.Fragment>
                               )}
                             {getLoggedInUserId() && (
@@ -266,6 +275,13 @@ class Comment extends React.Component<ICommentProps, ICommentState> {
                                                       delete
                                                     </i>
                                                   </span>
+                                                </React.Fragment>
+                                              )}
+                                            {getLoggedInUserId() &&
+                                              verifyEditUser(
+                                                subComment.users._id
+                                              ) && (
+                                                <React.Fragment>
                                                   <span
                                                     className="delete-image"
                                                     onClick={() =>

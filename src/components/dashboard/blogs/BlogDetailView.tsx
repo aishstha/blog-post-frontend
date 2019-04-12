@@ -6,7 +6,7 @@ import { RouteComponentProps } from "react-router-dom";
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
 import { Actions } from "../../../actions/posts";
-import { getLoggedInUserId } from "../../../utils/verifyUser";
+import { getLoggedInUserId, verifyUser } from "../../../utils/verifyUser";
 import { createNewBlogSchema } from "../../../validation/validationSchema";
 
 import * as routes from "../../../constants/routes";
@@ -95,7 +95,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   render() {
     const { isPostEditMode } = this.state;
     const { currentPostDetails } = this.props;
-    
+
     return (
       <div className="page">
         <div className="container">
@@ -232,19 +232,21 @@ const PostList: React.SFC<IPostList> = props => {
             <span className="publisher">Description:</span>
             <span className="budget">{postInfo.description}</span>
           </div>
-          {getLoggedInUserId() && (
-            <div className="Block-product__btn">
-              <div className="btn btn--blue" onClick={togglePostEditMode}>
-                EDIT
+          {getLoggedInUserId() &&
+            postInfo.users &&
+            verifyUser("", postInfo.users._id) && (
+              <div className="Block-product__btn">
+                <div className="btn btn--blue" onClick={togglePostEditMode}>
+                  EDIT
+                </div>
+                <span
+                  className="delete-image"
+                  onClick={() => onPostDelete(postInfo.id || postInfo._id)}
+                >
+                  <i className="material-icons">delete</i>
+                </span>
               </div>
-              <span
-                className="delete-image"
-                onClick={() => onPostDelete(postInfo.id || postInfo._id)}
-              >
-                <i className="material-icons">delete</i>
-              </span>
-            </div>
-          )}
+            )}
         </div>
       </div>
     </div>

@@ -17,3 +17,10 @@ export function verifyUser(userId: string, postOwnerUserId: string) {
   }
   return false;
 }
+
+export function verifyEditUser(userId: string) {
+  if (getLoggedInUserId() === userId) {
+    return true;
+  }
+  return false;
+}
