@@ -25,7 +25,6 @@ interface IBlogListState {
 class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
   constructor(props: Readonly<IBlogListProps>) {
     super(props);
-    console.log("props", props);
     this.state = {
       postList: props.postDetails,
       items: [],
@@ -43,7 +42,6 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
 
   handleSearch = (event: any) => {
     event.preventdefault();
-    console.log(event.target.value);
     this.setState({
       searchString: event.target.value
     });
@@ -56,20 +54,14 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
   };
 
   onSearch = async () => {
-    // e.preventdefault();
-    console.log("im here");
     const posts = await postService.fetchByQueryParams(this.state.searchString);
 
     this.props.savePost(posts.data);
-
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>", posts);
   };
 
   handleSearchSubmit = async (e: any) => {
     e.preventDefault();
     const searchString = e.target.value;
-    console.log(",,,,,,", e.target.value);
-
     try {
       const posts = await postService.fetchByQueryParams(searchString);
 

@@ -66,6 +66,5 @@ export async function updatePostById(data: any, id: string) {
 export async function fetchByQueryParams(searchKey: string) {
   const url = `${api.endpoints.posts + "?searchKey=" + searchKey}`;
 
-  console.log("urlllllll",url);
   return await http.get(url);
 }

@@ -41,7 +41,7 @@ class AddSubComment extends React.Component<
       await commentService.createSubComment(values, commentId);
       this.props.fetchPostById();
     } catch (error) {
-      console.log("error", error);
+      throw error;
     }
   };
 

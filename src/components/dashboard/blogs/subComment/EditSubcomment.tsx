@@ -60,7 +60,6 @@ class EditSubComment extends React.Component<
   };
 
   render() {
-    console.log("ashbdasasdasd", this.state.subComment);
     return (
       <React.Fragment>
         <Formik
@@ -71,7 +70,6 @@ class EditSubComment extends React.Component<
             values: ICreateNewCommentValues,
             { setSubmitting }: FormikActions<ICreateNewCommentValues>
           ) => {
-            console.log("values", values);
             this.handleSubCommentEdit(
               this.state.subComment._id,
               this.state.commentId,

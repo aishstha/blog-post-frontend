@@ -62,7 +62,7 @@ class Login extends React.Component<ILoginProps, ILoginState> {
   };
 
   failResponse = (response: any) => {
-    console.log("failResponse", response);
+    console.log("Fail response", response);
   };
 
   render() {

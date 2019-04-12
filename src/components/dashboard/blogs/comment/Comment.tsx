@@ -374,7 +374,6 @@ const EditComment: React.SFC<ICommentEditProps> = ({
 const CommentList: React.SFC<ICommentViewProps> = ({ comment }) => {
   return (
     <React.Fragment>
-      {console.log("coment", comment)}
       <div className="tabs__content__pane active">
         {comment.description}{" "}
         <span className="Batch Batch--yellow Batch--icon">
