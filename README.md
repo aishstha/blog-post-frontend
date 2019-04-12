@@ -1,6 +1,6 @@
 # Setup
 
-First clone this repository.
+Clone this repository.
 
 ```bash
 $ git clone git@github.com:aishwarya4shrestha/blog-post-frontend.git
@@ -12,7 +12,7 @@ Install dependencies. Make sure you already have `nodejs`, `npm` and `yarn` inst
 $ npm install
 ```
 
-Create a `.env` file for environment variables.
+Make a copy of `.env.example` as `.env` file for environment variables.
 
 ```bash
 $ cp .env.example .env
