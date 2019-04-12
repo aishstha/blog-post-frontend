@@ -1,6 +1,6 @@
 # Setup
 
-First clone this repository.
+Clone this repository.
 
 ```bash
 $ git clone git@github.com:aishwarya4shrestha/blog-post-frontend.git
