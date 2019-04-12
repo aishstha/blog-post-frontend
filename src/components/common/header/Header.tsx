@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { logoWhite } from "../../../assests/images";
+import { dummyLogo1 } from "../../../assests/images";
 
 import { CSSTransition } from "react-transition-group";
 
@@ -66,10 +66,11 @@ class Header extends React.Component<IAppProps, IAppState> {
               </a>
             </div>
 
-            <div className="Header__row__brand">
-              <img src={logoWhite} alt="Logo of uvertz" />
-            </div>
+            <div className="Header__row__brand" />
 
+            <Link to={routes.DASHBOARD} className="Dropdown-menu__item">
+              <img src={dummyLogo1} alt="Logo of blog post" />
+            </Link>
             {getLoggedInUserId() ? (
               <div className="Header__menu right">
                 <ul className="Nav NavRight">

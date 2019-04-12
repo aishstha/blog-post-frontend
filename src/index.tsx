@@ -6,7 +6,6 @@ import store from "./store";
 import './public.tsx'
 
 import "./index.css";
-import registerServiceWorker from "./registerServiceWorker";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -14,4 +13,4 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root") as HTMLElement
 );
-registerServiceWorker();
+
