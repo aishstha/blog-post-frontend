@@ -2764,7 +2764,7 @@ select {
 .form-group .form-input-icon {
   position: absolute;
   right: 8px;
-  top: 33px;
+  top: 15px;
   cursor: pointer;
 }
 .form-group .form-input-icon .material-icons {

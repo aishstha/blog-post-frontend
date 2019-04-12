@@ -86,7 +86,7 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
           <div className="block__content">
             <div className="Block-white">
               <div className="form-section">
-                <form>
+                {/* <form>
                   <label>
                     Search Post:
                     <input
@@ -100,7 +100,20 @@ class SearchBar extends React.Component<IBlogListProps, IBlogListState> {
                   </label>
 
                   <div onClick={e => this.onSearch()}>Search</div>
-                </form>
+                </form> */}
+
+                <div className="form-group">
+                  <input
+                    className="form-group__control"
+                    name="searchString"
+                    onChange={e => {
+                      this.handleSearchSubmit(e);
+                    }}
+                  />
+                  <a className="form-input-icon" onClick={e => this.onSearch()}>
+                    <i className="material-icons">search</i>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
