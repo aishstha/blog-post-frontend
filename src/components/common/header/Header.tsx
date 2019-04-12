@@ -55,7 +55,7 @@ class Header extends React.Component<IAppProps, IAppState> {
   render() {
     const userName = tokenService.getUserName();
     const profileInfo = tokenService.getProfilePicture();
-    const profilePicture = profileInfo ? profileInfo.replace('"', "") : "";
+    const profilePicture = profileInfo.replace('"', "");
     return (
       <div className="Header">
         <div className="container">

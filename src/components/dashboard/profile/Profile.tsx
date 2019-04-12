@@ -80,9 +80,6 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
       isLoading: true
     });
     try {
-      console.log("values", values);
-      console.log("base64Image", this.state.base64Image);
-
       const profileInfo = {
         image: this.state.base64Image,
         name: values.name,
@@ -91,6 +88,7 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
         address: values.address
       };
       await profileService.updateUser(profileInfo, id);
+      tokenService.setProfilePicture(this.state.base64Image); // TODO
       this.setState({
         isLoading: false
       });
@@ -114,7 +112,6 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
   handleImage = (e: any) => {
     const files = e.target.files[0];
     this.getBase64(files, (result: any) => {
-      console.log("result", result);
       this.setState({
         base64Image: result
       });
@@ -122,7 +119,6 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
   };
 
   render() {
-    console.log(">this.state.base64Image", this.state.base64Image);
     const { localprofileDetails, isLoading } = this.state;
     if (isLoading) {
       return <Spinner />;
@@ -164,7 +160,6 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
           values: IValues,
           { setSubmitting }: FormikActions<IValues>
         ) => {
-          console.log("values", values);
           handleSubmit(values, profileInfo._id);
         }}
         render={props => (
