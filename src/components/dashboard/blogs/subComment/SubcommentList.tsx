@@ -40,7 +40,7 @@ class SubComment extends React.Component<ISubCommentProps, ISubCommentState> {
       <React.Fragment>
         <div className="Block-white Block-product">
           {localSubCommentDetails.description}
-          <span className="Batch Batch--yellow Batch--icon">
+          <span className="Batch Batch--red Batch--icon">
             {localSubCommentDetails.users.name}
           </span>
         </div>

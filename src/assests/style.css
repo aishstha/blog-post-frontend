@@ -3298,8 +3298,8 @@ select {
   color: #516f90;
 }
 .Batch--blue {
-  border-color: #3d61ff;
-  background-color: #3d61ff;
+  border-color: #3a9461;
+  background-color: #3a9461;
   color: #fff;
 }
 .Batch--yellow {
@@ -3396,8 +3396,8 @@ select {
 }
 
 footer {
-  background-color: #09385d;
-  padding: 40px 0;
+  background-color: rgb(9, 74, 167);
+  padding: 20px 0;
   color: white;
 }
 

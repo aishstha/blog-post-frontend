@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 
 const Footer = () => {
   return (
@@ -6,9 +6,7 @@ const Footer = () => {
       <div className="container">
         <div className="d-flex justify-content-end">
           <div className="Footer__wrap">
-            <span className="Footer__wrap__link">About</span>
-            <span className="Footer__wrap__link">Privacy Policy</span>
-            <span className="Footer__wrap__link">Terms of Use</span>
+            <span className="Footer__wrap__link">Blog Post</span>
           </div>
         </div>
       </div>

@@ -376,7 +376,7 @@ const CommentList: React.SFC<ICommentViewProps> = ({ comment }) => {
     <React.Fragment>
       <div className="tabs__content__pane active">
         {comment.description}{" "}
-        <span className="Batch Batch--yellow Batch--icon">
+        <span className="Batch Batch--blue Batch--icon">
           {comment.users ? comment.users.name : "User not found"}
         </span>
       </div>
