@@ -2,19 +2,15 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Formik, Form, FormikActions } from "formik";
 
-import Spinner from "../../common/Spinner";
 import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
 import { notify } from "../../../utils/notification";
 import { Actions } from "../../../actions/profile";
 import { IProfileDetails } from "../../../interface";
-// import { getUserProfileValidationSchema } from "../../../validation/validationSchema";
 import { messageStatus } from "../../../constants/messageStatus";
-import { defaultMessage } from "../../../constants/applicationMessage";
 
 import * as tokenService from "../../../services/token";
 import * as profileService from "../../../services/profile";
-// import { coke } from "../../../assests/images";
 
 interface IOverviewProps {
   profileDetails: IProfileDetails;
@@ -23,7 +19,6 @@ interface IOverviewProps {
 
 interface IOverviewState {
   localprofileDetails: IProfileDetails;
-  isLoading: boolean;
   base64Image: string;
 }
 
@@ -47,7 +42,6 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
     super(props);
     this.state = {
       localprofileDetails: props.profileDetails,
-      isLoading: false,
       base64Image: ""
     };
   }
@@ -76,9 +70,6 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
   };
 
   handleSubmit = async (values: any, id: string) => {
-    this.setState({
-      isLoading: true
-    });
     try {
       const profileInfo = {
         image: this.state.base64Image,
@@ -89,15 +80,10 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
       };
       await profileService.updateUser(profileInfo, id);
       tokenService.setProfilePicture(this.state.base64Image); // TODO
-      this.setState({
-        isLoading: false
-      });
+
       notify(messageStatus.SUCCESS, "Successfully updated");
     } catch (error) {
-      this.setState({
-        isLoading: false
-      });
-      notify(messageStatus.ERROR, defaultMessage.INVALID_OLD_PASSWORD);
+      throw error;
     }
   };
 
@@ -119,11 +105,7 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
   };
 
   render() {
-    const { localprofileDetails, isLoading } = this.state;
-    if (isLoading) {
-      return <Spinner />;
-    }
-
+    const { localprofileDetails } = this.state;
     return (
       <React.Fragment>
         {localprofileDetails && (

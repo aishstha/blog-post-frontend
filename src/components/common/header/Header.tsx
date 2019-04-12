@@ -1,17 +1,15 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { dummyLogo1 } from "../../../assests/images";
-
-import { CSSTransition } from "react-transition-group";
-
-import { connect } from "react-redux";
 import { Actions } from "../../../actions";
-import * as tokenService from "../../../services/token";
-
-import * as routes from "../../../constants/routes";
+import { dummyLogo1 } from "../../../assests/images";
+import { CSSTransition } from "react-transition-group";
 import { getLoggedInUserId } from "../../../utils/verifyUser";
 import { getUserNameInitials } from "../../../utils/string";
+
+import * as routes from "../../../constants/routes";
+import * as tokenService from "../../../services/token";
 
 interface IAppProps {
   isMenuOpen: boolean;
@@ -126,23 +124,9 @@ const Menu: React.SFC<IMenuProps> = ({ status, handleLogout }) => {
       classNames="popup"
       unmountOnExit={true}
     >
-      {/* <div className={menuClass}>
-        <ul>
-          <Link to={routes.PROFILE} className="Dropdown-menu__item">
-            <span>View Profile</span>
-          </Link>
-          <div className="Dropdown-menu__item" onClick={handleLogout}>
-            Log Out
-          </div>
-        </ul>
-      </div> */}
-
       <div className={menuClass}>
         <ul>
           <li className="Dropdown-menu__item">
-            {/* <a className="Nav-link" onClick={() => togglePopUp(context)}>
-              View Profile
-            </a> */}
             <Link to={routes.PROFILE} className="Dropdown-menu__item">
               <span className="Nav-link">View Profile</span>
             </Link>

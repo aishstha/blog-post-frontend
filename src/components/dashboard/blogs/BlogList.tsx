@@ -14,21 +14,14 @@ interface IBlogListProps {
   savePost: (postDetails: Array<IPostDetails>) => void;
 }
 
-interface IBlogListState {
-  isLoading: boolean;
-}
-
 interface IPostList {
   postInfo: IPostDetails;
   key: number;
 }
 
-class BlogList extends React.Component<IBlogListProps, IBlogListState> {
+class BlogList extends React.Component<IBlogListProps, {}> {
   constructor(props: Readonly<IBlogListProps>) {
     super(props);
-    this.state = {
-      isLoading: false
-    };
   }
 
   componentDidMount() {
@@ -69,9 +62,12 @@ class BlogList extends React.Component<IBlogListProps, IBlogListState> {
                     ""
                   )}
                   {postDetails && postDetails.length > 0
-                    ? postDetails.slice(0).reverse().map((post, index) => {
-                        return <PostList postInfo={post} key={index} />;
-                      })
+                    ? postDetails
+                        .slice(0)
+                        .reverse()
+                        .map((post, index) => {
+                          return <PostList postInfo={post} key={index} />;
+                        })
                     : "No blogs found"}
                 </div>
               </div>

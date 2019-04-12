@@ -22,7 +22,6 @@ import { IPostDetails } from "../../../interface";
 import Comment from "./comment/Comment";
 
 interface IBlogListState {
-  isLoading: boolean;
   isPostEditMode: boolean;
   isCommentEditMode: boolean;
   selectedComment: string;
@@ -39,7 +38,6 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
     super(props);
     this.state = {
       selectedComment: "",
-      isLoading: false,
       isPostEditMode: false,
       isCommentEditMode: false,
       selectedSubCommentId: ""
@@ -63,21 +61,15 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
   };
 
   handleEditPost = async (values: any, id: string) => {
-    this.setState({
-      isLoading: true
-    });
     try {
       await postService.updatePostById(values, id);
       this.fetchPostById();
 
       this.setState({
-        isLoading: false,
         isPostEditMode: false
       });
     } catch (error) {
-      this.setState({
-        isLoading: false
-      });
+      throw error;
     }
   };
 
@@ -86,9 +78,7 @@ class BlogDetailView extends React.Component<IBlogListProps, IBlogListState> {
       await commentService.deletePostById(postId);
       location.replace(routes.DASHBOARD);
     } catch (error) {
-      this.setState({
-        isLoading: false
-      });
+      throw error;
     }
   };
 

@@ -1,5 +1,3 @@
-// example
-
 export default (state = {}, action: any) => {
   switch (action.type) {
     case "colorChange":

@@ -1,8 +1,6 @@
 import * as React from "react";
 import { CSSTransition } from "react-transition-group";
 
-import { coke } from "../../assests/images";
-
 const Container: React.SFC<{}> = () => {
   return (
     <div>
@@ -209,9 +207,7 @@ const BlogList = () => {
             <div className="tabs__content">
               <div className="tabs__content__pane active" id="advertisement">
                 <div className="Block-white Block-product">
-                  <div className="Block-product__img">
-                    <img src={coke} alt="advertisement" />
-                  </div>
+                  <div className="Block-product__img" />
                   <div className="Block-product__content">
                     <h2>
                       title

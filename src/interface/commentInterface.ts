@@ -1,9 +1,9 @@
 import { RouteComponentProps } from "react-router-dom";
+
 import { IPostDetails } from "./index";
 
 export interface IBlogListState {
   localpostDetails: any;
-  isLoading: boolean;
   isPostEditMode: boolean;
   isCommentEditMode: boolean;
   selectedComment: string;
@@ -27,22 +27,17 @@ export interface ICreateNewBlogValues {
   title: string;
   description: string;
 }
-
-// interface ICreateNewCommentValues {
-//   description: string;
-// }
-
 export interface IBlogListProps extends RouteComponentProps<{ id: string }> {
   currentPostDetails: IPostDetails;
   saveCurrentPost: (postDetails: IPostDetails) => void;
 }
 
 export interface ICommentViewProps {
-  comment: any; //TODO CHANGE
+  comment: any;
 }
 
 export interface ICommentEditProps {
-  comment: any; //TODO CHANGE
+  comment: any;
   handleCommentEdit: (id: string, values: any) => void;
   toggleCommentEditMode: (id: string) => void;
   resetComment: () => void;

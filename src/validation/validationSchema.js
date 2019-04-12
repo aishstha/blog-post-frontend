@@ -14,10 +14,10 @@ export function getUserProfileValidationSchema() {
     phoneNumber: Yup.string()
       .trim()
       .required("Please enter your phone number.")
-      .matches(
-        /^([0][1-9]\d{9}$|^[1-9]\d{9})$|([0-9]{3}[-][0-9]{3}[-][0-9]{4})$/,
-        `Please enter phone number in format : XXX-XXX-XXXX`
-      )
+      // .matches(
+      //   /^([0][1-9]\d{9}$|^[1-9]\d{9})$|([0-9]{3}[-][0-9]{3}[-][0-9]{4})$/,
+      //   `Please enter phone number in format : XXX-XXX-XXXX`
+      // )
   });
 }
 

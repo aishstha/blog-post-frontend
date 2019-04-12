@@ -8,8 +8,6 @@ import {
   USER_NAME
 } from "../constants/appConstant";
 
-//const { ACCESS_TOKEN, LOGIN_DATA } = CONSTANTS;
-
 /**
  * Set access token
  * @param {string} token
@@ -117,23 +115,3 @@ export function getUserId() {
     return;
   }
 }
-
-// /**
-//  * Add profile picture into local storage
-//  */
-
-// export function setProfilePicture(pictureUrl) {
-//   storage.set(PROFILE_PICTURE, pictureUrl);
-// }
-
-// /**
-//  * Get profile picture from local storage
-//  */
-
-// export function getProfilePicture() {
-//   if (!storage.get(PROFILE_PICTURE)) {
-//     return 'https://picsum.photos/40/40/?random';
-//   }
-
-//   return storage.get(PROFILE_PICTURE);
-// }

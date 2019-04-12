@@ -1,7 +1,4 @@
 import * as React from "react";
-// import { CSSTransition } from "react-transition-group";
-
-import { coke } from "../../assests/images";
 
 const Container: React.SFC<{}> = () => {
   return (
@@ -24,12 +21,9 @@ const Container: React.SFC<{}> = () => {
                     className="tabs__content__pane active"
                     id="advertisement"
                   >
-                    {/* <AdvertisementBlock action={this.togglePopUp} /> */}
 
                     <div className="Block-white Block-product">
-                      <div className="Block-product__img">
-                        <img src={coke} alt="advertisement" />
-                      </div>
+                      <div className="Block-product__img" />
                       <div className="Block-product__content">
                         <h2>
                           title

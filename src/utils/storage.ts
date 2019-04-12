@@ -4,9 +4,12 @@
  * @param  {string}  key
  * @return {string}
  */
-export function get(key) {
+export function get(key: string) {
   try {
-    return JSON.parse(localStorage.getItem(key));
+    if (key) {
+      const value: any = localStorage.getItem(key);
+      return JSON.parse(value);
+    }
   } catch (e) {
     return null;
   }
@@ -18,7 +21,7 @@ export function get(key) {
  * @param {string} key
  * @param {any} value
  */
-export function set(key, value) {
+export function set(key: string, value: any) {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
@@ -27,7 +30,7 @@ export function set(key, value) {
  *
  * @param {string} key
  */
-export function remove(key) {
+export function remove(key: string) {
   localStorage.removeItem(key);
 }
 

@@ -24,7 +24,6 @@ interface ICreateNewBlogFormProps {
 
 interface ICreateBlogState {
   localnewPostDetails: IPostDetails | {};
-  isLoading: boolean;
   isPopUpOpen: boolean;
 }
 
@@ -38,7 +37,6 @@ class CreateBlog extends React.Component<IBlogListProps, ICreateBlogState> {
     super(props);
     this.state = {
       localnewPostDetails: {},
-      isLoading: false,
       isPopUpOpen: false
     };
   }
@@ -50,9 +48,6 @@ class CreateBlog extends React.Component<IBlogListProps, ICreateBlogState> {
   };
 
   handleSubmit = async (values: any, id: string) => {
-    this.setState({
-      isLoading: true
-    });
     const data = {
       ...values,
       users: {
@@ -64,14 +59,10 @@ class CreateBlog extends React.Component<IBlogListProps, ICreateBlogState> {
 
       const posts = await postService.fetchAllPosts();
       this.props.savePost(posts.data);
-      this.setState({
-        isLoading: false
-      });
+
       this.togglePopUp();
     } catch (error) {
-      this.setState({
-        isLoading: false
-      });
+      throw error;
     }
   };
 
