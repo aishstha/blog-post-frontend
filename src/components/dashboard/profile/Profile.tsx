@@ -9,6 +9,7 @@ import { IProfileDetails } from "../../../interface";
 
 import * as tokenService from "../../../services/token";
 import * as profileService from "../../../services/profile";
+import { getUserProfileValidationSchema } from '../../../validation/validationSchema';
 
 interface IOverviewProps {
   profileDetails: IProfileDetails;
@@ -133,7 +134,7 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
           address: profileInfo.address,
           image: profileInfo.image
         }}
-        // validationSchema={getUserProfileValidationSchema}
+        validationSchema={getUserProfileValidationSchema}
         onSubmit={async (
           values: IValues,
           { setSubmitting }: FormikActions<IValues>
