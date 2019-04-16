@@ -7,6 +7,7 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
 import { Actions } from "../../../actions/posts";
 import { IPostDetails } from "../../../interface";
+import { createNewBlogSchema } from '../../../validation/validationSchema';
 
 import * as tokenService from "../../../services/token";
 import * as postService from "../../../services/posts";
@@ -128,6 +129,7 @@ const CreateNewBlogForm: React.SFC<ICreateNewBlogFormProps> = ({
                 title: "",
                 description: ""
               }}
+              validationSchema={createNewBlogSchema}
               onSubmit={async (
                 values: ICreateNewBlogValues,
                 { setSubmitting }: FormikActions<ICreateNewBlogValues>

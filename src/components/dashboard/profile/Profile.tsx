@@ -6,10 +6,10 @@ import TextFieldWrapper from "../../inputComponents/TextFieldWrapper";
 
 import { Actions } from "../../../actions/profile";
 import { IProfileDetails } from "../../../interface";
+import { getUserProfileValidationSchema } from '../../../validation/validationSchema';
 
 import * as tokenService from "../../../services/token";
 import * as profileService from "../../../services/profile";
-import { getUserProfileValidationSchema } from '../../../validation/validationSchema';
 
 interface IOverviewProps {
   profileDetails: IProfileDetails;
