@@ -23,24 +23,4 @@ http.interceptors.request.use(config => {
   return config;
 });
 
-/**
- * HTTP response interceptor.
- */
-// http.interceptors.response.use(
-//   response => {
-//     if (response && response.headers && response.headers.Authorization) {
-//       setAccessToken(response.headers.Authorization);
-//     }
-//     return response;
-//   },
-//   async error => {
-//     const statusCode = error.response.status;
-//     if (statusCode === 401) {
-//       const response = await authService.generateAccesstoken();
-//     }
-
-//     return Promise.reject(error);
-//   }
-// );
-
 export default http;

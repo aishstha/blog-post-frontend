@@ -39,5 +39,3 @@ export function createNewCommenSchema() {
       .required("Please enter description of your post.")
   });
 }
-
-
