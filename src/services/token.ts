@@ -12,7 +12,6 @@ import {
  * Set access token
  * @param {string} token
  */
-
 export function setAccessToken(token: string) {
   storage.set(ACCESS_TOKEN, token);
 }
@@ -21,7 +20,6 @@ export function setAccessToken(token: string) {
  * Set access token
  * @param {string} token
  */
-
 export function setRefreshToken(token: string) {
   storage.set(REFRESH_TOKEN, token);
 }
@@ -30,7 +28,6 @@ export function setRefreshToken(token: string) {
  * Set access token
  * @param {string} token
  */
-
 export function setProfilePicture(image: string) {
   storage.set(PROFIE_PICTURE, image);
 }
@@ -38,7 +35,6 @@ export function setProfilePicture(image: string) {
 /**
  * @return {string}
  */
-
 export function getAccessToken() {
   return storage.get(ACCESS_TOKEN);
 }
@@ -46,7 +42,6 @@ export function getAccessToken() {
 /**
  * @return {string}
  */
-
 export function setUserName(userName: string) {
   return storage.set(USER_NAME, userName);
 }
@@ -54,7 +49,6 @@ export function setUserName(userName: string) {
 /**
  * @return {string}
  */
-
 export function getUserName() {
   return storage.get(USER_NAME);
 }
@@ -62,7 +56,6 @@ export function getUserName() {
 /**
  * @return {string}
  */
-
 export function getProfilePicture() {
   return storage.get(PROFIE_PICTURE);
 }
@@ -70,7 +63,6 @@ export function getProfilePicture() {
 /**
  * Make local storage empty
  */
-
 export function clear() {
   storage.clear();
 }
@@ -79,7 +71,6 @@ export function clear() {
  * Set login data
  * @param {string} data
  */
-
 export async function setLoginDetails(data: any) {
   try {
     const { accessToken, refreshToken, image, name } = data;
@@ -96,17 +87,17 @@ export async function setLoginDetails(data: any) {
 }
 
 /**
+ * Get login details
  * @return {string}
  */
-
 export function getLoginDetails() {
   return storage.get(LOGIN_DATA);
 }
 
 /**
+ * Get user id
  * @return {string}
  */
-
 export function getUserId() {
   const loginDetails: any = storage.get(LOGIN_DATA);
   if (loginDetails) {

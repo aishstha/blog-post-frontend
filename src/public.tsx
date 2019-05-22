@@ -1,2 +1,1 @@
 import "./assests/style.css";
-
