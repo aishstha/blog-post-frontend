@@ -1,13 +1,13 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { Actions } from "../../../actions/posts";
 import { IPostDetails } from "../../../interface";
-
-import * as postService from "../../../services/posts";
-import { Link } from "react-router-dom";
-import * as routes from "../../../constants/routes";
 import { interpolate } from "../../../utils/string";
+
+import * as routes from "../../../constants/routes";
+import * as postService from "../../../services/posts";
 
 interface IBlogListProps {
   postDetails: Array<IPostDetails>;
@@ -32,9 +32,8 @@ class BlogList extends React.Component<IBlogListProps, {}> {
     try {
       const posts = await postService.fetchAllPosts();
       this.props.savePost(posts.data);
-      // TODO use notify
     } catch (error) {
-      throw error; // TODO: Error handeling
+      throw error; 
     }
   };
 
@@ -47,7 +46,7 @@ class BlogList extends React.Component<IBlogListProps, {}> {
             <div className="block">
               <div className="block__content">
                 <div className="tabs">
-                  {postDetails && postDetails.length > 0 ? (
+                  {postDetails && postDetails.length > 0 && 
                     <ul className="tabs__list">
                       <li className="tabs__list__title tabs__list__title">
                         <a href="#advertisement" role="tab" data-toggle="tab">
@@ -58,9 +57,7 @@ class BlogList extends React.Component<IBlogListProps, {}> {
                         </a>
                       </li>
                     </ul>
-                  ) : (
-                    ""
-                  )}
+                  }
                   {postDetails && postDetails.length > 0
                     ? postDetails
                         .slice(0)
@@ -102,7 +99,7 @@ const PostList: React.SFC<IPostList> = props => {
             className="btn btn--blue"
           >
             DETAILS
-          </Link>{" "}
+          </Link>
         </div>
       </div>
     </div>

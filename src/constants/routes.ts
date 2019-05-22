@@ -1,7 +1,8 @@
 // Auth routes
 export const LOGIN = "/login";
-export const INIT_LOADER = "/InitLoader";
-export const LOGIN_PROGRESS = "/login/token";
+
+// Designkit routes
+export const DESIGN_KIT ='/designKit';
 
 // Dashboard routes
 export const DASHBOARD = "/";

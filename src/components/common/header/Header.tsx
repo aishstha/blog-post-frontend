@@ -1,12 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 
 import { Actions } from "../../../actions";
 import { dummyLogo1 } from "../../../assests/images";
-import { CSSTransition } from "react-transition-group";
-import { getLoggedInUserId } from "../../../utils/verifyUser";
 import { getUserNameInitials } from "../../../utils/string";
+import { getLoggedInUserId } from "../../../utils/verifyUser";
 
 import * as routes from "../../../constants/routes";
 import * as tokenService from "../../../services/token";

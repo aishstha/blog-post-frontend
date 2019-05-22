@@ -1,12 +1,13 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
 import { RouteComponentProps } from "react-router-dom";
 
 import config from "../../config";
-import { IClientId } from "../../interface";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+
 import { Actions } from "../../actions";
+import { IClientId } from "../../interface";
 
 import * as routes from "../../constants/routes";
 import * as tokenService from "../../services/token";

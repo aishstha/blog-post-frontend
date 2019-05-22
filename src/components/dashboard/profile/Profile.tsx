@@ -145,7 +145,6 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
           <div className="container">
             <div className="form-section">
               <Form>
-                {" "}
                 <div className="form-group">
                   <div className="col">
                     <div className="File">
@@ -157,7 +156,6 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
                             className="default-image"
                           />
                         </div>
-
                         <input
                           type="file"
                           id="files"
