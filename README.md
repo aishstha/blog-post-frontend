@@ -20,7 +20,7 @@ $ cp .env.example .env
 
 ## Configure your .env file with
 ```
-REACT_APP_GOOGLE_CLIENT_ID = <CLIENTID>
+REACT_APP_GOOGLE_CLIENT_ID = <CLIENTID> //Keep same client id in both backend and frontend. Backend constant in .env keep: GOOGLE_CLIENT_ID:<CLIENTID>
 
 REACT_APP_API_BASE_URI = mongodb://localhost:27017/fusemachine
 ```
