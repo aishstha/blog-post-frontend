@@ -32,7 +32,7 @@ interface IValues {
 interface IProfileFormProps {
   profileInfo: IProfileDetails;
   handleSubmit: (value: IValues, id: string) => void;
-  handleImage: (e: any) => void;
+  // handleImage: (e: any) => void;
   base64image: string;
 }
 
@@ -69,16 +69,19 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
   };
 
   handleSubmit = async (values: any, id: string) => {
+    const userId = tokenService.getUserId();
+    console.log('userId: ', userId);
+
     try {
       const profileInfo = {
-        image: this.state.base64Image,
+        // image: this.state.base64Image,
         name: values.name,
         email: values.email,
         phoneNumber: values.phoneNumber,
         address: values.address
       };
-      await profileService.updateUser(profileInfo, id);
-      tokenService.setProfilePicture(this.state.base64Image);
+      await profileService.updateUser(profileInfo, userId);
+      // tokenService.setProfilePicture(this.state.base64Image);
     } catch (error) {
       throw error;
     }
@@ -109,7 +112,7 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
           <ProfileForm
             profileInfo={localprofileDetails}
             handleSubmit={this.handleSubmit}
-            handleImage={this.handleImage}
+            // handleImage={this.handleImage}
             base64image={this.state.base64Image}
           />
         )}
@@ -121,7 +124,7 @@ class Profile extends React.Component<IOverviewProps, IOverviewState> {
 const ProfileForm: React.SFC<IProfileFormProps> = ({
   profileInfo,
   handleSubmit,
-  handleImage,
+  // handleImage,
   base64image
 }) => (
   <div className="container">
@@ -148,8 +151,12 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
                 <div className="form-group">
                   <div className="col">
                     <div className="File">
+                      <label className="form-group__label form-group__label--block profile-text">
+                        Edit your profile
+                      </label>
+                      {/*
                       <div className="File__upload flex-column d-flex justify-content-center align-items-center">
-                        <div className="upload-image">
+                         <div className="upload-image">
                           <img
                             src={base64image ? base64image : props.values.image}
                             alt="Advertisement Preview"
@@ -163,8 +170,9 @@ const ProfileForm: React.SFC<IProfileFormProps> = ({
                           accept="image/png, image/jpeg"
                           onChange={handleImage}
                           className="form-group__control"
-                        />
+                        /> 
                       </div>
+                        */}
                     </div>
                   </div>
                 </div>

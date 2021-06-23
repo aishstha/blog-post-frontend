@@ -52,8 +52,8 @@ class Header extends React.Component<IAppProps, IAppState> {
 
   render() {
     const userName = tokenService.getUserName();
-    const profileInfo = tokenService.getProfilePicture();
-    const profilePicture = profileInfo ? profileInfo.replace('"', "") : "";
+    // const profileInfo = tokenService.getProfilePicture();
+    // const profilePicture = profileInfo ? profileInfo.replace('"', "") : "";
     return (
       <div className="Header">
         <div className="container">
@@ -64,7 +64,7 @@ class Header extends React.Component<IAppProps, IAppState> {
               </a>
             </div>
             <Link to={routes.DASHBOARD} className="Dropdown-menu__item">
-              <img src={dummyLogo1} alt="Logo of blog post" />
+              <img src={dummyLogo1} alt="Logo of blog post" className="image-logo" />
             </Link>
 
             <div className="Header__row__brand" />
@@ -74,15 +74,14 @@ class Header extends React.Component<IAppProps, IAppState> {
                 <ul className="Nav NavRight">
                   <li className="NavRight__user-profile dropdown">
                     <div className="Nav-link" onClick={this.onClickButton}>
-                      <span className="profile-img">
-                        <img
+                      <span className="profile-img text-white">
+                        {getUserNameInitials(userName)}
+                        {/* <img
                           src={
-                            profilePicture
-                              ? profilePicture
-                              : getUserNameInitials(userName)
+                            getUserNameInitials(userName)
                           }
                           alt="user-image"
-                        />
+                        /> */}
                       </span>
                       <span className="profile-name">{userName}</span>
                       <span className="arrow">

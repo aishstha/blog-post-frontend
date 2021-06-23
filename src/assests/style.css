@@ -1065,6 +1065,11 @@ a:hover {
   float: right !important;
 }
 
+.left {
+  float: left !important;
+}
+
+
 p {
   line-height: 1.6;
 }
@@ -4438,4 +4443,20 @@ body {
     border-top-color: #7fc4d1;
     border-right-color: #7fc4d1;
   }
+}
+
+.profile-text{
+  margin-top: 50px;
+  font-size: x-large;
+}
+
+.text-white{
+  color: white
+}
+
+.image-logo{
+float: left;
+margin-top:10px;
+background:#6585d9;
+border-radius:10%;
 }
